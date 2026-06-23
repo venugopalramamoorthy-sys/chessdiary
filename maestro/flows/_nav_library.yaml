@@ -1,0 +1,5 @@
+appId: com.chessdiary.app
+---
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd

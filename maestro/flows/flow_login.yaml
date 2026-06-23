@@ -1,0 +1,23 @@
+appId: com.chessdiary.app
+name: flow_login
+---
+- stopApp
+- clearState
+- launchApp
+- extendedWaitUntil:
+    visible: "ChessDiary"
+    timeout: 15000
+- assertVisible: "All your games. One place."
+- tapOn:
+    text: "Email"
+- inputText: "testuser@chessdiary.test"
+- tapOn:
+    text: "Password"
+- inputText: "TestPass123!"
+- tapOn: "Login"
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 15000
+- assertVisible: "Add Game"
+
+

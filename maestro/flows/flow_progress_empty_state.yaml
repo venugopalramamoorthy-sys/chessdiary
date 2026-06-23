@@ -1,0 +1,17 @@
+appId: com.chessdiary.app
+name: flow_progress_empty_state
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn:
+    point: "87%,95%"
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: "My Progress"
+    timeout: 10000
+- assertVisible: "My Progress"
+- scroll
+- waitForAnimationToEnd
+- scroll
+- waitForAnimationToEnd
+- runFlow: ./_nav_library.yaml
+- assertVisible: "Game Library"

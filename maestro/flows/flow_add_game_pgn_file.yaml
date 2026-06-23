@@ -1,0 +1,19 @@
+appId: com.chessdiary.app
+name: flow_add_game_pgn_file
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn: "Add Game"
+- assertVisible: "How are you adding this game?"
+- tapOn:
+    text: "PGN"
+- extendedWaitUntil:
+    visible: "test_game.pgn"
+    timeout: 5000
+- tapOn: "test_game.pgn"
+- extendedWaitUntil:
+    visible: "AI Parsed Successfully"
+    timeout: 35000
+- tapOn: "Save to Library"
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 8000

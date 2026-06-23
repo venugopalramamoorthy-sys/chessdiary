@@ -1,0 +1,11 @@
+# Helper: log out if signed in. Used by other flows.
+# Not run directly — imported via runFlow.
+
+appId: com.chessdiary.app
+
+---
+
+# Sign out via Firebase (no explicit UI button in app — restart with clearState)
+- stopApp
+- clearState
+- launchApp

@@ -1,0 +1,13 @@
+appId: com.chessdiary.app
+name: flow_google_signin
+---
+- stopApp
+- clearState
+- launchApp
+- extendedWaitUntil:
+    visible: "ChessDiary"
+    timeout: 10000
+- tapOn: "Continue with Google"
+- pause: 4000
+# Both Google account picker and sign-in error dialogs contain "Google"
+- assertVisible: "Google"

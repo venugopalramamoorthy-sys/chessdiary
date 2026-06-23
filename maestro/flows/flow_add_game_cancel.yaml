@@ -1,0 +1,17 @@
+appId: com.chessdiary.app
+name: flow_add_game_cancel
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn: "Add Game"
+- assertVisible: "How are you adding this game?"
+- tapOn:
+    text: "Paste"
+- tapOn:
+    text: "Paste PGN, move list"
+- inputText: "1. e4"
+- pressKey: Back
+- assertVisible: "ChessDiary"
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- assertVisible: "Game Library"

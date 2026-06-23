@@ -1,0 +1,25 @@
+appId: com.chessdiary.app
+name: flow_add_game_paste
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn: "Add Game"
+- assertVisible: "How are you adding this game?"
+- tapOn:
+    text: "Paste"
+- tapOn:
+    text: "Paste PGN, move list"
+- inputText: "[White \"TestPlayer\"]\n[Black \"MaestroBot\"]\n[Result \"1-0\"]\n1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 1-0"
+- tapOn: "Parse with AI"
+- extendedWaitUntil:
+    visible: "AI Parsed Successfully"
+    timeout: 35000
+- assertVisible: "moves extracted"
+- tapOn: "Save to Library"
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 8000
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- assertVisible: "Game Library"
+- assertVisible: "MaestroBot"

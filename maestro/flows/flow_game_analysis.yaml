@@ -1,0 +1,19 @@
+appId: com.chessdiary.app
+name: flow_game_analysis
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- tapOn: "MaestroBot"
+- tapOn: "Analysis"
+# Trigger analysis only if not already done (handles re-runs gracefully)
+- runFlowIf:
+    condition:
+      visible: "No Analysis Yet"
+    commands:
+      - tapOn: "Analyse with AI"
+      - extendedWaitUntil:
+          visible: "Analysis complete"
+          timeout: 100000
+- assertNotVisible: "No Analysis Yet"

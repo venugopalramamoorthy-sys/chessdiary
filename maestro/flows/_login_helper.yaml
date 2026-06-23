@@ -1,0 +1,24 @@
+appId: com.chessdiary.app
+
+---
+
+- stopApp
+- clearState
+- launchApp
+
+# Wait generously for app to initialize Firebase after clearState
+- extendedWaitUntil:
+    visible: "ChessDiary"
+    timeout: 15000
+
+- tapOn:
+    text: "Email"
+- inputText: "testuser@chessdiary.test"
+- tapOn:
+    text: "Password"
+- inputText: "TestPass123!"
+- tapOn: "Login"
+
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 15000

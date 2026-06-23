@@ -1,0 +1,35 @@
+appId: com.chessdiary.app
+name: flow_game_replay
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- tapOn: "MaestroBot"
+- tapOn: "Replay"
+- assertVisible: "Start"
+- waitForAnimationToEnd
+# Step forward using the navigate_next button (3rd nav button)
+- tapOn:
+    index: 2
+    id: "navigate_next_rounded"
+- waitForAnimationToEnd
+- tapOn:
+    index: 2
+    id: "navigate_next_rounded"
+- waitForAnimationToEnd
+# Step back
+- tapOn:
+    index: 1
+    id: "navigate_before_rounded"
+- waitForAnimationToEnd
+# Jump to end then start
+- tapOn:
+    index: 3
+    id: "last_page_rounded"
+- waitForAnimationToEnd
+- tapOn:
+    index: 0
+    id: "first_page_rounded"
+- waitForAnimationToEnd
+- assertVisible: "Replay"

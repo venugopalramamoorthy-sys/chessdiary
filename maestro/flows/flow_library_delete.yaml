@@ -1,0 +1,34 @@
+appId: com.chessdiary.app
+name: flow_library_delete
+---
+- runFlow: ./_ensure_home.yaml
+# Save a throwaway game to delete
+- tapOn: "Add Game"
+- assertVisible: "How are you adding this game?"
+- tapOn:
+    text: "Paste"
+- tapOn:
+    text: "Paste PGN, move list"
+- inputText: "[White \"DeleteMe\"]\n[Black \"Test\"]\n[Result \"0-1\"]\n1. d4 d5 0-1"
+- tapOn: "Parse with AI"
+- extendedWaitUntil:
+    visible: "AI Parsed Successfully"
+    timeout: 35000
+- tapOn: "Save to Library"
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 8000
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- assertVisible: "Game Library"
+- tapOn: "DeleteMe"
+- assertVisible: "vs DeleteMe"
+- tapOn:
+    description: "Delete game"
+- assertVisible: "Delete Game?"
+- tapOn: "Delete"
+- extendedWaitUntil:
+    visible: "Game Library"
+    timeout: 5000
+- assertNotVisible: "DeleteMe"

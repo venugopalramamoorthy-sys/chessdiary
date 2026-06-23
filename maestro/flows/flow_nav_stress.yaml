@@ -1,0 +1,20 @@
+appId: com.chessdiary.app
+name: flow_nav_stress
+---
+- runFlow: ./_ensure_home.yaml
+# Bottom nav tabs — tap by visible label text
+- runFlow: ./_nav_library.yaml
+- assertVisible: "Game Library"
+- runFlow: ./_nav_events.yaml
+- assertVisible: "Events & Tournaments"
+- runFlow: ./_nav_progress.yaml
+- assertVisible: "My Progress"
+- runFlow: ./_nav_library.yaml
+- runFlow: ./_nav_events.yaml
+- runFlow: ./_nav_progress.yaml
+- runFlow: ./_nav_library.yaml
+- assertVisible: "Game Library"
+# Quick-access cards from progress/home
+- runFlow: ./_nav_progress.yaml
+- pressKey: Back
+- assertVisible: "Add Game"

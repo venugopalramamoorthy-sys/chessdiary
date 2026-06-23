@@ -1,0 +1,16 @@
+appId: com.chessdiary.app
+name: flow_library_search
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- assertVisible: "Game Library"
+- tapOn:
+    text: "Search by opponent or opening..."
+- inputText: "MaestroBot"
+- waitForAnimationToEnd
+- tapOn:
+    text: "Search by opponent or opening..."
+- eraseText: 10
+- waitForAnimationToEnd

@@ -1,0 +1,18 @@
+appId: com.chessdiary.app
+name: flow_library_filter
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- assertVisible: "Game Library"
+- tapOn: "chess.com"
+- waitForAnimationToEnd
+- tapOn: "chess.com"
+- tapOn: "paper"
+- waitForAnimationToEnd
+- tapOn: "paper"
+- tapOn: "Win"
+- waitForAnimationToEnd
+- tapOn: "Win"
+- assertVisible: "Game Library"

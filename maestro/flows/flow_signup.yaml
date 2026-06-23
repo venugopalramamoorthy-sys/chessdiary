@@ -1,0 +1,27 @@
+appId: com.chessdiary.app
+name: flow_signup
+---
+- stopApp
+- clearState
+- launchApp
+- extendedWaitUntil:
+    visible: "ChessDiary"
+    timeout: 15000
+- assertVisible: "All your games. One place."
+- tapOn: "Don't have an account? Sign Up"
+- assertVisible: "Create Account"
+- tapOn:
+    text: "Your Name"
+- inputText: "Maestro Test"
+- tapOn:
+    text: "Email"
+- inputText: "maestrotest99@chessdiary.test"
+- tapOn:
+    text: "Password (min 6 chars)"
+- inputText: "TestPass123!"
+- tapOn: "Create Account"
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 15000
+
+

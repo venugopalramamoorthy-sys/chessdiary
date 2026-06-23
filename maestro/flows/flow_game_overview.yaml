@@ -1,0 +1,16 @@
+appId: com.chessdiary.app
+name: flow_game_overview
+---
+- runFlow: ./_ensure_home.yaml
+- tapOn:
+    point: "37%,95%"
+- waitForAnimationToEnd
+- assertVisible: "Game Library"
+- tapOn: "MaestroBot"
+- assertVisible: "Overview"
+- assertVisible: "Analysis"
+- assertVisible: "Replay"
+- assertVisible: "Date"
+- assertVisible: "Source"
+- assertVisible: "Played as"
+- assertVisible: "Total Moves"

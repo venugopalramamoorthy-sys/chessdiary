@@ -1,0 +1,6 @@
+appId: com.chessdiary.app
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Add Game"
+    timeout: 8000

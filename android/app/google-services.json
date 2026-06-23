@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "641104743114",
+    "project_id": "chessdiary-7f1e3",
+    "storage_bucket": "chessdiary-7f1e3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641104743114:android:ffd06a3c31cb9cadec4233",
+        "android_client_info": {
+          "package_name": "com.chessdiary.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641104743114-4q74g04irtlh03i48bppq7a6k41b27mt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chessdiary.app",
+            "certificate_hash": "8a593fa854b029f58f27ebce810be61c68626fa3"
+          }
+        },
+        {
+          "client_id": "641104743114-7n14n722p1r2vgk7la3bfto3cg6oh7cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtVTOKiqwzKasA6C_u7PHSWDYvqUfxIvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641104743114-7n14n722p1r2vgk7la3bfto3cg6oh7cm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,19 @@
+# Maestro test suite — runs all ChessDiary flows in order
+# Usage: maestro test maestro/config.yaml
+
+flows:
+  - maestro/flows/flow_signup.yaml
+  - maestro/flows/flow_login.yaml
+  - maestro/flows/flow_google_signin.yaml
+  - maestro/flows/flow_add_game_paste.yaml
+  - maestro/flows/flow_add_game_pgn_file.yaml
+  - maestro/flows/flow_add_game_cancel.yaml
+  - maestro/flows/flow_library_search.yaml
+  - maestro/flows/flow_library_filter.yaml
+  - maestro/flows/flow_library_delete.yaml
+  - maestro/flows/flow_game_overview.yaml
+  - maestro/flows/flow_game_replay.yaml
+  - maestro/flows/flow_game_analysis.yaml
+  - maestro/flows/flow_progress_load.yaml
+  - maestro/flows/flow_progress_empty_state.yaml
+  - maestro/flows/flow_nav_stress.yaml
