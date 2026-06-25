@@ -4,6 +4,7 @@
 
 import 'dart:convert' show utf8;
 import 'dart:typed_data' show Uint8List;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart' hide Badge;
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
@@ -15,6 +16,7 @@ import '../services/game_service.dart';
 import '../services/auth_service.dart';
 import '../services/pgn_parser.dart';
 import '../utils/theme.dart';
+import '../utils/web_theme.dart';
 import 'chess_com_import_screen.dart';
 import 'lichess_import_screen.dart';
 
@@ -32,12 +34,12 @@ class _AddGameScreenState extends State<AddGameScreen> {
   String _fileName = '';
   String _inputType = ''; // 'image', 'pdf', 'text', 'pgn'
 
-  final _textCtrl = TextEditingController();
-  final _playerCtrl = TextEditingController();
+  final _textCtrl     = TextEditingController();
+  final _playerCtrl   = TextEditingController();
   final _opponentCtrl = TextEditingController();
-  final _eventCtrl = TextEditingController();
-  final _notesCtrl = TextEditingController();
-  final _tagCtrl = TextEditingController();
+  final _eventCtrl    = TextEditingController();
+  final _notesCtrl    = TextEditingController();
+  final _tagCtrl      = TextEditingController();
   final List<String> _tags = [];
 
   String _source = 'paper';
@@ -54,10 +56,14 @@ class _AddGameScreenState extends State<AddGameScreen> {
   // ── UI ────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
+    final web = kIsWeb;
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Game')),
+      backgroundColor: web ? WT.offWhite : null,
+      appBar: web
+          ? webAppBar(context, title: 'Add Game')
+          : AppBar(title: const Text('Add Game')),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(web ? 28 : 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -80,22 +86,28 @@ class _AddGameScreenState extends State<AddGameScreen> {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: AppTheme.surfaceAlt,
+                  color: web ? WT.cream : AppTheme.surfaceAlt,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
                     if (_parsing || _saving)
-                      const SizedBox(
+                      SizedBox(
                         width: 16, height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primary),
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: web ? WT.greenLt : AppTheme.primary),
                       )
                     else
-                      const Icon(Icons.check_circle_rounded, color: AppTheme.primary, size: 18),
+                      Icon(Icons.check_circle_rounded,
+                          color: web ? WT.greenLt : AppTheme.primary, size: 18),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(_statusMessage,
-                          style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                          style: web
+                              ? WT.lora(13, color: WT.ink)
+                              : const TextStyle(
+                                  color: AppTheme.textPrimary, fontSize: 13)),
                     ),
                   ],
                 ),
@@ -114,14 +126,19 @@ class _AddGameScreenState extends State<AddGameScreen> {
 
   // ── Widgets ───────────────────────────────────
 
-  Widget _sectionTitle(String t) => Text(
-        t,
-        style: const TextStyle(
-          color: AppTheme.textPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
-      );
+  Widget _sectionTitle(String t) {
+    final web = kIsWeb;
+    return Text(
+      t,
+      style: web
+          ? WT.lora(12, color: WT.muted, weight: FontWeight.w700, style: FontStyle.italic)
+          : const TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+    );
+  }
 
   Widget _inputMethodRow() {
     return Column(
@@ -146,6 +163,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _lichessButton() {
+    final web = kIsWeb;
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -155,9 +173,12 @@ class _AddGameScreenState extends State<AddGameScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
-          color: AppTheme.surface,
+          color: web ? WT.white : AppTheme.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: const Color(0xFFBAAAAA), width: 1.5),
+          boxShadow: web
+              ? const [BoxShadow(color: Color(0x06000000), blurRadius: 5, offset: Offset(0, 2))]
+              : null,
         ),
         child: Row(
           children: [
@@ -171,18 +192,26 @@ class _AddGameScreenState extends State<AddGameScreen> {
               child: const Center(child: Text('🦁', style: TextStyle(fontSize: 18))),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Import from Lichess',
-                      style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 14)),
+                      style: web
+                          ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                          : const TextStyle(
+                              color: AppTheme.textPrimary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14)),
                   Text('Fetch all your games by username',
-                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                      style: web
+                          ? WT.bodySm(12)
+                          : const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.textSecondary, size: 14),
+            Icon(Icons.arrow_forward_ios_rounded,
+                color: web ? WT.muted : AppTheme.textSecondary, size: 14),
           ],
         ),
       ),
@@ -190,6 +219,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _chessComButton() {
+    final web = kIsWeb;
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
@@ -199,9 +229,12 @@ class _AddGameScreenState extends State<AddGameScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
         decoration: BoxDecoration(
-          color: AppTheme.surface,
+          color: web ? WT.white : AppTheme.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: const Color(0xFF7FA650), width: 1.5),
+          boxShadow: web
+              ? const [BoxShadow(color: Color(0x06000000), blurRadius: 5, offset: Offset(0, 2))]
+              : null,
         ),
         child: Row(
           children: [
@@ -217,26 +250,31 @@ class _AddGameScreenState extends State<AddGameScreen> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Import from Chess.com',
-                    style: TextStyle(
-                      color: AppTheme.textPrimary,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
+                    style: web
+                        ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                        : const TextStyle(
+                            color: AppTheme.textPrimary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
                   ),
                   Text(
                     'Fetch all your games by username',
-                    style: TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                    style: web
+                        ? WT.bodySm(12)
+                        : const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.textSecondary, size: 14),
+            Icon(Icons.arrow_forward_ios_rounded,
+                color: web ? WT.muted : AppTheme.textSecondary, size: 14),
           ],
         ),
       ),
@@ -244,21 +282,27 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _methodCard(String emoji, String label, String type) {
+    final web = kIsWeb;
     final selected = _inputType == type;
+    final accentC = web ? WT.greenLt : AppTheme.primary;
     return Expanded(
       child: GestureDetector(
         onTap: () => _selectInputType(type),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 16),
-          decoration: BoxDecoration(
-            color: selected ? AppTheme.primary.withOpacity(0.15) : AppTheme.surface,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: selected ? AppTheme.primary : AppTheme.surfaceAlt,
-              width: selected ? 2 : 1,
-            ),
-          ),
+          decoration: web
+              ? (selected ? WT.cardDeco(accentBorder: WT.greenLt) : WT.cardDeco())
+              : BoxDecoration(
+                  color: selected
+                      ? AppTheme.primary.withValues(alpha: 0.15)
+                      : AppTheme.surface,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: selected ? AppTheme.primary : AppTheme.surfaceAlt,
+                    width: selected ? 2 : 1,
+                  ),
+                ),
           child: Column(
             children: [
               Text(emoji, style: const TextStyle(fontSize: 28)),
@@ -267,7 +311,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                 label,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: selected ? AppTheme.primary : AppTheme.textSecondary,
+                  color: selected ? accentC : (web ? WT.muted : AppTheme.textSecondary),
                   fontSize: 11,
                   fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                 ),
@@ -280,19 +324,25 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _filePreview() {
+    final web = kIsWeb;
+    final accentC = web ? WT.greenLt : AppTheme.primary;
     return GestureDetector(
       onTap: _pickFile,
       child: Container(
         width: double.infinity,
         height: 160,
         decoration: BoxDecoration(
-          color: AppTheme.surface,
+          color: web ? WT.white : AppTheme.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: _selectedBytes != null ? AppTheme.primary : AppTheme.surfaceAlt,
+            color: _selectedBytes != null
+                ? accentC
+                : (web ? WT.border : AppTheme.surfaceAlt),
             width: 2,
-            style: BorderStyle.solid,
           ),
+          boxShadow: web
+              ? const [BoxShadow(color: Color(0x06000000), blurRadius: 5, offset: Offset(0, 2))]
+              : null,
         ),
         child: _selectedBytes != null
             ? Column(
@@ -309,15 +359,20 @@ class _AddGameScreenState extends State<AddGameScreen> {
                     const Text('♟', style: TextStyle(fontSize: 40)),
                     const SizedBox(height: 8),
                     Text(_fileName,
-                        style: const TextStyle(color: AppTheme.primary, fontSize: 13, fontWeight: FontWeight.w600)),
+                        style: TextStyle(
+                            color: accentC, fontSize: 13, fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
-                    const Text('PGN file ready', style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
-                  ]
-                  else ...[
-                    const Icon(Icons.picture_as_pdf_rounded, color: AppTheme.primary, size: 48),
+                    Text('PGN file ready',
+                        style: web
+                            ? WT.bodySm(11)
+                            : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                  ] else ...[
+                    Icon(Icons.picture_as_pdf_rounded, color: accentC, size: 48),
                     const SizedBox(height: 8),
                     Text(_fileName,
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                        style: web
+                            ? WT.bodySm(12)
+                            : const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
                   ],
                 ],
               )
@@ -328,7 +383,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                     _inputType == 'image'
                         ? Icons.add_a_photo_rounded
                         : Icons.upload_file_rounded,
-                    color: AppTheme.textSecondary,
+                    color: web ? WT.muted : AppTheme.textSecondary,
                     size: 40,
                   ),
                   const SizedBox(height: 10),
@@ -338,7 +393,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
                         : _inputType == 'pgn'
                             ? 'Tap to select a .pgn file'
                             : 'Tap to select PDF or screenshot',
-                    style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                    style: web
+                        ? WT.bodySm(13)
+                        : const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -359,9 +416,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _gameDetailsForm() {
+    final web = kIsWeb;
     return Column(
       children: [
-        // Source selector
         Row(
           children: [
             Expanded(child: _dropdown('Source', _source, ['paper', 'chess.com', 'lichess', 'other'],
@@ -374,9 +431,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
         const SizedBox(height: 12),
         TextField(
           controller: _opponentCtrl,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'Opponent Name (optional)',
-            prefixIcon: Icon(Icons.person_outline_rounded, color: AppTheme.textSecondary),
+            prefixIcon: Icon(Icons.person_outline_rounded,
+                color: web ? WT.muted : AppTheme.textSecondary),
           ),
         ),
         const SizedBox(height: 12),
@@ -393,44 +451,47 @@ class _AddGameScreenState extends State<AddGameScreen> {
         const SizedBox(height: 12),
         TextField(
           controller: _eventCtrl,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'Event / Tournament (optional)',
-            prefixIcon: Icon(Icons.emoji_events_rounded, color: AppTheme.textSecondary),
+            prefixIcon: Icon(Icons.emoji_events_rounded,
+                color: web ? WT.muted : AppTheme.textSecondary),
           ),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _notesCtrl,
           maxLines: 3,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'Notes (optional)',
             hintText: 'e.g. nervous in time pressure, played too fast...',
-            prefixIcon: Icon(Icons.notes_rounded, color: AppTheme.textSecondary),
+            prefixIcon: Icon(Icons.notes_rounded,
+                color: web ? WT.muted : AppTheme.textSecondary),
             alignLabelWithHint: true,
           ),
         ),
         const SizedBox(height: 12),
         _tagsInput(),
         const SizedBox(height: 12),
-        // Date picker
         GestureDetector(
           onTap: _pickDate,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
-              color: AppTheme.surfaceAlt,
+              color: web ? WT.cream : AppTheme.surfaceAlt,
               borderRadius: BorderRadius.circular(14),
             ),
             child: Row(
               children: [
-                const Icon(Icons.calendar_today_rounded, color: AppTheme.textSecondary, size: 18),
+                Icon(Icons.calendar_today_rounded,
+                    color: web ? WT.muted : AppTheme.textSecondary, size: 18),
                 const SizedBox(width: 12),
                 Text(
                   '${_datePlayed.day}/${_datePlayed.month}/${_datePlayed.year}',
-                  style: const TextStyle(color: AppTheme.textPrimary),
+                  style: TextStyle(color: web ? WT.ink : AppTheme.textPrimary),
                 ),
                 const Spacer(),
-                const Icon(Icons.arrow_drop_down_rounded, color: AppTheme.textSecondary),
+                Icon(Icons.arrow_drop_down_rounded,
+                    color: web ? WT.muted : AppTheme.textSecondary),
               ],
             ),
           ),
@@ -440,6 +501,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _tagsInput() {
+    final web = kIsWeb;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -448,9 +510,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
             Expanded(
               child: TextField(
                 controller: _tagCtrl,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Add tag (optional)',
-                  prefixIcon: Icon(Icons.label_outline_rounded, color: AppTheme.textSecondary),
+                  prefixIcon: Icon(Icons.label_outline_rounded,
+                      color: web ? WT.muted : AppTheme.textSecondary),
                 ),
                 onSubmitted: (v) {
                   final tag = v.trim();
@@ -462,7 +525,8 @@ class _AddGameScreenState extends State<AddGameScreen> {
             ),
             const SizedBox(width: 8),
             IconButton(
-              icon: const Icon(Icons.add_circle_rounded, color: AppTheme.primary),
+              icon: Icon(Icons.add_circle_rounded,
+                  color: web ? WT.greenLt : AppTheme.primary),
               onPressed: () {
                 final tag = _tagCtrl.text.trim();
                 if (tag.isNotEmpty && !_tags.contains(tag)) {
@@ -478,9 +542,13 @@ class _AddGameScreenState extends State<AddGameScreen> {
             spacing: 6,
             runSpacing: 6,
             children: _tags.map((tag) => Chip(
-              label: Text(tag, style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary)),
-              backgroundColor: AppTheme.surfaceAlt,
-              deleteIcon: const Icon(Icons.close, size: 14, color: AppTheme.textSecondary),
+              label: Text(tag,
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: web ? WT.ink : AppTheme.textPrimary)),
+              backgroundColor: web ? WT.cream : AppTheme.surfaceAlt,
+              deleteIcon: Icon(Icons.close, size: 14,
+                  color: web ? WT.muted : AppTheme.textSecondary),
               onDeleted: () => setState(() => _tags.remove(tag)),
             )).toList(),
           ),
@@ -493,21 +561,25 @@ class _AddGameScreenState extends State<AddGameScreen> {
     return DropdownButtonFormField<String>(
       value: value,
       decoration: InputDecoration(labelText: label),
-      dropdownColor: AppTheme.surfaceAlt,
-      style: const TextStyle(color: AppTheme.textPrimary),
+      dropdownColor: kIsWeb ? WT.white : AppTheme.surfaceAlt,
+      style: TextStyle(color: kIsWeb ? WT.ink : AppTheme.textPrimary),
       items: items.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
       onChanged: onChange,
     );
   }
 
   Widget _nullableDropdown(String label, String? value, List<String> items, Function(String?) onChange) {
+    final web = kIsWeb;
     return DropdownButtonFormField<String>(
       value: value,
       decoration: InputDecoration(labelText: label, hintText: 'Optional'),
-      dropdownColor: AppTheme.surfaceAlt,
-      style: const TextStyle(color: AppTheme.textPrimary),
+      dropdownColor: web ? WT.white : AppTheme.surfaceAlt,
+      style: TextStyle(color: web ? WT.ink : AppTheme.textPrimary),
       items: [
-        const DropdownMenuItem<String>(value: null, child: Text('— not set —', style: TextStyle(color: AppTheme.textSecondary))),
+        DropdownMenuItem<String>(
+          value: null,
+          child: Text('— not set —',
+              style: TextStyle(color: web ? WT.muted : AppTheme.textSecondary))),
         ...items.map((i) => DropdownMenuItem(value: i, child: Text(_tcLabel(i)))),
       ],
       onChanged: onChange,
@@ -516,55 +588,69 @@ class _AddGameScreenState extends State<AddGameScreen> {
 
   String _tcLabel(String tc) {
     switch (tc) {
-      case 'bullet': return '⚡ Bullet';
-      case 'blitz': return '🔥 Blitz';
-      case 'rapid': return '⏱ Rapid';
-      case 'classical': return '🏛 Classical';
+      case 'bullet':         return '⚡ Bullet';
+      case 'blitz':          return '🔥 Blitz';
+      case 'rapid':          return '⏱ Rapid';
+      case 'classical':      return '🏛 Classical';
       case 'correspondence': return '📅 Correspondence';
-      default: return tc;
+      default:               return tc;
     }
   }
 
   Widget _parsedPreview() {
+    final web = kIsWeb;
     final data = _parsedData!;
     return Container(
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppTheme.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.primary.withOpacity(0.4)),
-      ),
+      decoration: web
+          ? BoxDecoration(
+              color: WT.white,
+              border: Border(left: BorderSide(color: WT.greenLt, width: 3)),
+              boxShadow: const [
+                BoxShadow(color: Color(0x06000000), blurRadius: 5, offset: Offset(0, 2))
+              ],
+            )
+          : BoxDecoration(
+              color: AppTheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.primary.withValues(alpha: 0.4)),
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(Icons.auto_awesome_rounded, color: AppTheme.primary, size: 18),
+              Icon(Icons.auto_awesome_rounded,
+                  color: web ? WT.greenLt : AppTheme.primary, size: 18),
               const SizedBox(width: 8),
-              const Text('AI Parsed Successfully',
-                  style: TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w600)),
+              Text('AI Parsed Successfully',
+                  style: web
+                      ? WT.lora(13, color: WT.greenLt, weight: FontWeight.w600)
+                      : const TextStyle(
+                          color: AppTheme.primary, fontWeight: FontWeight.w600)),
               const Spacer(),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: AppTheme.primary.withOpacity(0.15),
+                  color: (web ? WT.greenLt : AppTheme.primary).withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   data['parseConfidence'] ?? 'medium',
-                  style: const TextStyle(color: AppTheme.primary, fontSize: 11),
+                  style: TextStyle(
+                      color: web ? WT.greenLt : AppTheme.primary, fontSize: 11),
                 ),
               ),
             ],
           ),
-          const Divider(color: AppTheme.surfaceAlt, height: 20),
+          Divider(color: web ? WT.border : AppTheme.surfaceAlt, height: 20),
           _previewRow('White', data['playerWhite'] ?? 'Unknown'),
           _previewRow('Black', data['playerBlack'] ?? 'Unknown'),
           _previewRow('Result', data['result'] ?? '*'),
           _previewRow('Moves', '${(data['moves'] as List?)?.length ?? 0} moves extracted'),
           if (data['opening'] != null) _previewRow('Opening', data['opening']),
-          if (data['event'] != null) _previewRow('Event', data['event']),
+          if (data['event'] != null)   _previewRow('Event', data['event']),
           if (data['notes'] != null && data['notes'].toString().isNotEmpty)
             _previewRow('Notes', data['notes'], isWarning: true),
         ],
@@ -573,6 +659,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _previewRow(String label, String value, {bool isWarning = false}) {
+    final web = kIsWeb;
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
@@ -581,13 +668,17 @@ class _AddGameScreenState extends State<AddGameScreen> {
           SizedBox(
             width: 70,
             child: Text(label,
-                style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                style: web
+                    ? WT.bodySm(12)
+                    : const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
           ),
           Expanded(
             child: Text(
               value,
               style: TextStyle(
-                color: isWarning ? AppTheme.inaccuracy : AppTheme.textPrimary,
+                color: isWarning
+                    ? (web ? WT.inaccuracy : AppTheme.inaccuracy)
+                    : (web ? WT.ink : AppTheme.textPrimary),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
@@ -599,9 +690,17 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   Widget _actionButton() {
+    final web = kIsWeb;
     if (_parsedData == null) {
       return ElevatedButton.icon(
         onPressed: (_inputType.isEmpty || _parsing) ? null : _parseGame,
+        style: web
+            ? ElevatedButton.styleFrom(
+                backgroundColor: WT.greenLt,
+                foregroundColor: WT.white,
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+              )
+            : null,
         icon: _parsing
             ? const SizedBox(
                 width: 18, height: 18,
@@ -614,6 +713,13 @@ class _AddGameScreenState extends State<AddGameScreen> {
         children: [
           ElevatedButton.icon(
             onPressed: _saving ? null : _saveGame,
+            style: web
+                ? ElevatedButton.styleFrom(
+                    backgroundColor: WT.greenLt,
+                    foregroundColor: WT.white,
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  )
+                : null,
             icon: _saving
                 ? const SizedBox(
                     width: 18, height: 18,
@@ -627,7 +733,8 @@ class _AddGameScreenState extends State<AddGameScreen> {
               _parsedData = null;
               _statusMessage = '';
             }),
-            child: const Text('Re-parse', style: TextStyle(color: AppTheme.textSecondary)),
+            child: Text('Re-parse',
+                style: TextStyle(color: web ? WT.muted : AppTheme.textSecondary)),
           ),
         ],
       );
@@ -654,18 +761,22 @@ class _AddGameScreenState extends State<AddGameScreen> {
         final picker = ImagePicker();
         final source = await showModalBottomSheet<ImageSource>(
           context: context,
-          backgroundColor: AppTheme.surface,
+          backgroundColor: kIsWeb ? WT.white : AppTheme.surface,
           builder: (_) => Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                leading: const Icon(Icons.camera_alt_rounded, color: AppTheme.primary),
-                title: const Text('Take Photo', style: TextStyle(color: AppTheme.textPrimary)),
+                leading: Icon(Icons.camera_alt_rounded,
+                    color: kIsWeb ? WT.greenLt : AppTheme.primary),
+                title: Text('Take Photo',
+                    style: TextStyle(color: kIsWeb ? WT.ink : AppTheme.textPrimary)),
                 onTap: () => Navigator.pop(context, ImageSource.camera),
               ),
               ListTile(
-                leading: const Icon(Icons.photo_library_rounded, color: AppTheme.primary),
-                title: const Text('Choose from Gallery', style: TextStyle(color: AppTheme.textPrimary)),
+                leading: Icon(Icons.photo_library_rounded,
+                    color: kIsWeb ? WT.greenLt : AppTheme.primary),
+                title: Text('Choose from Gallery',
+                    style: TextStyle(color: kIsWeb ? WT.ink : AppTheme.textPrimary)),
                 onTap: () => Navigator.pop(context, ImageSource.gallery),
               ),
             ],
@@ -721,7 +832,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
       lastDate: DateTime.now(),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.dark(primary: AppTheme.primary),
+          colorScheme: kIsWeb
+              ? ColorScheme.light(primary: WT.greenLt)
+              : const ColorScheme.dark(primary: AppTheme.primary),
         ),
         child: child!,
       ),
@@ -769,7 +882,6 @@ class _AddGameScreenState extends State<AddGameScreen> {
         _statusMessage = 'Parsed! Review and save.';
         _parsing = false;
 
-        // Auto-fill opponent name and event if parsed
         if (_opponentCtrl.text.isEmpty) {
           final opp = _playerColor == 'white'
               ? result['playerBlack']
@@ -827,7 +939,6 @@ class _AddGameScreenState extends State<AddGameScreen> {
 
       await GameService.saveGame(game);
 
-      // Check for newly earned badges
       final allGames = await GameService.getAllGames();
       final newBadges = await BadgeService.checkAndAward(allGames);
       if (mounted && newBadges.isNotEmpty) {
@@ -836,9 +947,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Game saved! 🎉'),
-            backgroundColor: AppTheme.primary,
+          SnackBar(
+            content: const Text('Game saved! 🎉'),
+            backgroundColor: kIsWeb ? WT.greenLt : AppTheme.primary,
           ),
         );
         Navigator.pop(context);
@@ -850,15 +961,19 @@ class _AddGameScreenState extends State<AddGameScreen> {
   }
 
   void _showBadgePopup(List<Badge> badges) {
+    final web = kIsWeb;
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: AppTheme.surface,
+        backgroundColor: web ? WT.white : AppTheme.surface,
         title: Row(
-          children: const [
-            Text('🏅', style: TextStyle(fontSize: 24)),
-            SizedBox(width: 8),
-            Text('Badge Earned!', style: TextStyle(color: AppTheme.primary)),
+          children: [
+            const Text('🏅', style: TextStyle(fontSize: 24)),
+            const SizedBox(width: 8),
+            Text('Badge Earned!',
+                style: web
+                    ? WT.lora(15, color: WT.greenLt, weight: FontWeight.w700)
+                    : const TextStyle(color: AppTheme.primary)),
           ],
         ),
         content: Column(
@@ -874,8 +989,17 @@ class _AddGameScreenState extends State<AddGameScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(b.title, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
-                      Text(b.description, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                      Text(b.title,
+                          style: web
+                              ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                              : const TextStyle(
+                                  color: AppTheme.textPrimary,
+                                  fontWeight: FontWeight.w600)),
+                      Text(b.description,
+                          style: web
+                              ? WT.bodySm(12)
+                              : const TextStyle(
+                                  color: AppTheme.textSecondary, fontSize: 12)),
                     ],
                   ),
                 ),
@@ -886,6 +1010,13 @@ class _AddGameScreenState extends State<AddGameScreen> {
         actions: [
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
+            style: web
+                ? ElevatedButton.styleFrom(
+                    backgroundColor: WT.greenLt,
+                    foregroundColor: WT.white,
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                  )
+                : null,
             child: const Text('Awesome!'),
           ),
         ],
@@ -899,7 +1030,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
       _parsing = false;
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: AppTheme.loss),
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: kIsWeb ? WT.loss : AppTheme.loss,
+      ),
     );
   }
 

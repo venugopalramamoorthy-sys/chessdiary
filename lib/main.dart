@@ -3,10 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'firebase_options.dart';
 import 'utils/theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/web_landing_screen.dart';
+import 'utils/web_theme.dart' show WT;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,25 +27,31 @@ class ChessDiaryApp extends StatelessWidget {
     return MaterialApp(
       title: 'ChessDiary',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark,
+      theme: kIsWeb ? AppTheme.light : AppTheme.dark,
       home: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
+            return Scaffold(
+              backgroundColor: kIsWeb ? WT.bg : AppTheme.background,
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('♟', style: TextStyle(fontSize: 56)),
-                    SizedBox(height: 16),
-                    CircularProgressIndicator(color: AppTheme.primary),
+                    Text('♟',
+                        style: TextStyle(
+                            fontSize: 56,
+                            color: kIsWeb ? WT.muted : AppTheme.primary)),
+                    const SizedBox(height: 16),
+                    CircularProgressIndicator(
+                        color: kIsWeb ? WT.accent : AppTheme.primary),
                   ],
                 ),
               ),
             );
           }
-          return snap.hasData ? const HomeScreen() : const LoginScreen();
+          if (snap.hasData) return const HomeScreen();
+          return kIsWeb ? const WebLandingScreen() : const LoginScreen();
         },
       ),
     );

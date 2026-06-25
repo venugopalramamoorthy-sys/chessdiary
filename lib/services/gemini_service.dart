@@ -187,6 +187,11 @@ class GeminiService {
   // All Gemini calls are routed through the Render proxy so no API key
   // lives in client code. The key is set as GEMINI_API_KEY on the server.
   static const String _serverUrl = 'https://chessdiary-stockfish.onrender.com';
+  static const String proxyEndpoint = '$_serverUrl/gemini';
+
+  // Injectable HTTP client for unit testing — null in production.
+  // ignore: invalid_use_of_visible_for_testing_member
+  static http.Client? testHttpClient;
 
   static Future<String> _generateText(String prompt) => _proxyText(prompt);
 
@@ -195,8 +200,9 @@ class GeminiService {
       _proxyImage(bytes, mimeType, prompt);
 
   static Future<String> _proxyText(String prompt) async {
-    final resp = await http.post(
-      Uri.parse('$_serverUrl/gemini'),
+    final client = testHttpClient ?? http.Client();
+    final resp = await client.post(
+      Uri.parse(proxyEndpoint),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'model': 'gemini-2.0-flash',
@@ -214,8 +220,9 @@ class GeminiService {
 
   static Future<String> _proxyImage(
       Uint8List bytes, String mimeType, String prompt) async {
-    final resp = await http.post(
-      Uri.parse('$_serverUrl/gemini'),
+    final client = testHttpClient ?? http.Client();
+    final resp = await client.post(
+      Uri.parse(proxyEndpoint),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'model': 'gemini-2.0-flash',

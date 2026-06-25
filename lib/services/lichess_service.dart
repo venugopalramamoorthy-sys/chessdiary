@@ -190,7 +190,6 @@ class LichessService {
       if (res.statusCode != 200) continue;
 
       final lines = res.body.split('\n').where((l) => l.trim().isNotEmpty);
-      int count = 0;
       for (final line in lines) {
         try {
           final j = jsonDecode(line) as Map<String, dynamic>;
@@ -198,7 +197,6 @@ class LichessService {
           if (!seen.contains(g.id) && g.pgn.isNotEmpty) {
             seen.add(g.id);
             games.add(g);
-            count++;
             onProgress?.call(games.length);
           }
         } catch (_) {}

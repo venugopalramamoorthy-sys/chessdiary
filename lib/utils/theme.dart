@@ -90,6 +90,90 @@ class AppTheme {
     );
   }
 
+  static ThemeData get light {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      colorScheme: ColorScheme.light(
+        primary: const Color(0xFF1B3D1B),
+        secondary: const Color(0xFF29622E),
+        surface: Colors.white,
+        onPrimary: Colors.white,
+        onSurface: const Color(0xFF0E180E),
+      ),
+      scaffoldBackgroundColor: const Color(0xFFF8F7F3),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
+      appBarTheme: AppBarTheme(
+        backgroundColor: const Color(0xFFF8F7F3),
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: false,
+        titleTextStyle: GoogleFonts.inter(
+          color: const Color(0xFF0E180E),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: const IconThemeData(color: Color(0xFF0E180E)),
+      ),
+      cardTheme: CardThemeData(
+        color: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: Color(0xFFDDD8CB)),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF1B3D1B),
+          foregroundColor: Colors.white,
+          elevation: 0,
+          minimumSize: const Size.fromHeight(48),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 15),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFFDDD8CB)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFFDDD8CB)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: Color(0xFF1B3D1B), width: 1.5),
+        ),
+        labelStyle: const TextStyle(color: Color(0xFF5C6352)),
+        hintStyle: const TextStyle(color: Color(0xFF5C6352)),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xFF1B3D1B),
+        unselectedItemColor: Color(0xFF5C6352),
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: Color(0xFF1B3D1B),
+        foregroundColor: Colors.white,
+      ),
+      dividerTheme: const DividerThemeData(color: Color(0xFFDDD8CB)),
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: Color(0xFF1B3D1B)),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Color(0xFF0E180E),
+        contentTextStyle: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
   static Color resultColor(String result) {
     switch (result) {
       case 'Win': return win;

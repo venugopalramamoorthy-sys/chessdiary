@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import '../models/game_model.dart';
@@ -8,6 +9,7 @@ import '../services/game_service.dart';
 import '../services/gemini_service.dart';
 import '../services/rating_service.dart';
 import '../utils/theme.dart';
+import '../utils/web_theme.dart';
 
 class ProgressScreen extends StatefulWidget {
   const ProgressScreen({super.key});
@@ -51,14 +53,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   CoachingData _buildCoachingData(
       PlayerStats stats, _RichStats rich, List<RatingEntry> ratings) {
-    // Opening best/worst (min 3 games)
     final openingRecs = ChessInsights.openingRecords(stats.allGames);
     final qualified = openingRecs.values.where((r) => r.total >= 3).toList();
     qualified.sort((a, b) => b.winRate.compareTo(a.winRate));
     final best = qualified.isNotEmpty ? qualified.first : null;
     final worst = qualified.length > 1 ? qualified.last : null;
 
-    // Time control win rates
     final tcRecs = ChessInsights.timeControlRecords(stats.allGames);
     final winRateByTC = <String, double>{};
     final gamesByTC = <String, int>{};
@@ -69,17 +69,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
       }
     }
 
-    // Tactical blind spots
     final blindSpots = ChessInsights.tacticalBlindSpots(stats.allGames);
-
-    // Endgame conversion
     final egResult = ChessInsights.endgameConversionRate(stats.allGames);
 
-    // Recent form (last 10)
     final recent = stats.recentGames.take(10).toList();
     final recentWins = recent.where((g) => g.resultDisplay == 'Win').length;
 
-    // Toughest opponent (min 2 games, lowest win rate)
     final oppMap = <String, _OppRecord>{};
     for (final g in stats.allGames) {
       final opp = g.opponentName.trim();
@@ -93,7 +88,6 @@ class _ProgressScreenState extends State<ProgressScreen> {
     qualified2.sort((a, b) => a.value.winRate.compareTo(b.value.winRate));
     final toughest = qualified2.isNotEmpty ? qualified2.first : null;
 
-    // Rating trend
     int? latestRating, ratingChange;
     String? ratingType;
     if (ratings.length >= 1) {
@@ -151,19 +145,36 @@ class _ProgressScreenState extends State<ProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final web = kIsWeb;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Progress'),
-        actions: [
-          IconButton(icon: const Icon(Icons.refresh_rounded), onPressed: _load),
-        ],
-      ),
+      backgroundColor: web ? WT.offWhite : null,
+      appBar: web
+          ? webAppBar(
+              context,
+              title: 'My Progress',
+              automaticallyImplyLeading: false,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.refresh_rounded, color: WT.silver),
+                  onPressed: _load,
+                ),
+              ],
+            )
+          : AppBar(
+              title: const Text('My Progress'),
+              actions: [
+                IconButton(icon: const Icon(Icons.refresh_rounded), onPressed: _load),
+              ],
+            ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+          ? (web
+              ? const WebChessLoader(message: 'Crunching your stats…')
+              : const Center(child: CircularProgressIndicator(color: AppTheme.primary)))
           : (_stats == null || _stats!.totalGames == 0)
               ? _emptyState()
               : SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+                  padding: EdgeInsets.fromLTRB(
+                      web ? 28 : 16, web ? 28 : 16, web ? 28 : 16, 40),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -223,12 +234,18 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Overall W/L/D ───────────────────────────────────────────────────────────
 
   Widget _overallCard() {
+    final web = kIsWeb;
     final s = _stats!;
+    final winC  = web ? WT.win  : AppTheme.win;
+    final lossC = web ? WT.loss : AppTheme.loss;
+    final drawC = web ? WT.draw : AppTheme.draw;
     return _Card(
       child: Column(
         children: [
-          const Text('Overall Record',
-              style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+          Text('Overall Record',
+              style: web
+                  ? WT.bodySm(13)
+                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -242,28 +259,33 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   children: [
                     Text(
                       '${(s.winRate * 100).toStringAsFixed(0)}%',
-                      style: const TextStyle(
-                          color: AppTheme.textPrimary, fontSize: 26, fontWeight: FontWeight.bold),
+                      style: web
+                          ? WT.anton(22, color: WT.ink, spacing: 0)
+                          : const TextStyle(
+                              color: AppTheme.textPrimary, fontSize: 26, fontWeight: FontWeight.bold),
                     ),
-                    const Text('Win rate',
-                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 10)),
+                    Text('Win rate',
+                        style: web
+                            ? WT.bodySm(10)
+                            : const TextStyle(color: AppTheme.textSecondary, fontSize: 10)),
                   ],
                 ),
-                progressColor: AppTheme.primary,
-                backgroundColor: AppTheme.surfaceAlt,
+                progressColor: web ? WT.greenLt : AppTheme.primary,
+                backgroundColor: web ? WT.border : AppTheme.surfaceAlt,
                 circularStrokeCap: CircularStrokeCap.round,
               ),
               const SizedBox(width: 32),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _statLine('${s.wins}', 'Wins', AppTheme.win),
+                  _statLine('${s.wins}',       'Wins',   winC,  web),
                   const SizedBox(height: 10),
-                  _statLine('${s.losses}', 'Losses', AppTheme.loss),
+                  _statLine('${s.losses}',     'Losses', lossC, web),
                   const SizedBox(height: 10),
-                  _statLine('${s.draws}', 'Draws', AppTheme.draw),
+                  _statLine('${s.draws}',      'Draws',  drawC, web),
                   const SizedBox(height: 10),
-                  _statLine('${s.totalGames}', 'Total', AppTheme.textSecondary),
+                  _statLine('${s.totalGames}', 'Total',
+                      web ? WT.muted : AppTheme.textSecondary, web),
                 ],
               ),
             ],
@@ -273,9 +295,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
             borderRadius: BorderRadius.circular(6),
             child: Row(
               children: [
-                if (s.wins > 0) Flexible(flex: s.wins, child: Container(height: 8, color: AppTheme.win)),
-                if (s.losses > 0) Flexible(flex: s.losses, child: Container(height: 8, color: AppTheme.loss)),
-                if (s.draws > 0) Flexible(flex: s.draws, child: Container(height: 8, color: AppTheme.draw)),
+                if (s.wins > 0)   Flexible(flex: s.wins,   child: Container(height: 8, color: winC)),
+                if (s.losses > 0) Flexible(flex: s.losses, child: Container(height: 8, color: lossC)),
+                if (s.draws > 0)  Flexible(flex: s.draws,  child: Container(height: 8, color: drawC)),
               ],
             ),
           ),
@@ -284,14 +306,17 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  Widget _statLine(String value, String label, Color color) {
+  Widget _statLine(String value, String label, Color color, bool web) {
     return Row(
       children: [
         Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 8),
         Text(value, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 16)),
         const SizedBox(width: 6),
-        Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+        Text(label,
+            style: web
+                ? WT.bodySm(12)
+                : const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
       ],
     );
   }
@@ -299,8 +324,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Form + streak row ────────────────────────────────────────────────────────
 
   Widget _formRow() {
+    final web = kIsWeb;
     final recent = _stats!.recentGames.take(10).toList().reversed.toList();
     final streak = _rich!.currentStreak;
+    final winC  = web ? WT.win  : AppTheme.win;
+    final lossC = web ? WT.loss : AppTheme.loss;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -310,22 +338,24 @@ class _ProgressScreenState extends State<ProgressScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Recent Form',
-                    style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
+                Text('Recent Form',
+                    style: web
+                        ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                        : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 10),
                 Row(
                   children: recent.map((g) {
                     final r = g.resultDisplay;
-                    final c = r == 'Win' ? AppTheme.win : r == 'Loss' ? AppTheme.loss : AppTheme.draw;
+                    final c = r == 'Win' ? winC : r == 'Loss' ? lossC : (web ? WT.draw : AppTheme.draw);
                     final l = r == 'Win' ? 'W' : r == 'Loss' ? 'L' : 'D';
                     return Expanded(
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 1.5),
                         height: 32,
                         decoration: BoxDecoration(
-                          color: c.withOpacity(0.2),
+                          color: c.withValues(alpha: 0.20),
                           borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: c.withOpacity(0.5)),
+                          border: Border.all(color: c.withValues(alpha: 0.50)),
                         ),
                         child: Center(child: Text(l, style: TextStyle(color: c, fontWeight: FontWeight.bold, fontSize: 11))),
                       ),
@@ -345,20 +375,22 @@ class _ProgressScreenState extends State<ProgressScreen> {
               children: [
                 Text(
                   streak > 0 ? '🔥 Win streak' : streak < 0 ? '📉 Losing streak' : '➖ No streak',
-                  style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 13),
+                  style: web
+                      ? WT.lora(12, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 13),
                 ),
                 const SizedBox(height: 6),
                 Text(
                   streak != 0 ? '${streak.abs()} game${streak.abs() == 1 ? '' : 's'}' : '—',
                   style: TextStyle(
-                    color: streak > 0 ? AppTheme.win : streak < 0 ? AppTheme.loss : AppTheme.textSecondary,
+                    color: streak > 0 ? winC : streak < 0 ? lossC : (web ? WT.muted : AppTheme.textSecondary),
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 if (_rich!.blunderStreakGames > 0)
                   Text('${_rich!.blunderStreakGames} games since last blunder',
-                      style: const TextStyle(color: AppTheme.primary, fontSize: 10)),
+                      style: TextStyle(color: web ? WT.greenLt : AppTheme.primary, fontSize: 10)),
               ],
             ),
           ),
@@ -370,20 +402,28 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Win rate trend line chart ────────────────────────────────────────────────
 
   Widget _winTrendCard() {
+    final web = kIsWeb;
     final points = _rich!.winRateTrend;
     if (points.length < 4) return const SizedBox();
+    final lineC = web ? WT.greenLt : AppTheme.primary;
+    final gridC = web ? WT.border  : AppTheme.surfaceAlt;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.trending_up_rounded, color: AppTheme.primary, size: 18),
-              SizedBox(width: 8),
+              Icon(Icons.trending_up_rounded, color: web ? WT.greenLt : AppTheme.primary, size: 18),
+              const SizedBox(width: 8),
               Text('Win Rate Trend',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
-              SizedBox(width: 6),
-              Text('(rolling 10 games)', style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+              const SizedBox(width: 6),
+              Text('(rolling 10 games)',
+                  style: web
+                      ? WT.bodySm(11)
+                      : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
             ],
           ),
           const SizedBox(height: 20),
@@ -395,7 +435,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   show: true,
                   drawVerticalLine: false,
                   horizontalInterval: 0.25,
-                  getDrawingHorizontalLine: (_) => FlLine(color: AppTheme.surfaceAlt, strokeWidth: 1),
+                  getDrawingHorizontalLine: (_) => FlLine(color: gridC, strokeWidth: 1),
                 ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
@@ -405,7 +445,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       interval: 0.25,
                       getTitlesWidget: (v, _) => Text(
                         '${(v * 100).toInt()}%',
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10),
+                        style: TextStyle(color: web ? WT.muted : AppTheme.textSecondary, fontSize: 10),
                       ),
                     ),
                   ),
@@ -424,11 +464,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         .map((e) => FlSpot(e.key.toDouble(), e.value))
                         .toList(),
                     isCurved: true,
-                    color: AppTheme.primary,
+                    color: lineC,
                     barWidth: 2.5,
                     belowBarData: BarAreaData(
                       show: true,
-                      color: AppTheme.primary.withOpacity(0.12),
+                      color: lineC.withValues(alpha: 0.12),
                     ),
                     dotData: const FlDotData(show: false),
                   ),
@@ -444,19 +484,24 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Rating trend chart ───────────────────────────────────────────────────────
 
   Widget _ratingTrendCard() {
+    final web = kIsWeb;
     final pts = _rich!.ratingPoints;
     final minR = pts.map((p) => p.y).reduce(min) - 50;
     final maxR = pts.map((p) => p.y).reduce(max) + 50;
+    final lineC = web ? WT.muted : AppTheme.secondary;
+    final gridC = web ? WT.border : AppTheme.surfaceAlt;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.bar_chart_rounded, color: AppTheme.secondary, size: 18),
-              SizedBox(width: 8),
+              Icon(Icons.bar_chart_rounded, color: lineC, size: 18),
+              const SizedBox(width: 8),
               Text('Rating Trend',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 20),
@@ -467,7 +512,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
-                  getDrawingHorizontalLine: (_) => FlLine(color: AppTheme.surfaceAlt, strokeWidth: 1),
+                  getDrawingHorizontalLine: (_) => FlLine(color: gridC, strokeWidth: 1),
                 ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
@@ -476,7 +521,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       reservedSize: 44,
                       getTitlesWidget: (v, _) => Text(
                         v.toInt().toString(),
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10),
+                        style: TextStyle(color: web ? WT.muted : AppTheme.textSecondary, fontSize: 10),
                       ),
                     ),
                   ),
@@ -491,11 +536,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   LineChartBarData(
                     spots: pts,
                     isCurved: true,
-                    color: AppTheme.secondary,
+                    color: lineC,
                     barWidth: 2.5,
                     belowBarData: BarAreaData(
                       show: true,
-                      color: AppTheme.secondary.withOpacity(0.1),
+                      color: lineC.withValues(alpha: 0.10),
                     ),
                     dotData: const FlDotData(show: false),
                   ),
@@ -511,7 +556,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Error trend chart ────────────────────────────────────────────────────────
 
   Widget _errorTrendCard() {
-    final pts = _rich!.errorTrend; // [{blunders, mistakes, inaccuracies} per game]
+    final web = kIsWeb;
+    final pts = _rich!.errorTrend;
     final blunderSpots = pts.asMap().entries
         .map((e) => FlSpot(e.key.toDouble(), e.value['blunder']!.toDouble()))
         .toList();
@@ -519,25 +565,30 @@ class _ProgressScreenState extends State<ProgressScreen> {
         .map((e) => FlSpot(e.key.toDouble(), e.value['mistake']!.toDouble()))
         .toList();
     final maxY = (pts.map((p) => (p['blunder']! + p['mistake']! + p['inaccuracy']!)).reduce(max) + 1).toDouble();
+    final blunderC = web ? WT.blunder : AppTheme.blunder;
+    final mistakeC = web ? WT.mistake : AppTheme.mistake;
+    final gridC = web ? WT.border : AppTheme.surfaceAlt;
 
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: AppTheme.mistake, size: 18),
-              SizedBox(width: 8),
+              Icon(Icons.warning_amber_rounded, color: mistakeC, size: 18),
+              const SizedBox(width: 8),
               Text('Mistakes Over Time',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 6),
           Row(
             children: [
-              _legendDot(AppTheme.blunder, 'Blunders'),
+              _legendDot(blunderC, 'Blunders', web),
               const SizedBox(width: 16),
-              _legendDot(AppTheme.mistake, 'Mistakes'),
+              _legendDot(mistakeC, 'Mistakes', web),
             ],
           ),
           const SizedBox(height: 16),
@@ -548,7 +599,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 gridData: FlGridData(
                   show: true,
                   drawVerticalLine: false,
-                  getDrawingHorizontalLine: (_) => FlLine(color: AppTheme.surfaceAlt, strokeWidth: 1),
+                  getDrawingHorizontalLine: (_) => FlLine(color: gridC, strokeWidth: 1),
                 ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
@@ -558,7 +609,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       interval: maxY > 4 ? (maxY / 4).ceilToDouble() : 1,
                       getTitlesWidget: (v, _) => Text(
                         v.toInt().toString(),
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10),
+                        style: TextStyle(color: web ? WT.muted : AppTheme.textSecondary, fontSize: 10),
                       ),
                     ),
                   ),
@@ -573,18 +624,18 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   LineChartBarData(
                     spots: blunderSpots,
                     isCurved: true,
-                    color: AppTheme.blunder,
+                    color: blunderC,
                     barWidth: 2,
                     dotData: const FlDotData(show: false),
-                    belowBarData: BarAreaData(show: true, color: AppTheme.blunder.withOpacity(0.08)),
+                    belowBarData: BarAreaData(show: true, color: blunderC.withValues(alpha: 0.08)),
                   ),
                   LineChartBarData(
                     spots: mistakeSpots,
                     isCurved: true,
-                    color: AppTheme.mistake,
+                    color: mistakeC,
                     barWidth: 2,
                     dotData: const FlDotData(show: false),
-                    belowBarData: BarAreaData(show: true, color: AppTheme.mistake.withOpacity(0.06)),
+                    belowBarData: BarAreaData(show: true, color: mistakeC.withValues(alpha: 0.06)),
                   ),
                 ],
               ),
@@ -595,7 +646,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
             Text(
               _rich!.blunderTrend!,
               style: TextStyle(
-                color: _rich!.blunderTrend!.contains('fewer') ? AppTheme.win : AppTheme.textSecondary,
+                color: _rich!.blunderTrend!.contains('fewer')
+                    ? (web ? WT.win : AppTheme.win)
+                    : (web ? WT.muted : AppTheme.textSecondary),
                 fontSize: 12,
               ),
             ),
@@ -604,13 +657,16 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  Widget _legendDot(Color color, String label) {
+  Widget _legendDot(Color color, String label, bool web) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+        Text(label,
+            style: web
+                ? WT.bodySm(11)
+                : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
       ],
     );
   }
@@ -618,19 +674,22 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Color stats ──────────────────────────────────────────────────────────────
 
   Widget _colorCard() {
+    final web = kIsWeb;
     final r = _rich!;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('White vs Black',
-              style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+          Text('White vs Black',
+              style: web
+                  ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                  : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: _colorSide('♙ White', r.whiteW, r.whiteL, r.whiteD)),
-              Container(width: 1, height: 80, color: AppTheme.surfaceAlt),
-              Expanded(child: _colorSide('♟ Black', r.blackW, r.blackL, r.blackD)),
+              Expanded(child: _colorSide('♙ White', r.whiteW, r.whiteL, r.whiteD, web)),
+              Container(width: 1, height: 80, color: web ? WT.border : AppTheme.surfaceAlt),
+              Expanded(child: _colorSide('♟ Black', r.blackW, r.blackL, r.blackD, web)),
             ],
           ),
         ],
@@ -638,34 +697,47 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  Widget _colorSide(String title, int w, int l, int d) {
+  Widget _colorSide(String title, int w, int l, int d, bool web) {
     final total = w + l + d;
     final rate = total == 0 ? 0.0 : w / total;
+    final winC  = web ? WT.win  : AppTheme.win;
+    final lossC = web ? WT.loss : AppTheme.loss;
+    final drawC = web ? WT.draw : AppTheme.draw;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         children: [
-          Text(title, style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
+          Text(title,
+              style: web
+                  ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                  : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           Text('${(rate * 100).toStringAsFixed(0)}%',
-              style: const TextStyle(color: AppTheme.primary, fontSize: 24, fontWeight: FontWeight.bold)),
+              style: TextStyle(
+                  color: web ? WT.greenLt : AppTheme.primary,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold)),
           Text('win rate · $total games',
-              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+              style: web
+                  ? WT.bodySm(11)
+                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
           const SizedBox(height: 8),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: Row(
               children: [
-                if (w > 0) Flexible(flex: w, child: Container(height: 6, color: AppTheme.win)),
-                if (l > 0) Flexible(flex: l, child: Container(height: 6, color: AppTheme.loss)),
-                if (d > 0) Flexible(flex: d, child: Container(height: 6, color: AppTheme.draw)),
-                if (total == 0) Expanded(child: Container(height: 6, color: AppTheme.surfaceAlt)),
+                if (w > 0) Flexible(flex: w, child: Container(height: 6, color: winC)),
+                if (l > 0) Flexible(flex: l, child: Container(height: 6, color: lossC)),
+                if (d > 0) Flexible(flex: d, child: Container(height: 6, color: drawC)),
+                if (total == 0) Expanded(child: Container(height: 6, color: web ? WT.border : AppTheme.surfaceAlt)),
               ],
             ),
           ),
           const SizedBox(height: 4),
           Text('$w W  $l L  $d D',
-              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10)),
+              style: web
+                  ? WT.bodySm(10)
+                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 10)),
         ],
       ),
     );
@@ -674,16 +746,21 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Top openings ─────────────────────────────────────────────────────────────
 
   Widget _openingsCard() {
+    final web = kIsWeb;
+    final winC  = web ? WT.win  : AppTheme.win;
+    final lossC = web ? WT.loss : AppTheme.loss;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.book_rounded, color: AppTheme.primary, size: 18),
-              SizedBox(width: 8),
+              Icon(Icons.book_rounded, color: web ? WT.greenLt : AppTheme.primary, size: 18),
+              const SizedBox(width: 8),
               Text('Top Openings',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 14),
@@ -698,15 +775,19 @@ class _ProgressScreenState extends State<ProgressScreen> {
                     children: [
                       Expanded(
                         child: Text(o.name,
-                            style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
+                            style: web
+                                ? WT.lora(13, color: WT.ink)
+                                : const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
                             overflow: TextOverflow.ellipsis),
                       ),
                       Text('${o.wins}W ${o.losses}L ${o.draws}D',
-                          style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                          style: web
+                              ? WT.bodySm(11)
+                              : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
                       const SizedBox(width: 8),
                       Text('${(winPct * 100).toStringAsFixed(0)}%',
                           style: TextStyle(
-                              color: winPct >= 0.5 ? AppTheme.win : AppTheme.loss,
+                              color: winPct >= 0.5 ? winC : lossC,
                               fontSize: 12,
                               fontWeight: FontWeight.bold)),
                     ],
@@ -716,9 +797,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
                     borderRadius: BorderRadius.circular(4),
                     child: Row(
                       children: [
-                        if (o.wins > 0) Flexible(flex: o.wins, child: Container(height: 6, color: AppTheme.win)),
-                        if (o.losses > 0) Flexible(flex: o.losses, child: Container(height: 6, color: AppTheme.loss)),
-                        if (o.draws > 0) Flexible(flex: o.draws, child: Container(height: 6, color: AppTheme.draw)),
+                        if (o.wins > 0)   Flexible(flex: o.wins,   child: Container(height: 6, color: winC)),
+                        if (o.losses > 0) Flexible(flex: o.losses, child: Container(height: 6, color: lossC)),
+                        if (o.draws > 0)  Flexible(flex: o.draws,  child: Container(height: 6, color: web ? WT.draw : AppTheme.draw)),
                       ],
                     ),
                   ),
@@ -734,23 +815,28 @@ class _ProgressScreenState extends State<ProgressScreen> {
   // ── Mistake patterns ─────────────────────────────────────────────────────────
 
   Widget _mistakePatternsCard() {
+    final web = kIsWeb;
     final patterns = _rich!.mistakePatterns;
     final maxCount = patterns.map((p) => p.count).reduce(max);
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.psychology_rounded, color: AppTheme.blunder, size: 18),
-              SizedBox(width: 8),
+              Icon(Icons.psychology_rounded, color: web ? WT.blunder : AppTheme.blunder, size: 18),
+              const SizedBox(width: 8),
               Text('Most Common Mistakes',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 4),
-          const Text('From games with saved analysis',
-              style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+          Text('From games with saved analysis',
+              style: web
+                  ? WT.bodySm(11)
+                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
           const SizedBox(height: 14),
           ...patterns.map((p) {
             final ratio = p.count / maxCount;
@@ -768,11 +854,15 @@ class _ProgressScreenState extends State<ProgressScreen> {
                           children: [
                             Expanded(
                               child: Text(p.label,
-                                  style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
+                                  style: web
+                                      ? WT.lora(13, color: WT.ink)
+                                      : const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                             ),
                             Text('${p.count}x',
-                                style: const TextStyle(
-                                    color: AppTheme.blunder, fontWeight: FontWeight.bold, fontSize: 12)),
+                                style: TextStyle(
+                                    color: web ? WT.blunder : AppTheme.blunder,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12)),
                           ],
                         ),
                         const SizedBox(height: 4),
@@ -780,8 +870,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
                           borderRadius: BorderRadius.circular(4),
                           child: LinearProgressIndicator(
                             value: ratio,
-                            backgroundColor: AppTheme.surfaceAlt,
-                            color: _qualityColor(p.quality),
+                            backgroundColor: web ? WT.border : AppTheme.surfaceAlt,
+                            color: _qualityColor(p.quality, web),
                             minHeight: 6,
                           ),
                         ),
@@ -797,26 +887,29 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  Color _qualityColor(String q) {
-    if (q == 'blunder') return AppTheme.blunder;
-    if (q == 'mistake') return AppTheme.mistake;
-    return AppTheme.inaccuracy;
+  Color _qualityColor(String q, bool web) {
+    if (q == 'blunder')    return web ? WT.blunder    : AppTheme.blunder;
+    if (q == 'mistake')    return web ? WT.mistake    : AppTheme.mistake;
+    return web ? WT.inaccuracy : AppTheme.inaccuracy;
   }
 
   // ── Strengths & Weaknesses ───────────────────────────────────────────────────
 
   Widget _strengthsWeaknessesCard() {
+    final web = kIsWeb;
     final sw = _rich!.strengthsWeaknesses;
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.insights_rounded, color: AppTheme.primary, size: 18),
-              SizedBox(width: 8),
+              Icon(Icons.insights_rounded, color: web ? WT.greenLt : AppTheme.primary, size: 18),
+              const SizedBox(width: 8),
               Text('Strengths & Weaknesses',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 14),
@@ -831,7 +924,9 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       child: Text(
                         item.text,
                         style: TextStyle(
-                          color: item.isStrength ? AppTheme.win : AppTheme.textPrimary,
+                          color: item.isStrength
+                              ? (web ? WT.win : AppTheme.win)
+                              : (web ? WT.ink : AppTheme.textPrimary),
                           fontSize: 13,
                           height: 1.4,
                         ),
@@ -845,9 +940,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  // ── Blunder streak card ──────────────────────────────────────────────────────
+  // ── Tactical blind spots ─────────────────────────────────────────────────────
 
   Widget _tacticalBlindSpotsCard() {
+    final web = kIsWeb;
+    final blunderC = web ? WT.blunder : AppTheme.blunder;
     final spots = _rich!.tacticalBlindSpots.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
     final top = spots.take(5).toList();
@@ -864,17 +961,21 @@ class _ProgressScreenState extends State<ProgressScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Text('🎯', style: TextStyle(fontSize: 18)),
-              SizedBox(width: 8),
+              const Text('🎯', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 8),
               Text('Tactical Blind Spots',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 4),
-          const Text('Motifs you miss most often (blunders + mistakes)',
-              style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+          Text('Motifs you miss most often (blunders + mistakes)',
+              style: web
+                  ? WT.bodySm(11)
+                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
           const SizedBox(height: 14),
           ...top.map((e) {
             final ratio = e.value / maxCount;
@@ -893,10 +994,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
                         Row(
                           children: [
                             Expanded(child: Text(label,
-                                style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13))),
+                                style: web
+                                    ? WT.lora(13, color: WT.ink)
+                                    : const TextStyle(color: AppTheme.textPrimary, fontSize: 13))),
                             Text('${e.value}×',
-                                style: const TextStyle(color: AppTheme.blunder,
-                                    fontWeight: FontWeight.bold, fontSize: 12)),
+                                style: TextStyle(color: blunderC, fontWeight: FontWeight.bold, fontSize: 12)),
                           ],
                         ),
                         const SizedBox(height: 4),
@@ -904,8 +1006,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
                           borderRadius: BorderRadius.circular(4),
                           child: LinearProgressIndicator(
                             value: ratio,
-                            backgroundColor: AppTheme.surfaceAlt,
-                            color: AppTheme.blunder,
+                            backgroundColor: web ? WT.border : AppTheme.surfaceAlt,
+                            color: blunderC,
                             minHeight: 6,
                           ),
                         ),
@@ -922,26 +1024,33 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   Widget _endgameConversionCard() {
+    final web = kIsWeb;
     final r = _rich!;
     final pct = (r.endgameConversionRate * 100).toStringAsFixed(0);
     final isGood = r.endgameConversionRate >= 0.6;
-    final color = isGood ? AppTheme.win : AppTheme.loss;
+    final color = isGood ? (web ? WT.win : AppTheme.win) : (web ? WT.loss : AppTheme.loss);
 
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Text('♟️', style: TextStyle(fontSize: 18)),
-              SizedBox(width: 8),
+              const Text('♟️', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 8),
               Text('Endgame Conversion Rate',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Games where you entered the endgame with clean play (${r.endgameOpportunities} opportunities)',
-              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+          Text(
+            'Games where you entered the endgame with clean play (${r.endgameOpportunities} opportunities)',
+            style: web
+                ? WT.bodySm(11)
+                : const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+          ),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -963,7 +1072,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             borderRadius: BorderRadius.circular(6),
             child: LinearProgressIndicator(
               value: r.endgameConversionRate.clamp(0.0, 1.0),
-              backgroundColor: AppTheme.surfaceAlt,
+              backgroundColor: web ? WT.border : AppTheme.surfaceAlt,
               color: color,
               minHeight: 8,
             ),
@@ -974,24 +1083,31 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   Widget _timePressureCard() {
+    final web = kIsWeb;
     final r = _rich!;
     final worse = r.timePressureBlunderRate > r.normalBlunderRate + 0.5;
-    final color = worse ? AppTheme.loss : AppTheme.win;
+    final color = worse ? (web ? WT.loss : AppTheme.loss) : (web ? WT.win : AppTheme.win);
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Text('⏰', style: TextStyle(fontSize: 18)),
-              SizedBox(width: 8),
+              const Text('⏰', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 8),
               Text('Time Pressure Impact',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Blunders + mistakes per 10 moves (${r.timePressureGames} games with clock data)',
-              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+          Text(
+            'Blunders + mistakes per 10 moves (${r.timePressureGames} games with clock data)',
+            style: web
+                ? WT.bodySm(11)
+                : const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+          ),
           const SizedBox(height: 14),
           Row(
             children: [
@@ -1000,21 +1116,32 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   children: [
                     Text(r.timePressureBlunderRate.toStringAsFixed(1),
                         style: TextStyle(color: color, fontSize: 26, fontWeight: FontWeight.bold)),
-                    const Text('Under 30s\n(time pressure)',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                    Text(
+                      'Under 30s\n(time pressure)',
+                      textAlign: TextAlign.center,
+                      style: web
+                          ? WT.bodySm(11)
+                          : const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                    ),
                   ],
                 ),
               ),
-              Container(width: 1, height: 48, color: AppTheme.surfaceAlt),
+              Container(width: 1, height: 48, color: web ? WT.border : AppTheme.surfaceAlt),
               Expanded(
                 child: Column(
                   children: [
                     Text(r.normalBlunderRate.toStringAsFixed(1),
-                        style: const TextStyle(color: AppTheme.primary, fontSize: 26, fontWeight: FontWeight.bold)),
-                    const Text('With time\nto think',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                        style: TextStyle(
+                            color: web ? WT.greenLt : AppTheme.primary,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold)),
+                    Text(
+                      'With time\nto think',
+                      textAlign: TextAlign.center,
+                      style: web
+                          ? WT.bodySm(11)
+                          : const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                    ),
                   ],
                 ),
               ),
@@ -1033,10 +1160,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   Widget _tiltCard() {
+    final web = kIsWeb;
     final r = _rich!;
     final diff = r.normalWinRate - r.tiltWinRate;
     final isTilting = diff > 0.05;
-    final color = isTilting ? AppTheme.loss : AppTheme.win;
+    final color = isTilting ? (web ? WT.loss : AppTheme.loss) : (web ? WT.win : AppTheme.win);
     return _Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1045,11 +1173,15 @@ class _ProgressScreenState extends State<ProgressScreen> {
             children: [
               Text(isTilting ? '😤' : '🧘', style: const TextStyle(fontSize: 18)),
               const SizedBox(width: 8),
-              const Text('Tilt Pattern',
-                  style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
+              Text('Tilt Pattern',
+                  style: web
+                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
               const SizedBox(width: 6),
-              const Text('(games within 24h of a loss)',
-                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+              Text('(games within 24h of a loss)',
+                  style: web
+                      ? WT.bodySm(11)
+                      : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
             ],
           ),
           const SizedBox(height: 14),
@@ -1060,21 +1192,32 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   children: [
                     Text('${(r.tiltWinRate * 100).toStringAsFixed(0)}%',
                         style: TextStyle(color: color, fontSize: 24, fontWeight: FontWeight.bold)),
-                    Text('After a loss\n(${r.tiltGames} games)',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                    Text(
+                      'After a loss\n(${r.tiltGames} games)',
+                      textAlign: TextAlign.center,
+                      style: web
+                          ? WT.bodySm(11)
+                          : const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                    ),
                   ],
                 ),
               ),
-              Container(width: 1, height: 48, color: AppTheme.surfaceAlt),
+              Container(width: 1, height: 48, color: web ? WT.border : AppTheme.surfaceAlt),
               Expanded(
                 child: Column(
                   children: [
                     Text('${(r.normalWinRate * 100).toStringAsFixed(0)}%',
-                        style: const TextStyle(color: AppTheme.primary, fontSize: 24, fontWeight: FontWeight.bold)),
-                    const Text('Normal games',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                        style: TextStyle(
+                            color: web ? WT.greenLt : AppTheme.primary,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold)),
+                    Text(
+                      'Normal games',
+                      textAlign: TextAlign.center,
+                      style: web
+                          ? WT.bodySm(11)
+                          : const TextStyle(color: AppTheme.textSecondary, fontSize: 11),
+                    ),
                   ],
                 ),
               ),
@@ -1085,7 +1228,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
             isTilting
                 ? '📉 Win rate drops ${(diff * 100).toStringAsFixed(0)}% after a loss — consider a break before your next game.'
                 : '✅ You handle losses well — no significant tilt detected.',
-            style: TextStyle(color: isTilting ? AppTheme.loss : AppTheme.win, fontSize: 12),
+            style: TextStyle(color: color, fontSize: 12),
           ),
         ],
       ),
@@ -1093,18 +1236,27 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   Widget _blunderStreakCard() {
+    final web = kIsWeb;
     final n = _rich!.blunderStreakGames;
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppTheme.primary.withOpacity(0.25), AppTheme.primary.withOpacity(0.05)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.primary.withOpacity(0.4)),
-      ),
+      decoration: web
+          ? BoxDecoration(
+              color: WT.white,
+              border: Border(left: BorderSide(color: WT.greenLt, width: 3)),
+              boxShadow: const [
+                BoxShadow(color: Color(0x06000000), blurRadius: 5, offset: Offset(0, 2))
+              ],
+            )
+          : BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppTheme.primary.withValues(alpha: 0.25), AppTheme.primary.withValues(alpha: 0.05)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.primary.withValues(alpha: 0.4)),
+            ),
       child: Row(
         children: [
           const Text('🏆', style: TextStyle(fontSize: 32)),
@@ -1113,13 +1265,19 @@ class _ProgressScreenState extends State<ProgressScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Clean Game Streak',
-                    style: TextStyle(
-                        color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 14)),
+                Text(
+                  'Clean Game Streak',
+                  style: web
+                      ? WT.lora(13, color: WT.greenLt, weight: FontWeight.w600)
+                      : const TextStyle(
+                          color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 14),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   '$n game${n == 1 ? '' : 's'} without a blunder!',
-                  style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
+                  style: web
+                      ? WT.lora(13, color: WT.ink)
+                      : const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
                 ),
               ],
             ),
@@ -1129,80 +1287,113 @@ class _ProgressScreenState extends State<ProgressScreen> {
     );
   }
 
-  // ── AI Coach — 3 specific, stat-backed insight cards ─────────────────────────
+  // ── AI Coach ──────────────────────────────────────────────────────────────────
 
   Widget _coachingSection() {
+    final web = kIsWeb;
     final c = _coaching;
 
-    // Loading state
     if (c == null) {
       return _Card(
         child: Row(
-          children: const [
-            SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.primary)),
-            SizedBox(width: 12),
-            Text('Generating coaching insights...', style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+          children: [
+            SizedBox(
+              width: 18, height: 18,
+              child: CircularProgressIndicator(
+                  strokeWidth: 2, color: web ? WT.greenLt : AppTheme.primary),
+            ),
+            const SizedBox(width: 12),
+            Text('Generating coaching insights...',
+                style: web
+                    ? WT.bodySm(13)
+                    : const TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
           ],
         ),
       );
     }
 
-    // Not enough data
     if (!c.hasEnoughData) {
       return _Card(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Row(children: [
-              Text('🤖', style: TextStyle(fontSize: 18)),
-              SizedBox(width: 8),
-              Text('AI Coach', style: TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 15)),
+              const Text('🤖', style: TextStyle(fontSize: 18)),
+              const SizedBox(width: 8),
+              Text('AI Coach',
+                  style: web
+                      ? WT.lora(14, color: WT.greenLt, weight: FontWeight.w600)
+                      : const TextStyle(
+                          color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 15)),
             ]),
-            SizedBox(height: 10),
-            Text('Log and analyse at least 5 games to unlock personalised coaching insights.',
-                style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+            const SizedBox(height: 10),
+            Text(
+              'Log and analyse at least 5 games to unlock personalised coaching insights.',
+              style: web
+                  ? WT.bodySm(13)
+                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+            ),
           ],
         ),
       );
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: const [
-          Text('🤖', style: TextStyle(fontSize: 18)),
-          SizedBox(width: 8),
-          Text('AI Coach', style: TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 15)),
+        Row(children: [
+          const Text('🤖', style: TextStyle(fontSize: 18)),
+          const SizedBox(width: 8),
+          Text('AI Coach',
+              style: web
+                  ? WT.lora(14, color: WT.greenLt, weight: FontWeight.w600)
+                  : const TextStyle(
+                      color: AppTheme.primary, fontWeight: FontWeight.w600, fontSize: 15)),
         ]),
         const SizedBox(height: 12),
-        _insightCard(c.leak, '🔴', const Color(0xFF3D1A1A)),
+        _insightCard(c.leak,     '🔴', const Color(0xFF3D1A1A)),
         const SizedBox(height: 10),
         _insightCard(c.strength, '🟢', const Color(0xFF1A3D1A)),
         const SizedBox(height: 10),
-        _insightCard(c.focus, '🎯', const Color(0xFF1A2D3D)),
+        _insightCard(c.focus,    '🎯', const Color(0xFF1A2D3D)),
       ],
     );
   }
 
   Widget _insightCard(InsightCard? card, String emoji, Color bgColor) {
+    final web = kIsWeb;
+
     if (card == null) {
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: const Text('Not enough data yet for this insight.',
-            style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
-      );
+      return web
+          ? const SizedBox()
+          : Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Text('Not enough data yet for this insight.',
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+            );
     }
+
+    if (web) {
+      final accentColor = emoji == '🔴'
+          ? WT.blunder
+          : emoji == '🟢'
+              ? WT.win
+              : WT.muted;
+      return WebInsightCard(title: card.title, body: card.body, accentColor: accentColor);
+    }
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: bgColor.withOpacity(0.6),
+        color: bgColor.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.primary.withOpacity(0.15)),
+        border: Border.all(color: AppTheme.primary.withValues(alpha: 0.15)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1223,6 +1414,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
   }
 
   Widget _emptyState() {
+    if (kIsWeb) {
+      return const WebEmptyState(
+        title: 'No data yet',
+        subtitle: 'Add some games to see your progress here',
+      );
+    }
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1230,7 +1427,8 @@ class _ProgressScreenState extends State<ProgressScreen> {
           Text('📈', style: TextStyle(fontSize: 64)),
           SizedBox(height: 16),
           Text('No data yet',
-              style: TextStyle(color: AppTheme.textPrimary, fontSize: 20, fontWeight: FontWeight.bold)),
+              style: TextStyle(
+                  color: AppTheme.textPrimary, fontSize: 20, fontWeight: FontWeight.bold)),
           SizedBox(height: 8),
           Text('Add some games to see your progress here',
               style: TextStyle(color: AppTheme.textSecondary)),
@@ -1255,15 +1453,26 @@ class _Card extends StatelessWidget {
   const _Card({required this.child});
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) {
+    if (kIsWeb) {
+      return Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppTheme.surface,
-          borderRadius: BorderRadius.circular(16),
-        ),
+        margin: const EdgeInsets.only(bottom: 2),
+        padding: const EdgeInsets.all(20),
+        decoration: WT.cardDeco(),
         child: child,
       );
+    }
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: child,
+    );
+  }
 }
 
 // ── Data models ──────────────────────────────────────────────────────────────
@@ -1301,19 +1510,15 @@ class _RichStats {
   final List<_MistakePattern> mistakePatterns;
   final List<_SwItem> strengthsWeaknesses;
   final int blunderStreakGames;
-  // Tilt pattern
   final double tiltWinRate;
   final double normalWinRate;
   final int tiltGames;
-  // Endgame conversion
   final double endgameConversionRate;
   final int endgameOpportunities;
-  // Tactical blind spots (motif → count)
   final Map<String, int> tacticalBlindSpots;
-  // Time pressure
-  final double timePressureBlunderRate;  // blunders/mistakes per game under time pressure
-  final double normalBlunderRate;        // blunders/mistakes per game with time to spare
-  final int timePressureGames;           // games that have clock data
+  final double timePressureBlunderRate;
+  final double normalBlunderRate;
+  final int timePressureGames;
 
   _RichStats({
     required this.currentStreak,
@@ -1353,7 +1558,6 @@ class _RichStats {
       );
     }
 
-    // games is newest-first from Firestore; reverse for chronological charts
     final chrono = games.reversed.toList();
 
     // ── Streak ──
@@ -1395,7 +1599,7 @@ class _RichStats {
       }
     }
 
-    // ── Error trend (per-game counts, games with analysis only) ──
+    // ── Error trend ──
     final errorTrend = <Map<String, int>>[];
     for (final g in chrono) {
       if (g.analysis.isEmpty) continue;
@@ -1408,7 +1612,6 @@ class _RichStats {
       errorTrend.add({'blunder': blunders, 'mistake': mistakes, 'inaccuracy': inaccuracies});
     }
 
-    // Compute blunder trend label
     String? blunderTrend;
     if (errorTrend.length >= 6) {
       final half = errorTrend.length ~/ 2;
@@ -1418,7 +1621,7 @@ class _RichStats {
       else if (late > early + 0.3) blunderTrend = '📈 More blunders lately — focus on tactics';
     }
 
-    // ── Blunder streak (consecutive games with 0 blunders, from analyzed games) ──
+    // ── Blunder streak ──
     int blunderStreak = 0;
     for (final g in games) {
       if (g.analysis.isEmpty) continue;
@@ -1461,8 +1664,8 @@ class _RichStats {
       final blunders = entry.value['blunder'] ?? 0;
       final mistakes = entry.value['mistake'] ?? 0;
       final inaccuracies = entry.value['inaccuracy'] ?? 0;
-      if (blunders > 0) patterns.add(_MistakePattern('Blunders in ${entry.key}', '❌', 'blunder', blunders));
-      if (mistakes > 0) patterns.add(_MistakePattern('Mistakes in ${entry.key}', '⚠️', 'mistake', mistakes));
+      if (blunders > 0)     patterns.add(_MistakePattern('Blunders in ${entry.key}',     '❌', 'blunder',    blunders));
+      if (mistakes > 0)     patterns.add(_MistakePattern('Mistakes in ${entry.key}',     '⚠️', 'mistake',    mistakes));
       if (inaccuracies > 0) patterns.add(_MistakePattern('Inaccuracies in ${entry.key}', '💛', 'inaccuracy', inaccuracies));
     }
     patterns.sort((a, b) => b.count.compareTo(a.count));
@@ -1508,20 +1711,16 @@ class _RichStats {
     }
 
     // ── Endgame Conversion Rate ──
-    // "Opportunity": game reached endgame phase (any analysed move at move 36+)
-    //   AND no blunder/mistake before the endgame
     int endgameOpportunities = 0;
     int endgameWins = 0;
     for (final g in games) {
       if (g.analysis.isEmpty) continue;
       final hasEndgameMoves = g.analysis.any((a) => a.moveNumber >= 36);
       if (!hasEndgameMoves) continue;
-      // Check: no blunder/mistake in opening or middlegame
       final cleanEarlyGame = !g.analysis.any((a) =>
           a.moveNumber < 36 &&
           (a.quality == 'blunder' || a.quality == 'mistake'));
       if (!cleanEarlyGame) continue;
-      // Reached endgame from an equal/winning position with clean play
       endgameOpportunities++;
       if (g.resultDisplay == 'Win') endgameWins++;
     }
@@ -1535,22 +1734,17 @@ class _RichStats {
       timePressureGames++;
       for (final a in g.analysis) {
         if (a.quality == 'blunder' || a.quality == 'mistake') {
-          if (a.timePressure) {
-            tpBlunders++;
-          } else {
-            normalBlunders++;
-          }
+          if (a.timePressure) tpBlunders++;
+          else normalBlunders++;
         }
         if (a.timePressure) tpMoves++;
         else normalMoves++;
       }
     }
-    // Rate = blunders per 10 analysed moves (to make numbers comparable)
     final tpRate = tpMoves == 0 ? 0.0 : (tpBlunders / tpMoves) * 10;
     final normalRate = normalMoves == 0 ? 0.0 : (normalBlunders / normalMoves) * 10;
 
     // ── Tilt pattern ──
-    // Sort chronologically to find games played within 24h of a loss
     final chronoSorted = List<ChessGame>.from(games)
       ..sort((a, b) => a.datePlayed.compareTo(b.datePlayed));
 

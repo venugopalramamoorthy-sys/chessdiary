@@ -50,8 +50,8 @@ class AuthService {
       if (credentials == null) return null;
       cred = await _auth.signInWithCredential(
         GoogleAuthProvider.credential(
-          accessToken: credentials['accessToken'],
           idToken: credentials['idToken'],
+          // accessToken removed in google_sign_in v7; idToken alone is sufficient
         ),
       );
     }
