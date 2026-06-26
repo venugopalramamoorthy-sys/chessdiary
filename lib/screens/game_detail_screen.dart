@@ -849,10 +849,12 @@ class _GameDetailScreenState extends State<GameDetailScreen>
     } catch (e) {
       setState(() => _analyzing = false);
       if (mounted) {
+        final msg = e.toString().replaceFirst('Exception: ', '');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Analysis failed: $e'),
+            content: Text(msg),
             backgroundColor: kIsWeb ? WT.loss : AppTheme.loss,
+            duration: const Duration(seconds: 6),
           ),
         );
       }

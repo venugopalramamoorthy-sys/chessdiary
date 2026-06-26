@@ -245,8 +245,16 @@ class GeminiService {
   }
 
   static String _parseProxyResponse(http.Response resp) {
+    if (resp.statusCode == 429 ||
+        (resp.statusCode >= 400 && resp.body.contains('RESOURCE_EXHAUSTED'))) {
+      throw Exception(
+          'AI is temporarily at capacity — please try again in a few minutes.');
+    }
+    if (resp.statusCode >= 400 && resp.body.contains('API_KEY_INVALID')) {
+      throw Exception('AI service configuration error — please contact support.');
+    }
     if (resp.statusCode != 200) {
-      throw Exception('Gemini proxy error ${resp.statusCode}: ${resp.body}');
+      throw Exception('AI service error (${resp.statusCode}) — please try again.');
     }
     final data = jsonDecode(resp.body) as Map<String, dynamic>;
     final candidates = data['candidates'] as List?;

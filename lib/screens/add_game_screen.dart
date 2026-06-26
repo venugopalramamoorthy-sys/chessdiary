@@ -929,7 +929,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
         _parsing = false;
         _statusMessage = '';
       });
-      _showError('AI parsing failed: $e');
+      _showError(e.toString().replaceFirst('Exception: ', ''));
     }
   }
 
@@ -986,7 +986,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
       }
     } catch (e) {
       setState(() => _saving = false);
-      _showError('Failed to save: $e');
+      _showError('Failed to save — please try again.');
     }
   }
 
