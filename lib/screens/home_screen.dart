@@ -1,9 +1,10 @@
-// lib/screens/home_screen.dart
+﻿// lib/screens/home_screen.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/game_model.dart';
 import '../services/game_service.dart';
 import '../services/import_manager.dart';
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
           WebTabItem('HOME', WT.charcoal, () => setState(() => _currentIndex = 0)),
           WebTabItem('LIBRARY', WT.charcoal, () => setState(() => _currentIndex = 1)),
         ];
-      case 3: // Progress
+      case 3: // Insights
         return [
           WebTabItem('YOUR STATS', WT.greenLt, () {}),
           WebTabItem('HOME', WT.charcoal, () => setState(() => _currentIndex = 0)),
@@ -99,28 +100,47 @@ class _HomeScreenState extends State<HomeScreen> {
       const _Dashboard(),
       const LibraryScreen(),
       const EventsScreen(),
-      const ProgressScreen(),
+      const InsightsScreen(),
     ];
 
     return Scaffold(
+      backgroundColor: kIsWeb ? WT.scaffoldBg : null,
       appBar: kIsWeb
           ? AppBar(
-              backgroundColor: const Color(0xFFF8F7F3),
+              backgroundColor: WT.isDark ? WT.darkCard : const Color(0xFFF8F7F3),
               elevation: 0,
               surfaceTintColor: Colors.transparent,
               titleSpacing: 20,
-              title: const Text('♟  ChessDiary',
+              title: Text('♟  ChessDiary',
                   style: TextStyle(
-                    color: Color(0xFF0E180E),
+                    color: WT.isDark ? WT.darkText : const Color(0xFF0E180E),
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   )),
-              bottom: const PreferredSize(
-                preferredSize: Size.fromHeight(1),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1),
                 child: Divider(
-                    height: 1, thickness: 1, color: Color(0xFFDDD8CB)),
+                    height: 1,
+                    thickness: 1,
+                    color: WT.isDark ? WT.darkBorder : const Color(0xFFDDD8CB)),
               ),
-              actions: const [_WebProfileMenu(), SizedBox(width: 12)],
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    WT.isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                    size: 18,
+                    color: WT.isDark ? WT.silver : const Color(0xFF5C6352),
+                  ),
+                  tooltip: WT.isDark ? 'Switch to light mode' : 'Switch to dark mode',
+                  onPressed: () async {
+                    WT.webDark.value = !WT.webDark.value;
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setBool('web_dark_mode', WT.webDark.value);
+                  },
+                ),
+                const _WebProfileMenu(),
+                const SizedBox(width: 12),
+              ],
             )
           : null,
       body: WebBodyWithTabs(
@@ -153,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.library_books_rounded), label: 'Library'),
           BottomNavigationBarItem(icon: Icon(Icons.emoji_events_rounded), label: 'Events'),
-          BottomNavigationBarItem(icon: Icon(Icons.trending_up_rounded), label: 'Progress'),
+          BottomNavigationBarItem(icon: Icon(Icons.trending_up_rounded), label: 'Insights'),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -161,7 +181,8 @@ class _HomeScreenState extends State<HomeScreen> {
             context, MaterialPageRoute(builder: (_) => const AddGameScreen())),
         icon: const Icon(Icons.add),
         label: const Text('Add Game'),
-        backgroundColor: kIsWeb ? WT.accent : AppTheme.primary,
+        backgroundColor: kIsWeb ? WT.greenAccent : AppTheme.primary,
+        foregroundColor: kIsWeb && WT.isDark ? Colors.black : Colors.white,
       ),
     );
   }
@@ -282,7 +303,7 @@ class _Dashboard extends StatelessWidget {
                                     ? GoogleFonts.playfairDisplay(
                                         fontSize: 26,
                                         fontWeight: FontWeight.w700,
-                                        color: WT.ink,
+                                        color: WT.textColor,
                                         height: 1.2,
                                       )
                                     : const TextStyle(
@@ -368,7 +389,7 @@ class _Dashboard extends StatelessWidget {
                             ? GoogleFonts.playfairDisplay(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
-                                color: WT.ink)
+                                color: WT.textColor)
                             : const TextStyle(
                                 color: AppTheme.textPrimary,
                                 fontSize: 17,
@@ -457,7 +478,7 @@ class _Dashboard extends StatelessWidget {
                       fontWeight: FontWeight.bold)),
           Text(label,
               style: web
-                  ? WT.lora(10, color: WT.muted)
+                  ? WT.lora(10, color: WT.mutedColor)
                   : const TextStyle(
                       color: AppTheme.textSecondary, fontSize: 11)),
         ],

@@ -1,4 +1,4 @@
-// lib/screens/add_game_screen.dart
+﻿// lib/screens/add_game_screen.dart
 // This is the heart of ChessDiary — upload a photo, PDF, or paste text,
 // and Gemini AI reads and saves your game automatically.
 
@@ -58,7 +58,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
   Widget build(BuildContext context) {
     final web = kIsWeb;
     return Scaffold(
-      backgroundColor: web ? WT.offWhite : null,
+      backgroundColor: web ? WT.scaffoldBg : null,
       appBar: web
           ? webAppBar(context, title: 'Add Game')
           : AppBar(title: const Text('Add Game')),
@@ -105,7 +105,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                     Expanded(
                       child: Text(_statusMessage,
                           style: web
-                              ? WT.lora(13, color: WT.ink)
+                              ? WT.lora(13, color: WT.textColor)
                               : const TextStyle(
                                   color: AppTheme.textPrimary, fontSize: 13)),
                     ),
@@ -131,7 +131,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
     return Text(
       t,
       style: web
-          ? WT.lora(12, color: WT.muted, weight: FontWeight.w700, style: FontStyle.italic)
+          ? WT.lora(12, color: WT.mutedColor, weight: FontWeight.w700, style: FontStyle.italic)
           : const TextStyle(
               color: AppTheme.textPrimary,
               fontSize: 16,
@@ -198,7 +198,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                 children: [
                   Text('Import from Lichess',
                       style: web
-                          ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                          ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                           : const TextStyle(
                               color: AppTheme.textPrimary,
                               fontWeight: FontWeight.w600,
@@ -257,7 +257,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                   Text(
                     'Import from Chess.com',
                     style: web
-                        ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                        ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                         : const TextStyle(
                             color: AppTheme.textPrimary,
                             fontWeight: FontWeight.w600,
@@ -348,7 +348,16 @@ class _AddGameScreenState extends State<AddGameScreen> {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (_inputType == 'image')
+                  if (_inputType == 'image' && kIsWeb && _isHeicFile) ...[
+                    Icon(Icons.image_rounded, color: accentC, size: 48),
+                    const SizedBox(height: 8),
+                    Text(_fileName,
+                        style: TextStyle(
+                            color: accentC, fontSize: 13, fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 4),
+                    Text('HEIC ready for AI parsing',
+                        style: WT.bodySm(11)),
+                  ] else if (_inputType == 'image')
                     Expanded(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(14),
@@ -389,7 +398,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
                   const SizedBox(height: 10),
                   Text(
                     _inputType == 'image'
-                        ? 'Tap to take photo or choose from gallery'
+                        ? (kIsWeb
+                            ? 'Tap to select image (JPG, PNG, WEBP, HEIC)'
+                            : 'Tap to take photo or choose from gallery')
                         : _inputType == 'pgn'
                             ? 'Tap to select a .pgn file'
                             : 'Tap to select PDF or screenshot',
@@ -755,42 +766,61 @@ class _AddGameScreenState extends State<AddGameScreen> {
     if (type != 'text') await _pickFile();
   }
 
+  bool get _isHeicFile {
+    final ext = _fileName.toLowerCase().split('.').last;
+    return ext == 'heic' || ext == 'heif';
+  }
+
   Future<void> _pickFile() async {
     try {
       if (_inputType == 'image') {
-        final picker = ImagePicker();
-        final source = await showModalBottomSheet<ImageSource>(
-          context: context,
-          backgroundColor: kIsWeb ? WT.white : AppTheme.surface,
-          builder: (_) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: Icon(Icons.camera_alt_rounded,
-                    color: kIsWeb ? WT.greenLt : AppTheme.primary),
-                title: Text('Take Photo',
-                    style: TextStyle(color: kIsWeb ? WT.ink : AppTheme.textPrimary)),
-                onTap: () => Navigator.pop(context, ImageSource.camera),
-              ),
-              ListTile(
-                leading: Icon(Icons.photo_library_rounded,
-                    color: kIsWeb ? WT.greenLt : AppTheme.primary),
-                title: Text('Choose from Gallery',
-                    style: TextStyle(color: kIsWeb ? WT.ink : AppTheme.textPrimary)),
-                onTap: () => Navigator.pop(context, ImageSource.gallery),
-              ),
-            ],
-          ),
-        );
-        if (source == null) return;
-        final xFile = await picker.pickImage(source: source, imageQuality: 85);
-        if (xFile != null) {
-          final bytes = await xFile.readAsBytes();
-          setState(() {
-            _selectedBytes = bytes;
-            _selectedMimeType = _mimeTypeOf(xFile.name);
-            _fileName = xFile.name;
-          });
+        if (kIsWeb) {
+          // Desktop browsers don't support camera access — use FilePicker directly
+          final result = await FilePicker.pickFiles(
+            type: FileType.custom,
+            allowedExtensions: ['png', 'jpg', 'jpeg', 'webp', 'heic', 'heif'],
+            withData: true,
+          );
+          if (result != null && result.files.single.bytes != null) {
+            setState(() {
+              _selectedBytes = result.files.single.bytes;
+              _selectedMimeType = _mimeTypeOf(result.files.single.name);
+              _fileName = result.files.single.name;
+            });
+          }
+        } else {
+          final picker = ImagePicker();
+          final source = await showModalBottomSheet<ImageSource>(
+            context: context,
+            backgroundColor: AppTheme.surface,
+            builder: (_) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.camera_alt_rounded, color: AppTheme.primary),
+                  title: const Text('Take Photo',
+                      style: TextStyle(color: AppTheme.textPrimary)),
+                  onTap: () => Navigator.pop(context, ImageSource.camera),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library_rounded, color: AppTheme.primary),
+                  title: const Text('Choose from Gallery',
+                      style: TextStyle(color: AppTheme.textPrimary)),
+                  onTap: () => Navigator.pop(context, ImageSource.gallery),
+                ),
+              ],
+            ),
+          );
+          if (source == null) return;
+          final xFile = await picker.pickImage(source: source, imageQuality: 85);
+          if (xFile != null) {
+            final bytes = await xFile.readAsBytes();
+            setState(() {
+              _selectedBytes = bytes;
+              _selectedMimeType = _mimeTypeOf(xFile.name);
+              _fileName = xFile.name;
+            });
+          }
         }
       } else if (_inputType == 'pgn') {
         final result = await FilePicker.pickFiles(
@@ -808,7 +838,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
       } else {
         final result = await FilePicker.pickFiles(
           type: FileType.custom,
-          allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg'],
+          allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'webp', 'heic', 'heif'],
           withData: true,
         );
         if (result != null && result.files.single.bytes != null) {
@@ -991,7 +1021,7 @@ class _AddGameScreenState extends State<AddGameScreen> {
                     children: [
                       Text(b.title,
                           style: web
-                              ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                              ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                               : const TextStyle(
                                   color: AppTheme.textPrimary,
                                   fontWeight: FontWeight.w600)),
@@ -1047,6 +1077,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
         return 'image/png';
       case 'webp':
         return 'image/webp';
+      case 'heic':
+        return 'image/heic';
+      case 'heif':
+        return 'image/heif';
       case 'pdf':
         return 'application/pdf';
       case 'pgn':

@@ -1,4 +1,4 @@
-// lib/screens/library_screen.dart
+﻿// lib/screens/library_screen.dart
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         title: web
             ? Text('Game Library',
                 style: GoogleFonts.playfairDisplay(
-                    fontSize: 18, fontWeight: FontWeight.w700, color: WT.ink))
+                    fontSize: 18, fontWeight: FontWeight.w700, color: WT.textColor))
             : const Text('Game Library'),
         actions: [
           IconButton(
@@ -57,7 +57,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 child: TextField(
                   onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
                   style: web
-                      ? GoogleFonts.inter(fontSize: 14, color: WT.ink)
+                      ? GoogleFonts.inter(fontSize: 14, color: WT.textColor)
                       : null,
                   decoration: InputDecoration(
                     hintText: 'Search by opponent or opening…',

@@ -61,3 +61,15 @@ stockfish_server/
 serviceAccount.json
 serviceAccount.json.json
 *serviceAccount*.json
+
+# Firebase Android config — download from Firebase Console when cloning on a new machine
+android/app/google-services.json
+
+# Android signing — never commit keystores or key.properties
+android/key.properties
+android/upload-keystore.jks
+*.jks
+*.keystore
+
+# Claude Code local settings
+.claude/

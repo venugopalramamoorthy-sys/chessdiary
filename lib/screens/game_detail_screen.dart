@@ -1,4 +1,4 @@
-// lib/screens/game_detail_screen.dart
+﻿// lib/screens/game_detail_screen.dart
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -115,7 +115,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
     );
 
     return Scaffold(
-      backgroundColor: web ? WT.offWhite : null,
+      backgroundColor: web ? WT.scaffoldBg : null,
       appBar: web
           ? webAppBar(
               context,
@@ -259,7 +259,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                 Text(
                   'Moves',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(
                           color: AppTheme.textPrimary,
                           fontWeight: FontWeight.w600,
@@ -346,7 +346,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
               Text(
                 item.$2,
                 style: web
-                    ? WT.lora(12, color: WT.ink, weight: FontWeight.w600)
+                    ? WT.lora(12, color: WT.textColor, weight: FontWeight.w600)
                     : const TextStyle(
                         color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.w600),
                 overflow: TextOverflow.ellipsis,
@@ -371,7 +371,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                 Text('♟  ♛  ♞',
                     style: TextStyle(
                         fontSize: 28,
-                        color: WT.muted.withValues(alpha: 0.18),
+                        color: WT.mutedColor.withValues(alpha: 0.18),
                         letterSpacing: 10)),
                 const SizedBox(height: 28),
                 Container(width: 28, height: 1, color: WT.border),
@@ -382,7 +382,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                 Text(
                   'Analyse this game with Stockfish engine for\ncentipawn-accurate move quality, blunders, and mistakes.',
                   textAlign: TextAlign.center,
-                  style: WT.lora(13, color: WT.muted),
+                  style: WT.lora(13, color: WT.mutedColor),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton.icon(
@@ -514,7 +514,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
         children: [
           Text('Evaluation',
               style: web
-                  ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                  ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                   : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 14)),
           const SizedBox(height: 4),
           Text("Positive = you're winning",
@@ -872,7 +872,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
       );
     }
 
-    final boardSize = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
     final orientation = _game.playerColor == 'black' ? PlayerColor.black : PlayerColor.white;
 
     String moveLabel = 'Start';
@@ -897,25 +897,147 @@ class _GameDetailScreenState extends State<GameDetailScreen>
         ? (web ? WT.qualityColor(currentAnalysis.quality) : AppTheme.qualityColor(currentAnalysis.quality))
         : null;
 
+    // ── Web layout: scrollable, capped board size, centered ──────────────────
+    if (web) {
+      // Cap board at 480px; on narrow web use available width minus padding
+      final boardSize = (screenWidth - 48).clamp(0.0, 480.0);
+
+      return SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 640),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Board — centered within the column
+                Center(
+                  child: ChessBoard(
+                    controller: _boardCtrl,
+                    size: boardSize,
+                    enableUserMoves: false,
+                    boardColor: BoardColor.brown,
+                    boardOrientation: orientation,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Move label + quality badge + counter
+                Container(
+                  decoration: WT.cardDeco(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        moveLabel,
+                        style: TextStyle(
+                            color: WT.textColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            fontFamily: 'monospace'),
+                      ),
+                      if (currentAnalysis != null && qualColor != null) ...[
+                        const SizedBox(width: 10),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: qualColor.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(currentAnalysis.quality,
+                              style: TextStyle(
+                                  color: qualColor, fontSize: 11, fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                      const Spacer(),
+                      Text('$_replayIndex / ${_replayMoves.length}',
+                          style: WT.bodySm(12)),
+                    ],
+                  ),
+                ),
+
+                if (currentAnalysis?.comment != null) ...[
+                  const SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: WT.altBg,
+                      border: Border(left: BorderSide(color: WT.mutedColor, width: 3)),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Text(currentAnalysis!.comment!, style: WT.bodySm(13)),
+                  ),
+                ],
+
+                const SizedBox(height: 12),
+
+                // Navigation controls
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _navBtn(Icons.first_page_rounded, () => _replayStep(-_replayMoves.length), web),
+                    const SizedBox(width: 8),
+                    _navBtn(Icons.navigate_before_rounded, () => _replayStep(-1), web),
+                    const SizedBox(width: 8),
+                    _navBtn(Icons.navigate_next_rounded, () => _replayStep(1), web),
+                    const SizedBox(width: 8),
+                    _navBtn(Icons.last_page_rounded, () => _replayStep(_replayMoves.length), web),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                // Move list — wrapping pills (no Expanded needed)
+                Container(
+                  decoration: WT.cardDeco(),
+                  padding: const EdgeInsets.all(12),
+                  child: Wrap(
+                    spacing: 4,
+                    runSpacing: 6,
+                    children: [
+                      for (int i = 0; i < (_replayMoves.length / 2).ceil(); i++) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+                          child: Text('${i + 1}.',
+                              style: WT.bodySm(12)),
+                        ),
+                        _movePill(i * 2, web),
+                        if (i * 2 + 1 < _replayMoves.length)
+                          _movePill(i * 2 + 1, web),
+                      ],
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    // ── Android layout: original column (unchanged) ───────────────────────────
     return Column(
       children: [
         ChessBoard(
           controller: _boardCtrl,
-          size: boardSize,
+          size: screenWidth,
           enableUserMoves: false,
           boardColor: BoardColor.brown,
           boardOrientation: orientation,
         ),
 
         Container(
-          color: web ? WT.white : AppTheme.surface,
+          color: AppTheme.surface,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Row(
             children: [
               Text(
                 moveLabel,
-                style: TextStyle(
-                    color: web ? WT.ink : AppTheme.textPrimary,
+                style: const TextStyle(
+                    color: AppTheme.textPrimary,
                     fontWeight: FontWeight.w600,
                     fontSize: 15,
                     fontFamily: 'monospace'),
@@ -938,9 +1060,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
               const Spacer(),
               Text(
                 '$_replayIndex / ${_replayMoves.length}',
-                style: web
-                    ? WT.bodySm(12)
-                    : const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+                style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
               ),
             ],
           ),
@@ -949,18 +1069,16 @@ class _GameDetailScreenState extends State<GameDetailScreen>
         if (currentAnalysis?.comment != null)
           Container(
             width: double.infinity,
-            color: web ? WT.cream : AppTheme.surfaceAlt,
+            color: AppTheme.surfaceAlt,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
               currentAnalysis!.comment!,
-              style: web
-                  ? WT.bodySm(12)
-                  : const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
+              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
             ),
           ),
 
         Container(
-          color: web ? WT.offWhite : AppTheme.background,
+          color: AppTheme.background,
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -990,9 +1108,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                     margin: const EdgeInsets.only(right: 2),
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
                     child: Text('${i + 1}.',
-                        style: web
-                            ? WT.bodySm(12)
-                            : const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+                        style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
                   ),
                   _movePill(whiteIdx, web),
                   if (blackIdx < _replayMoves.length) _movePill(blackIdx, web),
@@ -1074,7 +1190,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
               Text(
                 'vs $opp — ${h.total} game${h.total == 1 ? '' : 's'}',
                 style: web
-                    ? WT.lora(12, color: WT.ink, weight: FontWeight.w600)
+                    ? WT.lora(12, color: WT.textColor, weight: FontWeight.w600)
                     : const TextStyle(
                         color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 13),
               ),
@@ -1146,7 +1262,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
           Expanded(
             child: Text(_game.notes!,
                 style: web
-                    ? WT.lora(13, color: WT.ink)
+                    ? WT.lora(13, color: WT.textColor)
                     : const TextStyle(color: AppTheme.textPrimary, fontSize: 13, height: 1.5)),
           ),
         ],
@@ -1196,7 +1312,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
             children: [
               Text('Notes & Tags',
                   style: web
-                      ? WT.lora(16, color: WT.ink, weight: FontWeight.w700)
+                      ? WT.lora(16, color: WT.textColor, weight: FontWeight.w700)
                       : const TextStyle(
                           color: AppTheme.textPrimary, fontSize: 17, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
@@ -1304,7 +1420,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
         backgroundColor: web ? WT.white : AppTheme.surface,
         title: Text('Delete Game?',
             style: web
-                ? WT.lora(16, color: WT.ink, weight: FontWeight.w700)
+                ? WT.lora(16, color: WT.textColor, weight: FontWeight.w700)
                 : const TextStyle(color: AppTheme.textPrimary)),
         content: Text('This cannot be undone.',
             style: web

@@ -18,7 +18,19 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="ChessDiary — your chess game library.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    /* Prevent Safari's elastic overscroll from conflicting with Flutter's scroll handling */
+    html, body {
+      overscroll-behavior: none;
+      overflow: hidden;
+      height: 100%;
+      touch-action: pan-x pan-y;
+    }
+    /* Prevent Safari tap highlight on Flutter canvas */
+    * { -webkit-tap-highlight-color: transparent; }
+  </style>
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -31,6 +43,10 @@
 
   <title>chessdiary</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
 </head>
 <body>
   <!--

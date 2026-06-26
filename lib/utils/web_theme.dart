@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 // ── palette ───────────────────────────────────────────────────────────────────
 // Matches _C in web_landing_screen.dart exactly.
 class WT {
-  // Base scale
+  // ── Light mode palette ────────────────────────────────────────────────────
   static const black    = Color(0xFF0C0C0C);
   static const charcoal = Color(0xFF1A1A1A);
   static const darkGrey = Color(0xFF2E2E2E);
@@ -17,22 +17,22 @@ class WT {
   static const white    = Color(0xFFFFFFFF);
   static const offWhite = Color(0xFFF4F3EF);
   static const cream    = Color(0xFFE8E6DF);
+  static const ink      = Color(0xFF0C0C0C);
+  static const muted    = Color(0xFF666666);
+  static const border   = Color(0xFFD0CEC7);
 
-  // Aliases for backward compat with screens already using old names
-  static const bg     = offWhite;
-  static const bgAlt  = cream;
-  static const ink    = Color(0xFF0C0C0C);
-  static const muted  = Color(0xFF666666);
-  static const card   = white;
-  static const border = Color(0xFFD0CEC7);
+  // Aliases (backward compat)
+  static const bg    = offWhite;
+  static const bgAlt = cream;
+  static const card  = white;
 
   // Green – two strengths for different backgrounds
   static const greenLt   = Color(0xFF1B5E20); // on light/white
   static const greenDark = Color(0xFF66BB6A); // on dark/black
-  static const accent    = greenLt;           // backward compat
-  static const accentLt  = greenDark;         // backward compat
+  static const accent    = greenLt;
+  static const accentLt  = greenDark;
 
-  // Result / quality – tuned for light backgrounds
+  // Result / quality — light-background variants
   static const win        = Color(0xFF1B5E20);
   static const loss       = Color(0xFF7F0000);
   static const draw       = Color(0xFF424242);
@@ -40,37 +40,74 @@ class WT {
   static const mistake    = Color(0xFFBF360C);
   static const inaccuracy = Color(0xFF9E6B00);
 
-  // ── helpers ──────────────────────────────────────────────────────────────
+  // ── Dark mode palette ─────────────────────────────────────────────────────
+  // Charcoal-based so pure black stays an accent, not a background.
+  static const darkBg      = Color(0xFF141414);
+  static const darkCard    = Color(0xFF1E1E1E);
+  static const darkSurface = Color(0xFF252525);
+  static const darkBorder  = Color(0xFF333333);
+  static const darkText    = Color(0xFFE8E6DF); // same as cream
+  static const darkMuted   = Color(0xFF888888);
+
+  // Dark-mode result/quality — lightened for readability on dark bg
+  static const darkWin        = Color(0xFF66BB6A);
+  static const darkLoss       = Color(0xFFEF9A9A);
+  static const darkDraw       = Color(0xFF9E9E9E);
+  static const darkBlunder    = Color(0xFFEF9A9A);
+  static const darkMistake    = Color(0xFFFFCC80);
+  static const darkInaccuracy = Color(0xFFFFE082);
+
+  // ── Dark mode toggle ──────────────────────────────────────────────────────
+  /// Toggle between light and dark web theme. Set in main.dart from prefs.
+  static final webDark = ValueNotifier<bool>(false);
+  static bool get isDark => webDark.value;
+
+  // ── Dynamic colour helpers (use these in build() methods) ─────────────────
+  static Color get scaffoldBg  => isDark ? darkBg      : offWhite;
+  static Color get cardBg      => isDark ? darkCard     : white;
+  static Color get altBg       => isDark ? darkSurface  : cream;
+  static Color get borderColor => isDark ? darkBorder   : border;
+  static Color get textColor   => isDark ? darkText     : ink;
+  static Color get mutedColor  => isDark ? darkMuted    : muted;
+  static Color get greenAccent => isDark ? greenDark    : greenLt;
+
+  // Semantic result/quality colours — switch between light/dark variants
+  static Color get winColor        => isDark ? darkWin        : win;
+  static Color get lossColor       => isDark ? darkLoss       : loss;
+  static Color get drawColor       => isDark ? darkDraw       : draw;
+  static Color get blunderColor    => isDark ? darkBlunder    : blunder;
+  static Color get mistakeColor    => isDark ? darkMistake    : mistake;
+  static Color get inaccuracyColor => isDark ? darkInaccuracy : inaccuracy;
+
+  // ── helpers ───────────────────────────────────────────────────────────────
   static bool isWide(BuildContext ctx) =>
       kIsWeb && MediaQuery.sizeOf(ctx).width >= 1100;
 
   static Color resultColor(String result) {
     switch (result) {
-      case 'Win':  return win;
-      case 'Loss': return loss;
-      default:     return draw;
+      case 'Win':  return winColor;
+      case 'Loss': return lossColor;
+      default:     return drawColor;
     }
   }
 
   static Color qualityColor(String q) {
     switch (q) {
-      case 'blunder':    return blunder;
-      case 'mistake':    return mistake;
-      case 'inaccuracy': return inaccuracy;
+      case 'blunder':    return blunderColor;
+      case 'mistake':    return mistakeColor;
+      case 'inaccuracy': return inaccuracyColor;
       case 'best':
-      case 'good':       return win;
-      default:           return muted;
+      case 'good':       return winColor;
+      default:           return mutedColor;
     }
   }
 
   // ── typography ────────────────────────────────────────────────────────────
-  /// Condensed bold headline font — always all-caps by convention.
   static TextStyle anton(double size,
           {Color color = white, double spacing = 1.5}) =>
       GoogleFonts.anton(
           fontSize: size, color: color, letterSpacing: spacing, height: 0.95);
 
-  /// Elegant serif body font.
   static TextStyle lora(double size,
           {Color color = const Color(0xFF666666),
           FontWeight weight = FontWeight.w400,
@@ -82,26 +119,29 @@ class WT {
           fontStyle: style,
           height: 1.65);
 
-  // Kept for backward compat — now delegates to Lora.
   static TextStyle labelSm(double size,
           {Color? color, FontWeight weight = FontWeight.w600}) =>
-      lora(size, color: color ?? ink, weight: weight);
+      lora(size, color: color ?? textColor, weight: weight);
 
   static TextStyle bodySm(double size, {Color? color}) =>
-      lora(size, color: color ?? muted);
+      lora(size, color: color ?? mutedColor);
 
   // ── card decoration ───────────────────────────────────────────────────────
   static BoxDecoration cardDeco({bool hovered = false, Color? accentBorder}) =>
       BoxDecoration(
-        color: hovered ? cream : card,
+        color: isDark
+            ? (hovered ? darkSurface : darkCard)
+            : (hovered ? cream : white),
         borderRadius: BorderRadius.circular(4),
         border: Border.all(
             color: accentBorder != null
                 ? accentBorder.withValues(alpha: hovered ? 0.45 : 0.2)
-                : border),
+                : (isDark ? darkBorder : border)),
         boxShadow: [
           BoxShadow(
-            color: Color(hovered ? 0x0E000000 : 0x06000000),
+            color: Color(isDark
+                ? (hovered ? 0x50000000 : 0x30000000)
+                : (hovered ? 0x0E000000 : 0x06000000)),
             blurRadius: hovered ? 14 : 5,
             offset: const Offset(0, 2),
           ),
@@ -280,7 +320,7 @@ class WebSectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = onDark ? WT.greenDark : WT.greenLt;
+    final c = (onDark || WT.isDark) ? WT.greenDark : WT.greenLt;
     return Row(
       children: [
         Container(width: 16, height: 1, color: c),
@@ -401,19 +441,19 @@ class WebChessLoader extends StatelessWidget {
           Text('♟',
               style: TextStyle(
                   fontSize: 36,
-                  color: WT.muted.withValues(alpha: 0.35))),
+                  color: WT.mutedColor.withValues(alpha: 0.35))),
           const SizedBox(height: 20),
-          const SizedBox(
+          SizedBox(
             width: 18,
             height: 18,
             child: CircularProgressIndicator(
-                strokeWidth: 1.5, color: WT.greenLt),
+                strokeWidth: 1.5, color: WT.greenAccent),
           ),
           if (message != null) ...[
             const SizedBox(height: 14),
             Text(message!,
                 style: WT.lora(13,
-                    color: WT.muted,
+                    color: WT.mutedColor,
                     style: FontStyle.italic)),
           ],
         ],
@@ -445,17 +485,19 @@ class WebEmptyState extends StatelessWidget {
             Text('♟  ♛  ♞',
                 style: TextStyle(
                     fontSize: 28,
-                    color: WT.muted.withValues(alpha: 0.18),
+                    color: WT.mutedColor.withValues(alpha: 0.18),
                     letterSpacing: 10)),
             const SizedBox(height: 28),
-            Container(width: 28, height: 1, color: WT.border),
+            Container(width: 28, height: 1, color: WT.borderColor),
             const SizedBox(height: 22),
             Text(title.toUpperCase(),
-                style: WT.anton(20, color: WT.darkGrey, spacing: 2.0),
+                style: WT.anton(20,
+                    color: WT.isDark ? WT.darkText : WT.darkGrey,
+                    spacing: 2.0),
                 textAlign: TextAlign.center),
             const SizedBox(height: 10),
             Text(subtitle,
-                style: WT.lora(14, color: WT.muted),
+                style: WT.lora(14, color: WT.mutedColor),
                 textAlign: TextAlign.center),
             if (action != null) ...[
               const SizedBox(height: 22),
@@ -487,20 +529,23 @@ class WebInsightCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
       decoration: BoxDecoration(
-        color: WT.white,
+        color: WT.cardBg,
         border: Border(left: BorderSide(color: accentColor, width: 3)),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-              color: Color(0x06000000), blurRadius: 5, offset: Offset(0, 2))
+              color: Color(WT.isDark ? 0x30000000 : 0x06000000),
+              blurRadius: 5,
+              offset: const Offset(0, 2))
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title.toUpperCase(),
-              style: WT.anton(12, color: WT.darkGrey, spacing: 1.5)),
+              style: WT.anton(12,
+                  color: WT.isDark ? WT.silver : WT.darkGrey, spacing: 1.5)),
           const SizedBox(height: 7),
-          Text(body, style: WT.lora(13, color: WT.muted)),
+          Text(body, style: WT.lora(13, color: WT.mutedColor)),
         ],
       ),
     );

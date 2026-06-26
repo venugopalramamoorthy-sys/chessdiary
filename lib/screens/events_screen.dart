@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+﻿import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../models/game_model.dart';
 import '../services/game_service.dart';
@@ -21,7 +21,7 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     final web = kIsWeb;
     return Scaffold(
-      backgroundColor: web ? WT.offWhite : null,
+      backgroundColor: web ? WT.scaffoldBg : null,
       appBar: web
           ? webAppBar(context, title: 'Events & Tournaments',
               automaticallyImplyLeading: false)
@@ -42,7 +42,7 @@ class _EventsScreenState extends State<EventsScreen> {
               child: TextField(
                 onChanged: (v) =>
                     setState(() => _opponentSearch = v.toLowerCase().trim()),
-                style: web ? WT.lora(14, color: WT.ink) : null,
+                style: web ? WT.lora(14, color: WT.textColor) : null,
                 decoration: InputDecoration(
                   hintText: 'Search by opponent name…',
                   prefixIcon: Icon(Icons.person_search_rounded,
@@ -193,7 +193,7 @@ class _EventCardState extends State<_EventCard> {
                         Text(
                           widget.eventName,
                           style: web
-                              ? WT.lora(14, color: WT.ink, weight: FontWeight.w600)
+                              ? WT.lora(14, color: WT.textColor, weight: FontWeight.w600)
                               : const TextStyle(
                                   color: AppTheme.textPrimary,
                                   fontWeight: FontWeight.w600,

@@ -1,4 +1,4 @@
-import 'dart:math';
+﻿import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -11,14 +11,14 @@ import '../services/rating_service.dart';
 import '../utils/theme.dart';
 import '../utils/web_theme.dart';
 
-class ProgressScreen extends StatefulWidget {
-  const ProgressScreen({super.key});
+class InsightsScreen extends StatefulWidget {
+  const InsightsScreen({super.key});
 
   @override
-  State<ProgressScreen> createState() => _ProgressScreenState();
+  State<InsightsScreen> createState() => _InsightsScreenState();
 }
 
-class _ProgressScreenState extends State<ProgressScreen> {
+class _InsightsScreenState extends State<InsightsScreen> {
   PlayerStats? _stats;
   _RichStats? _rich;
   CoachingInsights? _coaching;
@@ -147,11 +147,11 @@ class _ProgressScreenState extends State<ProgressScreen> {
   Widget build(BuildContext context) {
     final web = kIsWeb;
     return Scaffold(
-      backgroundColor: web ? WT.offWhite : null,
+      backgroundColor: web ? WT.scaffoldBg : null,
       appBar: web
           ? webAppBar(
               context,
-              title: 'My Progress',
+              title: 'My Insights',
               automaticallyImplyLeading: false,
               actions: [
                 IconButton(
@@ -161,7 +161,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               ],
             )
           : AppBar(
-              title: const Text('My Progress'),
+              title: const Text('My Insights'),
               actions: [
                 IconButton(icon: const Icon(Icons.refresh_rounded), onPressed: _load),
               ],
@@ -260,7 +260,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                     Text(
                       '${(s.winRate * 100).toStringAsFixed(0)}%',
                       style: web
-                          ? WT.anton(22, color: WT.ink, spacing: 0)
+                          ? WT.anton(22, color: WT.textColor, spacing: 0)
                           : const TextStyle(
                               color: AppTheme.textPrimary, fontSize: 26, fontWeight: FontWeight.bold),
                     ),
@@ -340,7 +340,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               children: [
                 Text('Recent Form',
                     style: web
-                        ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                        ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                         : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 10),
                 Row(
@@ -376,7 +376,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 Text(
                   streak > 0 ? '🔥 Win streak' : streak < 0 ? '📉 Losing streak' : '➖ No streak',
                   style: web
-                      ? WT.lora(12, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(12, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 13),
                 ),
                 const SizedBox(height: 6),
@@ -417,7 +417,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Win Rate Trend',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
               const SizedBox(width: 6),
               Text('(rolling 10 games)',
@@ -500,7 +500,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Rating Trend',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -579,7 +579,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Mistakes Over Time',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -682,7 +682,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         children: [
           Text('White vs Black',
               style: web
-                  ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                  ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                   : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
           const SizedBox(height: 14),
           Row(
@@ -709,7 +709,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
         children: [
           Text(title,
               style: web
-                  ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                  ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                   : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           Text('${(rate * 100).toStringAsFixed(0)}%',
@@ -759,7 +759,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Top Openings',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -776,7 +776,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                       Expanded(
                         child: Text(o.name,
                             style: web
-                                ? WT.lora(13, color: WT.ink)
+                                ? WT.lora(13, color: WT.textColor)
                                 : const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
                             overflow: TextOverflow.ellipsis),
                       ),
@@ -828,7 +828,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Most Common Mistakes',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -855,7 +855,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                             Expanded(
                               child: Text(p.label,
                                   style: web
-                                      ? WT.lora(13, color: WT.ink)
+                                      ? WT.lora(13, color: WT.textColor)
                                       : const TextStyle(color: AppTheme.textPrimary, fontSize: 13)),
                             ),
                             Text('${p.count}x',
@@ -908,7 +908,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Strengths & Weaknesses',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -967,7 +967,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Tactical Blind Spots',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -995,7 +995,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                           children: [
                             Expanded(child: Text(label,
                                 style: web
-                                    ? WT.lora(13, color: WT.ink)
+                                    ? WT.lora(13, color: WT.textColor)
                                     : const TextStyle(color: AppTheme.textPrimary, fontSize: 13))),
                             Text('${e.value}×',
                                 style: TextStyle(color: blunderC, fontWeight: FontWeight.bold, fontSize: 12)),
@@ -1040,7 +1040,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Endgame Conversion Rate',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -1097,7 +1097,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Time Pressure Impact',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
             ],
           ),
@@ -1175,7 +1175,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
               const SizedBox(width: 8),
               Text('Tilt Pattern',
                   style: web
-                      ? WT.lora(13, color: WT.ink, weight: FontWeight.w600)
+                      ? WT.lora(13, color: WT.textColor, weight: FontWeight.w600)
                       : const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w600, fontSize: 15)),
               const SizedBox(width: 6),
               Text('(games within 24h of a loss)',
@@ -1276,7 +1276,7 @@ class _ProgressScreenState extends State<ProgressScreen> {
                 Text(
                   '$n game${n == 1 ? '' : 's'} without a blunder!',
                   style: web
-                      ? WT.lora(13, color: WT.ink)
+                      ? WT.lora(13, color: WT.textColor)
                       : const TextStyle(color: AppTheme.textPrimary, fontSize: 13),
                 ),
               ],

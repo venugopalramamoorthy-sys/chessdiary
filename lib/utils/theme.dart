@@ -174,6 +174,91 @@ class AppTheme {
     );
   }
 
+  /// Dark Material theme for the web editorial dark mode.
+  /// WT's WT.darkBg / WT.darkCard palette is used for editorial widgets;
+  /// this ThemeData covers Material-layer widgets (Scaffold, Card, TextField, etc.).
+  static ThemeData get webDark {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.dark(
+        primary: const Color(0xFF66BB6A),   // greenDark
+        secondary: const Color(0xFF66BB6A),
+        surface: const Color(0xFF1E1E1E),   // WT.darkCard
+        onPrimary: Colors.black,
+        onSurface: const Color(0xFFE8E6DF), // WT.darkText
+      ),
+      scaffoldBackgroundColor: const Color(0xFF141414), // WT.darkBg
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      appBarTheme: AppBarTheme(
+        backgroundColor: const Color(0xFF0C0C0C), // WT.black
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: false,
+        titleTextStyle: GoogleFonts.inter(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: const IconThemeData(color: Color(0xFFAAAAAA)), // WT.silver
+      ),
+      cardTheme: const CardThemeData(
+        color: Color(0xFF1E1E1E),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          side: BorderSide(color: Color(0xFF333333)),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF66BB6A),
+          foregroundColor: Colors.black,
+          elevation: 0,
+          minimumSize: const Size.fromHeight(48),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          textStyle: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 15),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFF252525),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: Color(0xFF333333)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: Color(0xFF333333)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: Color(0xFF66BB6A), width: 1.5),
+        ),
+        hintStyle: const TextStyle(color: Color(0xFF888888)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Color(0xFF1E1E1E),
+        selectedItemColor: Color(0xFF66BB6A),
+        unselectedItemColor: Color(0xFF888888),
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: Color(0xFF66BB6A),
+        foregroundColor: Colors.black,
+      ),
+      dividerTheme: const DividerThemeData(color: Color(0xFF333333)),
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: Color(0xFF66BB6A)),
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: Color(0xFF252525),
+        contentTextStyle: TextStyle(color: Color(0xFFE8E6DF)),
+      ),
+    );
+  }
+
   static Color resultColor(String result) {
     switch (result) {
       case 'Win': return win;
