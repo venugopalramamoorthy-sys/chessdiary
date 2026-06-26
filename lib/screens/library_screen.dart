@@ -10,6 +10,7 @@ import '../services/pgn_export_service.dart';
 import '../utils/theme.dart';
 import '../utils/web_theme.dart';
 import '../widgets/game_card.dart';
+import '../widgets/ad_banner_widget.dart';
 import 'game_detail_screen.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     final hPad = web ? 24.0 : 16.0;
 
     return Scaffold(
+      bottomNavigationBar: const AdBannerWidget(),
       appBar: AppBar(
         title: web
             ? Text('Game Library',

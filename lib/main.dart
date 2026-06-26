@@ -11,12 +11,14 @@ import 'utils/web_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/web_landing_screen.dart';
+import 'services/admob_service.dart';
 
 const _kWebDarkPrefKey = 'web_dark_mode';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await AdMobService.initialize();
 
   // Restore saved web dark-mode preference before first frame
   if (kIsWeb) {

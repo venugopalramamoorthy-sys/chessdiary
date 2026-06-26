@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/game_model.dart';
 import '../services/game_service.dart';
+import '../services/admob_service.dart';
 import '../services/gemini_service.dart';
 import '../services/pgn_export_service.dart';
 import '../services/stockfish_service.dart';
@@ -845,6 +846,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
           content: Text('Analysis complete ($engineUsed)'),
           backgroundColor: kIsWeb ? WT.greenLt : AppTheme.primary,
         ));
+        AdMobService.showInterstitial();
       }
     } catch (e) {
       setState(() => _analyzing = false);
