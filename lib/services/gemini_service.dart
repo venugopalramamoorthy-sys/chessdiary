@@ -189,6 +189,11 @@ class GeminiService {
   static const String _serverUrl = 'https://chessdiary-stockfish.onrender.com';
   static const String proxyEndpoint = '$_serverUrl/gemini';
 
+  // Update this when Google deprecates the model. "gemini-2.0-flash" was shut
+  // down June 1 2026; "gemini-1.5-flash" before that. Consider switching to
+  // "gemini-flash-latest" if manual updates become a recurring problem.
+  static const String _model = 'gemini-2.5-flash';
+
   // Injectable HTTP client for unit testing — null in production.
   // ignore: invalid_use_of_visible_for_testing_member
   static http.Client? testHttpClient;
@@ -205,7 +210,7 @@ class GeminiService {
       Uri.parse(proxyEndpoint),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'model': 'gemini-2.0-flash',
+        'model': _model,
         'contents': [
           {
             'parts': [
@@ -225,7 +230,7 @@ class GeminiService {
       Uri.parse(proxyEndpoint),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'model': 'gemini-2.0-flash',
+        'model': _model,
         'contents': [
           {
             'parts': [
