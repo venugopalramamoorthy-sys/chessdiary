@@ -13,6 +13,7 @@ import '../utils/web_theme.dart';
 import '../widgets/game_card.dart';
 import 'achievements_screen.dart';
 import 'add_game_screen.dart';
+import 'delete_account_screen.dart';
 import 'events_screen.dart';
 import 'library_screen.dart';
 import 'openings_screen.dart';
@@ -321,11 +322,50 @@ class _Dashboard extends StatelessWidget {
                                   color: web ? WT.border : null)),
                           if (!web) ...[
                             const SizedBox(width: 4),
-                            IconButton(
-                              icon: const Icon(Icons.logout_rounded,
+                            PopupMenuButton<String>(
+                              icon: const Icon(Icons.more_vert_rounded,
                                   color: AppTheme.textSecondary),
-                              tooltip: 'Sign out',
-                              onPressed: () => confirmLogout(context),
+                              color: AppTheme.surface,
+                              onSelected: (val) {
+                                if (val == 'signout') confirmLogout(context);
+                                if (val == 'delete') {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const DeleteAccountScreen()),
+                                  );
+                                }
+                              },
+                              itemBuilder: (_) => [
+                                PopupMenuItem<String>(
+                                  value: 'signout',
+                                  child: Row(
+                                    children: const [
+                                      Icon(Icons.logout_rounded,
+                                          size: 16,
+                                          color: AppTheme.textSecondary),
+                                      SizedBox(width: 10),
+                                      Text('Sign out',
+                                          style: TextStyle(
+                                              color: AppTheme.textPrimary)),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem<String>(
+                                  value: 'delete',
+                                  child: Row(
+                                    children: const [
+                                      Icon(Icons.delete_forever_rounded,
+                                          size: 16, color: AppTheme.loss),
+                                      SizedBox(width: 10),
+                                      Text('Delete account',
+                                          style: TextStyle(
+                                              color: AppTheme.loss)),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ],
@@ -609,9 +649,24 @@ class _WebProfileMenu extends StatelessWidget {
             ],
           ),
         ),
+        PopupMenuItem<String>(
+          value: 'delete',
+          child: Row(
+            children: [
+              const Icon(Icons.delete_forever_rounded, size: 14, color: Color(0xFFEF9A9A)),
+              const SizedBox(width: 10),
+              Text('DELETE ACCOUNT',
+                  style: WT.anton(11, color: const Color(0xFFEF9A9A), spacing: 1.5)),
+            ],
+          ),
+        ),
       ],
       onSelected: (val) {
         if (val == 'signout') confirmLogout(context);
+        if (val == 'delete') {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const DeleteAccountScreen()));
+        }
       },
     );
   }

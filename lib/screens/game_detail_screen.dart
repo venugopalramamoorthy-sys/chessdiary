@@ -859,6 +859,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
           centipawnLoss: a.centipawnLoss,
           motif: a.motif,
           timePressure: true,
+          bestMove: a.bestMove,
         );
       }
       return a;

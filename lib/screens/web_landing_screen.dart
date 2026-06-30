@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../services/auth_service.dart';
 
 // ── palette ───────────────────────────────────────────────────────────────────
@@ -1005,25 +1006,91 @@ class _AuthSection extends StatelessWidget {
 class _Footer extends StatelessWidget {
   const _Footer();
 
+  void _open(String path) =>
+      launchUrl(Uri.parse('https://chessdiary.app$path'));
+
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.sizeOf(context).width;
+    final narrow = w <= 600;
     return Container(
       color: _C.black,
       padding: EdgeInsets.symmetric(
-          horizontal: w > 600 ? 48 : 24, vertical: 28),
-      child: Row(
-        children: [
-          RichText(
-            text: TextSpan(children: [
-              TextSpan(text: 'CHESS', style: _anton(12, color: _C.midGrey, spacing: 2)),
-              TextSpan(text: 'DIARY', style: _anton(12, color: _C.greenDark, spacing: 2)),
-            ]),
-          ),
-          const Spacer(),
-          Text('Built by a student chess player.',
-              style: _lora(11, color: _C.darkGrey)),
-        ],
+          horizontal: narrow ? 24 : 48, vertical: 28),
+      child: narrow
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'CHESS', style: _anton(12, color: _C.silver, spacing: 2)),
+                    TextSpan(text: 'DIARY', style: _anton(12, color: _C.greenDark, spacing: 2)),
+                  ]),
+                ),
+                const SizedBox(height: 14),
+                _FooterLinks(onOpen: _open),
+              ],
+            )
+          : Row(
+              children: [
+                RichText(
+                  text: TextSpan(children: [
+                    TextSpan(text: 'CHESS', style: _anton(12, color: _C.silver, spacing: 2)),
+                    TextSpan(text: 'DIARY', style: _anton(12, color: _C.greenDark, spacing: 2)),
+                  ]),
+                ),
+                const Spacer(),
+                _FooterLinks(onOpen: _open),
+              ],
+            ),
+    );
+  }
+}
+
+class _FooterLinks extends StatelessWidget {
+  final void Function(String path) onOpen;
+  const _FooterLinks({required this.onOpen});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 20,
+      runSpacing: 8,
+      children: [
+        _FooterLink('Privacy Policy', () => onOpen('/privacy')),
+        _FooterLink('Delete My Account', () => onOpen('/delete-account')),
+        Text('© 2026 ChessDiary', style: _lora(11, color: _C.silver)),
+      ],
+    );
+  }
+}
+
+class _FooterLink extends StatefulWidget {
+  final String label;
+  final VoidCallback onTap;
+  const _FooterLink(this.label, this.onTap);
+
+  @override
+  State<_FooterLink> createState() => _FooterLinkState();
+}
+
+class _FooterLinkState extends State<_FooterLink> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit:  (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        child: Text(
+          widget.label,
+          style: _lora(11,
+              color: _hovered ? _C.white : _C.silver,
+              weight: FontWeight.w600),
+        ),
       ),
     );
   }

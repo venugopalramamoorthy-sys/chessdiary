@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #0C0C0C;
+      --ink:      #0C0C0C;
+      --dark:     #1A1A1A;
+      --darkgrey: #2E2E2E;
+      --muted:    #666666;
+      --silver:   #AAAAAA;
+      --border:   #D0CEC7;
+      --cream:    #E8E6DF;
+      --offwhite: #F4F3EF;
+      --white:    #FFFFFF;
+      --green:    #1B5E20;
+    }
+
+    html, body {
+      background: var(--offwhite);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, serif;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── header ─────────────────────────────────────── */
+    header {
+      background: var(--black);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--darkgrey);
+    }
+    .logo {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .logo span { color: #66BB6A; }
+    .back-link {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--silver);
+      text-decoration: none;
+    }
+    .back-link:hover { color: var(--white); }
+
+    /* ── layout ─────────────────────────────────────── */
+    main {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 56px 24px 96px;
+    }
+
+    /* ── page title ─────────────────────────────────── */
+    .page-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .page-eyebrow::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+    .page-eyebrow span {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 10px;
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    h1 {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 52px;
+      letter-spacing: 1px;
+      line-height: 0.95;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    @media (max-width: 480px) { h1 { font-size: 36px; } }
+
+    .effective-date {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 40px;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── body copy ──────────────────────────────────── */
+    p {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    p strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    h2 {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      color: var(--ink);
+      margin: 40px 0 12px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+    }
+    ul li {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 15px;
+      color: var(--muted);
+      padding: 7px 0 7px 20px;
+      position: relative;
+      border-bottom: 1px solid var(--cream);
+    }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before {
+      content: '♟';
+      position: absolute;
+      left: 0;
+      font-size: 11px;
+      color: var(--green);
+      top: 10px;
+    }
+    ul li strong { color: var(--ink); font-weight: 600; }
+
+    a {
+      color: var(--green);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    /* ── contact box ────────────────────────────────── */
+    .contact-box {
+      background: var(--cream);
+      border-left: 3px solid var(--green);
+      padding: 20px 24px;
+      margin-top: 40px;
+    }
+    .contact-box p {
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .contact-box p:last-child { margin-bottom: 0; }
+
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--silver);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/" class="back-link">← Back to app</a>
+  </header>
+
+  <main>
+
+    <div class="page-eyebrow"><span>Legal</span></div>
+    <h1>PRIVACY<br>POLICY</h1>
+    <p class="effective-date">Effective date: June 28, 2026 &nbsp;·&nbsp; Last updated: June 28, 2026</p>
+
+    <p>ChessDiary ("we", "our", or "us") is a chess game diary app that helps players record, organise, and analyse their games. This Privacy Policy explains what information we collect, how we use it, and your rights over your data.</p>
+    <p>By using ChessDiary you agree to the practices described here. If you do not agree, please do not use the app.</p>
+
+    <hr class="divider">
+
+    <h2>1. INFORMATION WE COLLECT</h2>
+
+    <p><strong>Account information.</strong> When you create an account, we collect your email address and display name. If you sign in with Google, we receive your Google account email and profile name from Google.</p>
+
+    <p><strong>Game data you submit.</strong> We store the chess games you add to your library, including move sequences (PGN notation), metadata you enter (opponent name, date, event, result, colour), and any analysis results generated for your games.</p>
+
+    <p><strong>Scoresheet images and PDFs.</strong> If you upload a photo or PDF of a paper scoresheet, that file is temporarily transmitted to Google's Gemini AI service to extract the moves. The extracted moves are stored in your library; we do not permanently store the original image or PDF.</p>
+
+    <p><strong>Chess.com and Lichess data.</strong> If you choose to link your Chess.com or Lichess account, we fetch your game history from their public APIs using the username you provide. We store the imported game data in your ChessDiary library.</p>
+
+    <p><strong>Usage and technical data.</strong> We do not run our own analytics. Firebase (Google) may collect standard technical data (device type, OS version, crash reports) as part of operating the Firebase platform.</p>
+
+    <hr class="divider">
+
+    <h2>2. HOW WE USE YOUR INFORMATION</h2>
+    <ul>
+      <li><strong>To provide the service</strong> — storing and displaying your game library, running AI analysis, and syncing your data across devices.</li>
+      <li><strong>To parse scoresheets</strong> — sending uploaded images/PDFs to Google Gemini AI so the moves can be extracted automatically.</li>
+      <li><strong>To analyse your games</strong> — sending your game's PGN notation to our Stockfish analysis server to identify blunders, mistakes, and inaccuracies.</li>
+      <li><strong>To authenticate you</strong> — verifying your identity via Firebase Authentication.</li>
+      <li><strong>To improve the app</strong> — understanding general usage patterns via crash reports and Firebase diagnostics (no personally identifiable analytics).</li>
+    </ul>
+
+    <hr class="divider">
+
+    <h2>3. HOW WE SHARE YOUR INFORMATION</h2>
+
+    <p>We do not sell your personal data. We share data only with the following service providers as required to operate the app:</p>
+    <ul>
+      <li><strong>Google Firebase</strong> — authentication (Firebase Auth) and database (Cloud Firestore). Your account information and game library are stored on Firebase servers. Google's privacy policy applies: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+      <li><strong>Google Gemini AI</strong> — scoresheet images and PDF content you upload are transmitted to Google's Gemini API to extract chess moves. Google's AI terms apply to this data.</li>
+      <li><strong>Render.com (Stockfish analysis server)</strong> — your game's PGN notation is sent to our Stockfish server hosted on Render.com for move-by-move analysis. No personally identifying information is sent alongside the PGN.</li>
+      <li><strong>Chess.com / Lichess</strong> — if you import games, we call their public APIs. We only send the username you provide; these platforms' own privacy policies govern their data.</li>
+      <li><strong>Google AdMob (Android)</strong> — the Android version of ChessDiary displays ads via Google AdMob. AdMob may collect device identifiers and usage data for ad personalisation according to Google's privacy policy.</li>
+    </ul>
+
+    <p>All data transmissions between the app and our service providers are encrypted in transit using HTTPS/TLS.</p>
+
+    <hr class="divider">
+
+    <h2>4. DATA RETENTION AND DELETION</h2>
+
+    <p>Your game library and account data are retained for as long as your account is active. You can delete individual games at any time from within the app.</p>
+
+    <p>To request deletion of your entire account and all associated data, email us at <a href="mailto:venugopal.ramamoorthy@gmail.com">venugopal.ramamoorthy@gmail.com</a> with the subject line "Account deletion request". We will permanently delete your account and game data within 30 days.</p>
+
+    <hr class="divider">
+
+    <h2>5. DATA SECURITY</h2>
+
+    <p>We use Firebase's industry-standard infrastructure, which encrypts data in transit (HTTPS/TLS) and at rest. Access to your data is protected by Firebase Authentication. We do not store passwords in plain text — authentication is handled by Firebase Auth or Google Sign-In.</p>
+
+    <p>No method of internet transmission is 100% secure. We cannot guarantee absolute security but we take reasonable steps to protect your information.</p>
+
+    <hr class="divider">
+
+    <h2>6. CHILDREN'S PRIVACY</h2>
+
+    <p>ChessDiary is not directed at children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided us with personal data, please contact us and we will delete it promptly.</p>
+
+    <hr class="divider">
+
+    <h2>7. YOUR RIGHTS</h2>
+
+    <p>Depending on where you live, you may have rights including:</p>
+    <ul>
+      <li><strong>Access</strong> — request a copy of the data we hold about you.</li>
+      <li><strong>Correction</strong> — ask us to correct inaccurate data.</li>
+      <li><strong>Deletion</strong> — request deletion of your account and all associated data.</li>
+      <li><strong>Portability</strong> — request your game data in PGN format (standard chess notation).</li>
+      <li><strong>Objection</strong> — object to certain processing activities.</li>
+    </ul>
+    <p>To exercise any of these rights, contact us at the email below.</p>
+
+    <hr class="divider">
+
+    <h2>8. COOKIES AND TRACKING</h2>
+
+    <p>The ChessDiary web app uses browser local storage to save your dark/light mode preference. We do not use third-party tracking cookies. Firebase may set session cookies as part of the authentication flow.</p>
+
+    <p>The web version includes Google AdSense code in preparation for future ad serving. AdSense may read cookies or device identifiers if and when ads are actively served.</p>
+
+    <hr class="divider">
+
+    <h2>9. CHANGES TO THIS POLICY</h2>
+
+    <p>We may update this Privacy Policy from time to time. We will post the revised policy at this URL with an updated "Last updated" date. Your continued use of ChessDiary after any changes constitutes acceptance of the updated policy.</p>
+
+    <hr class="divider">
+
+    <h2>10. CONTACT US</h2>
+
+    <div class="contact-box">
+      <p><strong>ChessDiary</strong></p>
+      <p>Questions, data requests, or deletion requests:</p>
+      <p><a href="mailto:venugopal.ramamoorthy@gmail.com">venugopal.ramamoorthy@gmail.com</a></p>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a>
+  </footer>
+
+</body>
+</html>

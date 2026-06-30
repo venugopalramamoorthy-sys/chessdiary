@@ -1,7 +1,7 @@
 name: chessdiary
 description: Your personal chess game journal powered by AI
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+30062026
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -45,6 +45,9 @@ dependencies:
   fl_chart: ^0.70.2
   share_plus: ^10.0.0
 
+  # Link to external URLs (privacy policy, delete-account page)
+  url_launcher: ^6.3.0
+
   # Ads (Android only — not used on web)
   google_mobile_ads: ^9.0.0
 
@@ -54,6 +57,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  firebase_auth_mocks: ^0.15.2
+  fake_cloud_firestore: ^4.1.1
 
 flutter:
   uses-material-design: true

@@ -150,6 +150,7 @@ class MoveAnalysis {
   final double? centipawnLoss;
   final String? motif;       // tactical motif: fork, pin, skewer, etc.
   final bool timePressure;   // true if clock was <30s when mistake was made
+  final String? bestMove;    // engine's recommended best move (SAN), if available
 
   MoveAnalysis({
     required this.moveNumber,
@@ -159,6 +160,7 @@ class MoveAnalysis {
     this.centipawnLoss,
     this.motif,
     this.timePressure = false,
+    this.bestMove,
   });
 
   // Game phase based on move number
@@ -177,6 +179,7 @@ class MoveAnalysis {
       centipawnLoss: map['centipawnLoss']?.toDouble(),
       motif: map['motif'],
       timePressure: map['timePressure'] == true,
+      bestMove: map['bestMove'] as String?,
     );
   }
 
@@ -188,6 +191,7 @@ class MoveAnalysis {
         'centipawnLoss': centipawnLoss,
         'motif': motif,
         'timePressure': timePressure,
+        'bestMove': bestMove,
       };
 }
 

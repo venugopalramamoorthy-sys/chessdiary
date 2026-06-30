@@ -447,6 +447,7 @@ Return ONLY a valid JSON array (same order as input), no markdown:
           comment: a.comment,
           centipawnLoss: a.centipawnLoss,
           motif: motif == 'none' ? null : motif,
+          bestMove: a.bestMove,
         );
       }).toList();
     } catch (_) {
