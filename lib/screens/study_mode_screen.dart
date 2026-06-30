@@ -45,6 +45,7 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   bool _programmingMove = false;
   Set<String> _hintSquares = {};
   Timer? _hintTimer;
+  int _analyzedGameCount = 0;
 
   @override
   void initState() {
@@ -67,10 +68,15 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
       _puzzles = [];
     });
     final games = await GameService.getAllGames();
+    // Only games that have completed analysis are eligible for Study Mode.
+    // analysis.isNotEmpty is the app-wide convention for "has been analyzed"
+    // (consistent with badge_service, progress_screen, game_detail_screen).
+    final analyzedGames = games
+        .where((g) => g.analysis.isNotEmpty && g.moves.isNotEmpty)
+        .toList();
     final puzzles = <_Puzzle>[];
 
-    for (final g in games) {
-      if (g.analysis.isEmpty || g.moves.isEmpty) continue;
+    for (final g in analyzedGames) {
       for (final a in g.analysis) {
         if (_filter == 'blunder' && a.quality != 'blunder') continue;
         if (_filter == 'mistake' && a.quality != 'mistake') continue;
@@ -105,6 +111,7 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
     _hintTimer?.cancel();
     setState(() {
       _puzzles = puzzles;
+      _analyzedGameCount = analyzedGames.length;
       _index = 0;
       _loading = false;
       _outcome = _PuzzleOutcome.pending;
@@ -816,42 +823,101 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
 
   Widget _emptyState() {
     final web = kIsWeb;
+
+    // Two distinct reasons for no puzzles — give the user specific guidance.
+    if (_analyzedGameCount == 0) {
+      // ── No analyzed games yet ──────────────────────────────────────────────
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('📚', style: TextStyle(fontSize: 56)),
+              const SizedBox(height: 16),
+              Text(
+                'No analyzed games yet',
+                textAlign: TextAlign.center,
+                style: web
+                    ? WT.lora(20, color: WT.textColor, weight: FontWeight.bold)
+                    : const TextStyle(
+                        color: AppTheme.textPrimary,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Open a game in your Library and tap\n"Analyse" to unlock Study Mode puzzles.',
+                textAlign: TextAlign.center,
+                style: web
+                    ? WT.bodySm(14)
+                    : const TextStyle(color: AppTheme.textSecondary),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.library_books_rounded, size: 16),
+                label: const Text('Go to Library'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: web ? WT.greenLt : null,
+                  foregroundColor: web ? Colors.white : null,
+                  minimumSize: const Size(200, 46),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // ── Analyzed games exist but current filter has no matches ────────────────
+    final filterLabel = _filter == 'blunder'
+        ? 'blunders'
+        : _filter == 'mistake'
+            ? 'mistakes'
+            : 'blunders or mistakes';
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('🎯', style: TextStyle(fontSize: 56)),
-          const SizedBox(height: 16),
-          Text(
-            'No puzzles yet',
-            style: web
-                ? WT.lora(20, color: WT.textColor, weight: FontWeight.bold)
-                : const TextStyle(
-                    color: AppTheme.textPrimary,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Analyse some games first to generate\npuzzles from your mistakes',
-            textAlign: TextAlign.center,
-            style: web
-                ? WT.bodySm(14)
-                : const TextStyle(color: AppTheme.textSecondary),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton(
-            onPressed: () {
-              setState(() => _filter = 'both');
-              _loadPuzzles();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: web ? WT.greenLt : null,
-              foregroundColor: web ? Colors.white : null,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('🎯', style: TextStyle(fontSize: 56)),
+            const SizedBox(height: 16),
+            Text(
+              'No $filterLabel found',
+              textAlign: TextAlign.center,
+              style: web
+                  ? WT.lora(20, color: WT.textColor, weight: FontWeight.bold)
+                  : const TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
             ),
-            child: const Text('Try all mistakes'),
-          ),
-        ],
+            const SizedBox(height: 10),
+            Text(
+              '$_analyzedGameCount analyzed ${_analyzedGameCount == 1 ? 'game' : 'games'}, but none had $filterLabel.\nTry a different filter or analyse more games.',
+              textAlign: TextAlign.center,
+              style: web
+                  ? WT.bodySm(14)
+                  : const TextStyle(color: AppTheme.textSecondary),
+            ),
+            const SizedBox(height: 24),
+            if (_filter != 'both')
+              ElevatedButton(
+                onPressed: () {
+                  setState(() => _filter = 'both');
+                  _loadPuzzles();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: web ? WT.greenLt : null,
+                  foregroundColor: web ? Colors.white : null,
+                  minimumSize: const Size(200, 46),
+                ),
+                child: const Text('Show all mistakes'),
+              ),
+          ],
+        ),
       ),
     );
   }
