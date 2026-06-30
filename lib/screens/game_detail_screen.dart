@@ -72,6 +72,27 @@ class _GameDetailScreenState extends State<GameDetailScreen>
     setState(() => _replayIndex = target);
   }
 
+  // Maps half-move index (0-based) → MoveAnalysis for fast lookup.
+  Map<int, MoveAnalysis> _buildAnalysisMap() {
+    final map = <int, MoveAnalysis>{};
+    for (final a in _game.analysis) {
+      final wi = (a.moveNumber - 1) * 2;
+      final bi = wi + 1;
+      if (wi < _game.moves.length && _game.moves[wi] == a.move) {
+        map[wi] = a;
+      } else if (bi < _game.moves.length && _game.moves[bi] == a.move) {
+        map[bi] = a;
+      }
+    }
+    return map;
+  }
+
+  // Jumps the Replay tab board to the given half-move and switches to that tab.
+  void _jumpToReplayAt(int halfMoveIdx) {
+    _replayStep((halfMoveIdx + 1) - _replayIndex);
+    _tabs.animateTo(2);
+  }
+
   Future<void> _loadH2H() async {
     final opp = _game.opponentName.trim().toLowerCase();
     if (opp.isEmpty || opp == 'unknown') return;
@@ -465,7 +486,7 @@ class _GameDetailScreenState extends State<GameDetailScreen>
           ..._turningPoints().map((tp) => _turningPointTile(tp)),
           if (_turningPoints().isNotEmpty) const SizedBox(height: 8),
 
-          ..._game.analysis.map((a) => _analysisTile(a)),
+          _fullMoveList(),
         ],
       ),
     );
@@ -729,6 +750,97 @@ class _GameDetailScreenState extends State<GameDetailScreen>
     );
   }
 
+  // ── Full move list (Analysis tab) ────────────────────────────────────────
+
+  // All moves in chess-notation order; classified ones get a badge + analysis card.
+  Widget _fullMoveList() {
+    if (_game.moves.isEmpty) return const SizedBox();
+    final analysisMap = _buildAnalysisMap();
+    final pairCount = (_game.moves.length / 2).ceil();
+    final rows = <Widget>[];
+    for (int p = 0; p < pairCount; p++) {
+      final wIdx = p * 2;
+      final bIdx = wIdx + 1;
+      rows.add(_moveListRow(p + 1, wIdx, bIdx, analysisMap));
+      if (analysisMap.containsKey(wIdx)) rows.add(_analysisTile(analysisMap[wIdx]!));
+      if (bIdx < _game.moves.length && analysisMap.containsKey(bIdx)) {
+        rows.add(_analysisTile(analysisMap[bIdx]!));
+      }
+    }
+    return Column(children: rows);
+  }
+
+  Widget _moveListRow(int moveNum, int wIdx, int bIdx, Map<int, MoveAnalysis> analysisMap) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 32,
+            child: Text('$moveNum.',
+                style: TextStyle(
+                  color: kIsWeb ? WT.muted : AppTheme.textSecondary,
+                  fontSize: 12,
+                  fontFamily: 'monospace',
+                )),
+          ),
+          Expanded(child: _moveChip(wIdx, analysisMap)),
+          const SizedBox(width: 4),
+          Expanded(
+            child: bIdx < _game.moves.length
+                ? _moveChip(bIdx, analysisMap)
+                : const SizedBox(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _moveChip(int halfMoveIdx, Map<int, MoveAnalysis> analysisMap) {
+    final web = kIsWeb;
+    final move = _game.moves[halfMoveIdx];
+    final a = analysisMap[halfMoveIdx];
+    final qualColor = a != null
+        ? (web ? WT.qualityColor(a.quality) : AppTheme.qualityColor(a.quality))
+        : null;
+    return GestureDetector(
+      onTap: () => _jumpToReplayAt(halfMoveIdx),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        decoration: BoxDecoration(
+          color: qualColor != null
+              ? qualColor.withValues(alpha: 0.12)
+              : (web ? WT.cream : AppTheme.surfaceAlt),
+          borderRadius: BorderRadius.circular(6),
+          border: qualColor != null
+              ? Border.all(color: qualColor.withValues(alpha: 0.3))
+              : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Text(
+                move,
+                style: TextStyle(
+                  color: qualColor ?? (web ? WT.ink : AppTheme.textPrimary),
+                  fontSize: 12,
+                  fontWeight: a != null ? FontWeight.w600 : FontWeight.normal,
+                  fontFamily: 'monospace',
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            if (qualColor != null) ...[
+              const SizedBox(width: 4),
+              Icon(AppTheme.qualityIcon(a!.quality), color: qualColor, size: 11),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
   List<MoveAnalysis> _attachTimePressure(List<MoveAnalysis> analysis, List<int> clocks) {
     final isWhitePlayer = _game.playerColor == 'white';
     return analysis.map((a) {
@@ -888,11 +1000,11 @@ class _GameDetailScreenState extends State<GameDetailScreen>
 
     MoveAnalysis? currentAnalysis;
     if (_game.analysis.isNotEmpty && _replayIndex > 0) {
+      final currentMove = _replayMoves[_replayIndex - 1];
       final moveNum = ((_replayIndex - 1) ~/ 2) + 1;
       try {
         currentAnalysis = _game.analysis.firstWhere(
-          (a) => a.moveNumber == moveNum,
-          orElse: () => _game.analysis.first,
+          (a) => a.moveNumber == moveNum && a.move == currentMove,
         );
       } catch (_) {}
     }
@@ -900,6 +1012,9 @@ class _GameDetailScreenState extends State<GameDetailScreen>
     final qualColor = currentAnalysis != null
         ? (web ? WT.qualityColor(currentAnalysis.quality) : AppTheme.qualityColor(currentAnalysis.quality))
         : null;
+
+    final analysisMap = _buildAnalysisMap();
+    final isWhiteToMove = _replayIndex % 2 == 0;
 
     // ── Web layout: scrollable, capped board size, centered ──────────────────
     if (web) {
@@ -955,6 +1070,8 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                         ),
                       ],
                       const Spacer(),
+                      _turnDot(isWhiteToMove, true),
+                      const SizedBox(width: 12),
                       Text('$_replayIndex / ${_replayMoves.length}',
                           style: WT.bodySm(12)),
                     ],
@@ -1006,9 +1123,9 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                           child: Text('${i + 1}.',
                               style: WT.bodySm(12)),
                         ),
-                        _movePill(i * 2, web),
+                        _movePill(i * 2, web, analysisMap),
                         if (i * 2 + 1 < _replayMoves.length)
-                          _movePill(i * 2 + 1, web),
+                          _movePill(i * 2 + 1, web, analysisMap),
                       ],
                     ],
                   ),
@@ -1062,6 +1179,8 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                 ),
               ],
               const Spacer(),
+              _turnDot(isWhiteToMove, false),
+              const SizedBox(width: 12),
               Text(
                 '$_replayIndex / ${_replayMoves.length}',
                 style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12),
@@ -1114,8 +1233,8 @@ class _GameDetailScreenState extends State<GameDetailScreen>
                     child: Text('${i + 1}.',
                         style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
                   ),
-                  _movePill(whiteIdx, web),
-                  if (blackIdx < _replayMoves.length) _movePill(blackIdx, web),
+                  _movePill(whiteIdx, web, analysisMap),
+                  if (blackIdx < _replayMoves.length) _movePill(blackIdx, web, analysisMap),
                   const SizedBox(width: 4),
                 ],
               );
@@ -1140,9 +1259,13 @@ class _GameDetailScreenState extends State<GameDetailScreen>
     );
   }
 
-  Widget _movePill(int halfMoveIdx, bool web) {
+  Widget _movePill(int halfMoveIdx, bool web, Map<int, MoveAnalysis> analysisMap) {
     final isActive = halfMoveIdx + 1 == _replayIndex;
     final move = _replayMoves[halfMoveIdx];
+    final a = analysisMap[halfMoveIdx];
+    final qualColor = (!isActive && a != null)
+        ? (web ? WT.qualityColor(a.quality) : AppTheme.qualityColor(a.quality))
+        : null;
     return GestureDetector(
       onTap: () => _replayStep(halfMoveIdx + 1 - _replayIndex),
       child: Container(
@@ -1154,18 +1277,57 @@ class _GameDetailScreenState extends State<GameDetailScreen>
               : (web ? WT.cream   : AppTheme.surfaceAlt),
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Text(
-          move,
-          style: TextStyle(
-            color: isActive
-                ? Colors.white
-                : (web ? WT.ink : AppTheme.textPrimary),
-            fontSize: 12,
-            fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-            fontFamily: 'monospace',
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              move,
+              style: TextStyle(
+                color: isActive
+                    ? Colors.white
+                    : (qualColor ?? (web ? WT.ink : AppTheme.textPrimary)),
+                fontSize: 12,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+                fontFamily: 'monospace',
+              ),
+            ),
+            if (qualColor != null) ...[
+              const SizedBox(width: 3),
+              Container(
+                width: 6, height: 6,
+                decoration: BoxDecoration(color: qualColor, shape: BoxShape.circle),
+              ),
+            ],
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _turnDot(bool isWhiteToMove, bool web) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10, height: 10,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isWhiteToMove ? Colors.white : const Color(0xFF2D2D2D),
+            border: Border.all(
+              color: web ? WT.border : AppTheme.surfaceAlt,
+              width: 1.5,
+            ),
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          isWhiteToMove ? 'White' : 'Black',
+          style: TextStyle(
+            color: web ? WT.mutedColor : AppTheme.textSecondary,
+            fontSize: 11,
+          ),
+        ),
+      ],
     );
   }
 
