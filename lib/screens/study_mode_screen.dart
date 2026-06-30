@@ -41,6 +41,8 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   _PuzzleOutcome _outcome = _PuzzleOutcome.pending;
   int _attempts = 0;
   Timer? _advanceTimer;
+  String? _tapSelectedSquare;
+  bool _programmingMove = false;
 
   @override
   void initState() {
@@ -128,6 +130,7 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
       _index = newIdx;
       _outcome = _PuzzleOutcome.pending;
       _attempts = 0;
+      _tapSelectedSquare = null;
     });
   }
 
@@ -139,6 +142,7 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   // ── Move handling ─────────────────────────────────────────────────────────────
 
   void _onUserMove() {
+    if (_programmingMove) return;
     if (_outcome != _PuzzleOutcome.pending) return;
     final sanList = _boardCtrl.getSan();
     if (sanList.isEmpty) return;
@@ -151,15 +155,36 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
     final puzzle = _puzzles[_index];
     final bestMove = puzzle.mistake.bestMove;
 
-    final bool isCorrect;
-    if (bestMove != null && bestMove.isNotEmpty) {
-      // Exact best move is known — only accept that
-      isCorrect = moveSan == bestMove;
-    } else {
-      // No stored best move: any legal move other than the mistake is fine
-      isCorrect = moveSan != puzzle.mistake.move;
+    if (bestMove == null || bestMove.isEmpty) {
+      // No stored solution — undo the move and prompt to use Reveal
+      _boardCtrl.undoMove();
+      setState(() {
+        _attempts++;
+        _tapSelectedSquare = null;
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(Icons.info_outline_rounded, color: Colors.white, size: 16),
+              SizedBox(width: 8),
+              Expanded(
+                child: Text('No solution stored — use Reveal to see the best move.'),
+              ),
+            ],
+          ),
+          backgroundColor: kIsWeb ? WT.blunderColor : AppTheme.blunder,
+          duration: const Duration(seconds: 3),
+          behavior: SnackBarBehavior.floating,
+          margin: const EdgeInsets.all(16),
+        ),
+      );
+      return;
     }
 
+    final bool isCorrect = moveSan == bestMove;
     if (isCorrect) {
       _handleCorrect();
     } else {
@@ -168,7 +193,10 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   }
 
   void _handleCorrect() {
-    setState(() => _outcome = _PuzzleOutcome.solved);
+    setState(() {
+      _outcome = _PuzzleOutcome.solved;
+      _tapSelectedSquare = null;
+    });
     _advanceTimer = Timer(const Duration(milliseconds: 1500), () {
       if (mounted) _next();
     });
@@ -176,7 +204,10 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
 
   void _handleWrong() {
     _boardCtrl.undoMove();
-    setState(() => _attempts++);
+    setState(() {
+      _attempts++;
+      _tapSelectedSquare = null;
+    });
     if (!mounted) return;
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -199,12 +230,15 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   }
 
   void _reveal() {
+    setState(() => _tapSelectedSquare = null);
     final puzzle = _puzzles[_index];
     final bestMove = puzzle.mistake.bestMove;
     if (bestMove != null && bestMove.isNotEmpty) {
+      _programmingMove = true;
       try {
         _boardCtrl.makeMoveWithNormalNotation(bestMove);
       } catch (_) {}
+      _programmingMove = false;
     }
     setState(() => _outcome = _PuzzleOutcome.revealed);
   }
@@ -215,6 +249,96 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
     if (_puzzles.isEmpty || _index >= _puzzles.length) return true;
     final parts = _puzzles[_index].fenBeforeMistake.split(' ');
     return parts.length > 1 ? parts[1] == 'w' : true;
+  }
+
+  // ── Tap-to-move ───────────────────────────────────────────────────────────────
+
+  void _onBoardTap(Offset local, double boardSize, PlayerColor orientation) {
+    if (_outcome != _PuzzleOutcome.pending) return;
+
+    final col = (local.dx * 8 / boardSize).floor().clamp(0, 7);
+    final row = (local.dy * 8 / boardSize).floor().clamp(0, 7);
+    final square = orientation == PlayerColor.white
+        ? '${String.fromCharCode(97 + col)}${8 - row}'
+        : '${String.fromCharCode(104 - col)}${row + 1}';
+
+    if (_tapSelectedSquare == null) {
+      final moves = _boardCtrl.value.moves({'square': square});
+      if (moves.isNotEmpty) setState(() => _tapSelectedSquare = square);
+      return;
+    }
+
+    if (square == _tapSelectedSquare) {
+      setState(() => _tapSelectedSquare = null);
+      return;
+    }
+
+    final from = _tapSelectedSquare!;
+    setState(() => _tapSelectedSquare = null);
+
+    final snBefore = _boardCtrl.getSan().length;
+    _boardCtrl.makeMove(from: from, to: square);
+
+    if (_boardCtrl.getSan().length > snBefore) {
+      _onUserMove();
+    } else {
+      // Move didn't execute — re-select if tapped square has a moveable piece
+      final moves = _boardCtrl.value.moves({'square': square});
+      if (moves.isNotEmpty) setState(() => _tapSelectedSquare = square);
+    }
+  }
+
+  Widget _squareHighlight(String square, double boardSize, PlayerColor orientation) {
+    final fileIdx = square.codeUnitAt(0) - 97;
+    final rank = int.parse(square[1]);
+    final int col;
+    final int row;
+    if (orientation == PlayerColor.white) {
+      col = fileIdx;
+      row = 8 - rank;
+    } else {
+      col = 7 - fileIdx;
+      row = rank - 1;
+    }
+    final sq = boardSize / 8;
+    return Positioned(
+      left: col * sq,
+      top: row * sq,
+      width: sq,
+      height: sq,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.yellow.withValues(alpha: 0.35),
+          border: Border.all(color: Colors.yellow.shade700, width: 2),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBoard(double size, bool interactive, PlayerColor orientation) {
+    return GestureDetector(
+      onTapUp: interactive
+          ? (d) => _onBoardTap(d.localPosition, size, orientation)
+          : null,
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Stack(
+          children: [
+            ChessBoard(
+              controller: _boardCtrl,
+              size: size,
+              enableUserMoves: interactive,
+              boardColor: BoardColor.brown,
+              boardOrientation: orientation,
+              onMove: _onUserMove,
+            ),
+            if (interactive && _tapSelectedSquare != null)
+              _squareHighlight(_tapSelectedSquare!, size, orientation),
+          ],
+        ),
+      ),
+    );
   }
 
   // ── Build ─────────────────────────────────────────────────────────────────────
@@ -316,15 +440,6 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
           ),
         ],
       ),
-    );
-
-    final board = ChessBoard(
-      controller: _boardCtrl,
-      size: boardSize,
-      enableUserMoves: isInteractive,
-      boardColor: BoardColor.brown,
-      boardOrientation: orientation,
-      onMove: _onUserMove,
     );
 
     final turnIndicator = Padding(
@@ -552,26 +667,13 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
                   const SizedBox(height: 12),
                   contextBanner,
                   const SizedBox(height: 12),
-                  // SizedBox prevents CrossAxisAlignment.stretch from passing a wider-than-board constraint to ChessBoard, which caused top/bottom rank clipping on web.
-              LayoutBuilder(
-                builder: (_, constraints) {
-                  final bSize = constraints.maxWidth.clamp(0.0, 480.0);
-                  return Center(
-                    child: SizedBox(
-                      width: bSize,
-                      height: bSize,
-                      child: ChessBoard(
-                        controller: _boardCtrl,
-                        size: bSize,
-                        enableUserMoves: isInteractive,
-                        boardColor: BoardColor.brown,
-                        boardOrientation: orientation,
-                        onMove: _onUserMove,
-                      ),
-                    ),
-                  );
-                },
-              ),
+                  // LayoutBuilder ensures the board gets a square tight constraint; avoids top/bottom rank clipping caused by CrossAxisAlignment.stretch on web.
+                  LayoutBuilder(
+                    builder: (_, constraints) {
+                      final bSize = constraints.maxWidth.clamp(0.0, 480.0);
+                      return Center(child: _buildBoard(bSize, isInteractive, orientation));
+                    },
+                  ),
               const SizedBox(height: 4),
               turnIndicator,
                   puzzleCounter,
@@ -596,7 +698,7 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
             child: Column(
               children: [
                 contextBanner,
-                board,
+                _buildBoard(boardSize, isInteractive, orientation),
                 turnIndicator,
                 puzzleCounter,
                 const SizedBox(height: 4),
