@@ -43,6 +43,8 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   Timer? _advanceTimer;
   String? _tapSelectedSquare;
   bool _programmingMove = false;
+  Set<String> _hintSquares = {};
+  Timer? _hintTimer;
 
   @override
   void initState() {
@@ -53,6 +55,7 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   @override
   void dispose() {
     _advanceTimer?.cancel();
+    _hintTimer?.cancel();
     super.dispose();
   }
 
@@ -99,12 +102,15 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
 
     puzzles.shuffle();
 
+    _hintTimer?.cancel();
     setState(() {
       _puzzles = puzzles;
       _index = 0;
       _loading = false;
       _outcome = _PuzzleOutcome.pending;
       _attempts = 0;
+      _hintSquares = {};
+      _tapSelectedSquare = null;
     });
     if (puzzles.isNotEmpty) _boardCtrl.loadFen(puzzles[0].fenBeforeMistake);
   }
@@ -125,12 +131,14 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
 
   void _goTo(int newIdx) {
     _advanceTimer?.cancel();
+    _hintTimer?.cancel();
     _boardCtrl.loadFen(_puzzles[newIdx].fenBeforeMistake);
     setState(() {
       _index = newIdx;
       _outcome = _PuzzleOutcome.pending;
       _attempts = 0;
       _tapSelectedSquare = null;
+      _hintSquares = {};
     });
   }
 
@@ -193,9 +201,11 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   }
 
   void _handleCorrect() {
+    _hintTimer?.cancel();
     setState(() {
       _outcome = _PuzzleOutcome.solved;
       _tapSelectedSquare = null;
+      _hintSquares = {};
     });
     _advanceTimer = Timer(const Duration(milliseconds: 1500), () {
       if (mounted) _next();
@@ -204,11 +214,28 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
 
   void _handleWrong() {
     _boardCtrl.undoMove();
+    final puzzle = _puzzles[_index];
+    final bestMove = puzzle.mistake.bestMove;
+
+    // Compute hint squares so user can see where the correct move goes
+    if (bestMove != null && bestMove.isNotEmpty) {
+      final sq = _getMoveSquares(puzzle.fenBeforeMistake, bestMove);
+      if (sq != null) {
+        _hintTimer?.cancel();
+        _hintSquares = {sq.from, sq.to};
+        _hintTimer = Timer(const Duration(seconds: 4), () {
+          if (mounted) setState(() => _hintSquares = {});
+        });
+      }
+    }
+
     setState(() {
       _attempts++;
       _tapSelectedSquare = null;
     });
+
     if (!mounted) return;
+    final attemptCount = _attempts;
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -216,13 +243,19 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
           children: [
             const Icon(Icons.close_rounded, color: Colors.white, size: 16),
             const SizedBox(width: 8),
-            Text(_attempts == 1
-                ? 'Not quite — try again!'
-                : 'Not quite — try again! ($_attempts attempts)'),
+            Expanded(
+              child: Text(
+                bestMove != null && bestMove.isNotEmpty
+                    ? 'Not quite — correct move: $bestMove'
+                    : (attemptCount == 1
+                        ? 'Not quite — try again!'
+                        : 'Not quite — try again! ($attemptCount attempts)'),
+              ),
+            ),
           ],
         ),
         backgroundColor: kIsWeb ? WT.blunderColor : AppTheme.blunder,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.all(16),
       ),
@@ -230,7 +263,11 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
   }
 
   void _reveal() {
-    setState(() => _tapSelectedSquare = null);
+    _hintTimer?.cancel();
+    setState(() {
+      _tapSelectedSquare = null;
+      _hintSquares = {};
+    });
     final puzzle = _puzzles[_index];
     final bestMove = puzzle.mistake.bestMove;
     if (bestMove != null && bestMove.isNotEmpty) {
@@ -249,6 +286,35 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
     if (_puzzles.isEmpty || _index >= _puzzles.length) return true;
     final parts = _puzzles[_index].fenBeforeMistake.split(' ');
     return parts.length > 1 ? parts[1] == 'w' : true;
+  }
+
+  // ── Hint / square helpers ─────────────────────────────────────────────────────
+
+  /// Returns the from/to squares for [bestMove] at position [fen].
+  /// Handles UCI notation ("e2e4", "e7e8q") and SAN ("Nf3", "O-O").
+  ({String from, String to})? _getMoveSquares(String fen, String bestMove) {
+    if (bestMove.isEmpty) return null;
+    try {
+      // UCI: 4–5 char like "e2e4" or "e7e8q"
+      if (RegExp(r'^[a-h][1-8][a-h][1-8][nbrq]?$', caseSensitive: false)
+          .hasMatch(bestMove)) {
+        return (
+          from: bestMove.substring(0, 2).toLowerCase(),
+          to: bestMove.substring(2, 4).toLowerCase(),
+        );
+      }
+      // SAN: match against legal verbose moves at the starting position
+      final ctrl = ChessBoardController();
+      ctrl.loadFen(fen);
+      final moves = ctrl.value.moves({'verbose': true});
+      for (final m in moves) {
+        final map = m as Map;
+        if (map['san'] == bestMove) {
+          return (from: map['from'] as String, to: map['to'] as String);
+        }
+      }
+    } catch (_) {}
+    return null;
   }
 
   // ── Tap-to-move ───────────────────────────────────────────────────────────────
@@ -288,7 +354,8 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
     }
   }
 
-  Widget _squareHighlight(String square, double boardSize, PlayerColor orientation) {
+  Widget _squareHighlight(
+      String square, double boardSize, PlayerColor orientation, Color color) {
     final fileIdx = square.codeUnitAt(0) - 97;
     final rank = int.parse(square[1]);
     final int col;
@@ -308,8 +375,8 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
       height: sq,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.yellow.withValues(alpha: 0.35),
-          border: Border.all(color: Colors.yellow.shade700, width: 2),
+          color: color.withValues(alpha: 0.35),
+          border: Border.all(color: color.withValues(alpha: 0.85), width: 2),
         ),
       ),
     );
@@ -333,8 +400,12 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
               boardOrientation: orientation,
               onMove: _onUserMove,
             ),
+            // Green squares hint the correct from/to squares after a wrong move
+            for (final sq in _hintSquares)
+              _squareHighlight(sq, size, orientation, Colors.green),
             if (interactive && _tapSelectedSquare != null)
-              _squareHighlight(_tapSelectedSquare!, size, orientation),
+              _squareHighlight(
+                  _tapSelectedSquare!, size, orientation, Colors.yellow),
           ],
         ),
       ),
@@ -561,10 +632,11 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ── Your (wrong) move ──
             Row(
               children: [
                 Text(
-                  'Played: ${puzzle.mistake.move}',
+                  'Your move: ${puzzle.mistake.move}',
                   style: TextStyle(
                     color: qualityColor,
                     fontWeight: FontWeight.bold,
@@ -588,6 +660,36 @@ class _StudyModeScreenState extends State<StudyModeScreen> {
                 ),
               ],
             ),
+            // ── Correct (best) move ──
+            const SizedBox(height: 8),
+            if (puzzle.mistake.bestMove != null &&
+                puzzle.mistake.bestMove!.isNotEmpty)
+              Row(
+                children: [
+                  Icon(Icons.check_circle_outline_rounded,
+                      color: web ? WT.winColor : AppTheme.goodMove,
+                      size: 15),
+                  const SizedBox(width: 5),
+                  Text(
+                    'Best move: ${puzzle.mistake.bestMove!}',
+                    style: TextStyle(
+                      color: web ? WT.winColor : AppTheme.goodMove,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      fontFamily: 'monospace',
+                    ),
+                  ),
+                ],
+              )
+            else
+              Text(
+                'Best move not stored — re-analyse this game to get engine moves.',
+                style: TextStyle(
+                  color: web ? WT.mutedColor : AppTheme.textSecondary,
+                  fontSize: 11,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
             if (puzzle.mistake.comment != null) ...[
               const SizedBox(height: 8),
               Text(

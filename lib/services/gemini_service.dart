@@ -365,14 +365,17 @@ Return ONLY a valid JSON array — no markdown, no extra text:
     "move": "e4",
     "quality": "best",
     "comment": "Strong central control — the most popular first move.",
-    "centipawnLoss": 0
+    "centipawnLoss": 0,
+    "motif": "none"
   },
   {
     "moveNumber": 14,
     "move": "Bxf7+",
     "quality": "blunder",
     "comment": "Sacrificing the bishop here loses material without enough compensation.",
-    "centipawnLoss": 300
+    "centipawnLoss": 300,
+    "motif": "sacrifice",
+    "bestMove": "Nf3"
   }
 ]
 
@@ -382,8 +385,8 @@ Rules:
 - Maximum 15 moves in your response
 - Focus on moves where the game's direction changed
 - centipawnLoss: 0 for best/good, 50-100 for inaccuracy, 100-200 for mistake, 200+ for blunder
-- motif: if the move involves a tactic, set to one of: fork, pin, skewer, hanging_piece, back_rank, discovered_attack, deflection, overloaded, sacrifice. Otherwise set to "none".
-- Add "motif" field to each entry.
+- motif: if the move involves a tactic, set to one of: fork, pin, skewer, hanging_piece, back_rank, discovered_attack, deflection, overloaded, sacrifice. Otherwise set to "none". Add this field to every entry.
+- bestMove: for "mistake" and "blunder" quality moves, include the correct/best move that should have been played instead, in standard algebraic notation (e.g. "Nf3", "O-O", "exd5"). Omit this field for "best" and "good" quality moves.
 ''';
 
     try {
