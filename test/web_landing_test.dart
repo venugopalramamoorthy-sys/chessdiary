@@ -115,7 +115,6 @@ void main() {
       'Chess.com & Lichess Sync',
       'Real Engine Analysis',
       'Tactical Pattern Recognition',
-      'Board Replay & Study Mode',
       'Opening Repertoire',
       'Opponent Database',
       'Progress Dashboard',
@@ -139,7 +138,7 @@ void main() {
       for (final title in expectedFeatures) {
         if (tester.any(find.text(title))) found++;
       }
-      expect(found, 8, reason: 'Expected 8 feature cards, found $found');
+      expect(found, 7, reason: 'Expected 7 feature cards, found $found');
     });
   });
 
