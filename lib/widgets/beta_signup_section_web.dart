@@ -121,10 +121,9 @@ html.Element _buildSectionElement(int viewId) {
     ..text = "ChessDiary is in closed testing on Google Play. Enter the email "
         "linked to your Google Play account and we'll send you an invite.";
 
-  // TODO: replace with the real Web3Forms access key from the dashboard before going live.
   final accessKeyInput = html.HiddenInputElement()
     ..name = 'access_key'
-    ..value = 'WEB3FORMS_ACCESS_KEY_HERE';
+    ..value = '10b6063c-f360-40cc-b67e-6df7ed734651';
 
   final subjectInput = html.HiddenInputElement()
     ..name = 'subject'
