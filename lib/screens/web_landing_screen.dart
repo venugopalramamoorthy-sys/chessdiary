@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/auth_service.dart';
+import '../widgets/beta_signup_section.dart';
 
 // ── palette ───────────────────────────────────────────────────────────────────
 class _C {
@@ -147,6 +148,7 @@ class _State extends State<WebLandingScreen> {
               children: [
                 _HeaderBar(onSignIn: _scrollToAuth),
                 _HeroSection(onSignIn: _scrollToAuth),
+                const BetaSignupSection(),
                 _ProblemSection(),
                 _StatsSection(),
                 _FeaturesSection(),
