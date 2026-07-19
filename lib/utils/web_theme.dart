@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // ── palette ───────────────────────────────────────────────────────────────────
-// Matches _C in web_landing_screen.dart exactly.
+// Matches the editorial palette used across the static marketing pages
+// (web/landing, web/guides, web/privacy, web/delete-account).
 class WT {
   // ── Light mode palette ────────────────────────────────────────────────────
   static const black    = Color(0xFF0C0C0C);
