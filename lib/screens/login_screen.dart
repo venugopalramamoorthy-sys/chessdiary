@@ -136,15 +136,18 @@ class _LoginScreenState extends State<LoginScreen> {
               // Google Sign-In button
               _googleLoading
                   ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
-                  : OutlinedButton.icon(
-                      onPressed: _googleSignIn,
-                      icon: const Text('G', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
-                      label: const Text('Continue with Google'),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: const BorderSide(color: AppTheme.textSecondary),
-                      ),
-                    ),
+                  : Builder(builder: (context) {
+                      final scheme = Theme.of(context).colorScheme;
+                      return OutlinedButton.icon(
+                        onPressed: _googleSignIn,
+                        icon: Text('G', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: scheme.primary)),
+                        label: const Text('Continue with Google'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: scheme.primary,
+                          side: BorderSide(color: scheme.outline),
+                        ),
+                      );
+                    }),
 
               const SizedBox(height: 16),
 
