@@ -1,0 +1,20 @@
+# ChessDiary
+
+> ChessDiary is a chess game diary app (Android + Web) that lets players photograph paper
+> scoresheets, import games from Chess.com and Lichess, store everything in one library, and
+> analyse games for blunders and mistakes using the Stockfish engine.
+
+ChessDiary helps chess players consolidate scattered game records — handwritten tournament
+scoresheets, Chess.com games, and Lichess games — into a single library, then surfaces the
+tactical patterns behind their losses using Stockfish engine analysis.
+
+## Guides
+
+- [How to Read (and Keep) a Chess Scoresheet](https://chessdiary.app/guides/how-to-read-a-chess-scoresheet): Algebraic notation basics and scoresheet handwriting practices.
+- [The Most Common Blunder Patterns in Club-Level Chess](https://chessdiary.app/guides/common-chess-blunders): The tactical motifs responsible for most losses below master level.
+- [Opening Principles Every Improving Player Should Know](https://chessdiary.app/guides/chess-opening-principles): Five opening principles that keep improving players out of trouble.
+
+## Policies
+
+- [Privacy Policy](https://chessdiary.app/privacy)
+- [Delete Account](https://chessdiary.app/delete-account)

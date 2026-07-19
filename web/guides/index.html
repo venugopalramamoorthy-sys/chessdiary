@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Practical chess guides on reading scoresheets, avoiding common blunders, and opening principles — written for improving club players by ChessDiary.">
+  <title>Chess Guides — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8KWDLD0JLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8KWDLD0JLY');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body {
+      background: var(--offwhite); color: var(--ink);
+      font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px;
+    }
+    header {
+      background: var(--black); padding: 0 24px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--darkgrey);
+    }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 780px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 52px; letter-spacing: 1px; line-height: 0.95; color: var(--ink); margin-bottom: 16px; }
+    @media (max-width: 480px) { h1 { font-size: 36px; } }
+    .intro { font-size: 16px; color: var(--muted); max-width: 620px; margin-bottom: 48px; }
+    .guide-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .guide-card { background: var(--white); padding: 28px 28px; display: block; text-decoration: none; transition: background 0.15s; }
+    .guide-card:hover { background: var(--cream); }
+    .guide-number { font-family: 'Anton', Impact, sans-serif; font-size: 13px; color: var(--green); letter-spacing: 1px; margin-bottom: 8px; display: block; }
+    .guide-title { font-family: 'Lora', Georgia, serif; font-size: 21px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+    .guide-desc { font-size: 14px; color: var(--muted); }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--silver); }
+    footer a { color: var(--green); font-weight: 600; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/app" class="back-link">← Back to app</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guides</span></div>
+    <h1>CHESS<br>GUIDES</h1>
+    <p class="intro">
+      Practical, no-nonsense chess guides for club and tournament players who want to
+      understand their games better — from reading a scoresheet correctly to
+      the blunder patterns that cost the most rating points. Written by the
+      ChessDiary team, drawing on patterns we see across thousands of imported games.
+    </p>
+
+    <div class="guide-list">
+      <a class="guide-card" href="/guides/how-to-read-a-chess-scoresheet">
+        <span class="guide-number">GUIDE 01</span>
+        <div class="guide-title">How to Read (and Keep) a Chess Scoresheet</div>
+        <div class="guide-desc">Algebraic notation basics, the parts of a standard scoresheet, and the handwriting habits that make a game easy to recover later — or impossible to.</div>
+      </a>
+      <a class="guide-card" href="/guides/common-chess-blunders">
+        <span class="guide-number">GUIDE 02</span>
+        <div class="guide-title">The Most Common Blunder Patterns in Club-Level Chess</div>
+        <div class="guide-desc">Forks, back-rank mates, hanging pieces, and the in-between move — the handful of tactical motifs responsible for most lost games below master level.</div>
+      </a>
+      <a class="guide-card" href="/guides/chess-opening-principles">
+        <span class="guide-number">GUIDE 03</span>
+        <div class="guide-title">Opening Principles Every Improving Player Should Know</div>
+        <div class="guide-desc">You don't need to memorize theory to stop losing in the opening. Five principles that keep you out of trouble in the first ten moves.</div>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/privacy">Privacy Policy</a>
+  </footer>
+
+</body>
+</html>

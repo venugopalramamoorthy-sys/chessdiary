@@ -10,7 +10,6 @@ import 'utils/theme.dart';
 import 'utils/web_theme.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
-import 'screens/web_landing_screen.dart';
 import 'services/admob_service.dart';
 
 const _kWebDarkPrefKey = 'web_dark_mode';
@@ -84,7 +83,7 @@ class ChessDiaryApp extends StatelessWidget {
                 );
               }
               if (snap.hasData) return const HomeScreen();
-              return const WebLandingScreen();
+              return const LoginScreen();
             },
           ),
         );

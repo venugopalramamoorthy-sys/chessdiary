@@ -21,7 +21,6 @@ import 'opponents_screen.dart';
 import 'progress_screen.dart';
 import 'rating_tracker_screen.dart';
 import 'share_profile_screen.dart';
-import 'study_mode_screen.dart';
 import 'game_detail_screen.dart';
 import '../services/auth_service.dart';
 
@@ -398,24 +397,28 @@ class _Dashboard extends StatelessWidget {
                       ],
 
                       // ── quick access grid ──────────────────────────────
-                      GridView.count(
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisSpacing: web ? 10 : 12,
-                        mainAxisSpacing: web ? 10 : 12,
-                        childAspectRatio: web ? 3.6 : 3.2,
+                      Column(
                         children: [
-                          _QuickCard('📖', 'Openings', 'Your repertoire',
-                              () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OpeningsScreen()))),
-                          _QuickCard('⭐', 'Ratings', 'Track FIDE/national',
-                              () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RatingTrackerScreen()))),
-                          _QuickCard('🎯', 'Study', 'Review your mistakes',
-                              () => Navigator.push(context, MaterialPageRoute(builder: (_) => const StudyModeScreen()))),
-                          _QuickCard('👤', 'Opponents', 'Head-to-head records',
-                              () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OpponentsScreen()))),
-                          _QuickCard('🏅', 'Achievements', 'Your badges',
-                              () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AchievementsScreen()))),
+                          Row(
+                            children: [
+                              Expanded(child: _QuickCard('📖', 'Openings', 'Your repertoire',
+                                  () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OpeningsScreen())))),
+                              SizedBox(width: web ? 10 : 12),
+                              Expanded(child: _QuickCard('⭐', 'Ratings', 'Track FIDE/national',
+                                  () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RatingTrackerScreen())))),
+                            ],
+                          ),
+                          SizedBox(height: web ? 10 : 12),
+                          Row(
+                            children: [
+                              Expanded(child: _QuickCard('👤', 'Opponents', 'Head-to-head records',
+                                  () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OpponentsScreen())))),
+                              SizedBox(width: web ? 10 : 12),
+                              Expanded(child: _QuickCard('🏅', 'Achievements', 'Your badges',
+                                  () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AchievementsScreen())))),
+                            ],
+                          ),
+                          SizedBox(height: web ? 10 : 12),
                           _QuickCard('🔗', 'Share Profile', 'Export your stats',
                               () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ShareProfileScreen()))),
                         ],

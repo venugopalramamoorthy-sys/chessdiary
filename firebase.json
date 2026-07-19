@@ -11,7 +11,11 @@
     ],
     "headers": [
       {
-        "source": "/index.html",
+        "source": "/app-shell.html",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+      },
+      {
+        "source": "/landing/index.html",
         "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
       },
       {
@@ -41,8 +45,36 @@
         "destination": "/delete-account/index.html"
       },
       {
+        "source": "/guides",
+        "destination": "/guides/index.html"
+      },
+      {
+        "source": "/guides/how-to-read-a-chess-scoresheet",
+        "destination": "/guides/how-to-read-a-chess-scoresheet/index.html"
+      },
+      {
+        "source": "/guides/common-chess-blunders",
+        "destination": "/guides/common-chess-blunders/index.html"
+      },
+      {
+        "source": "/guides/chess-opening-principles",
+        "destination": "/guides/chess-opening-principles/index.html"
+      },
+      {
+        "source": "/",
+        "destination": "/landing/index.html"
+      },
+      {
+        "source": "/app",
+        "destination": "/app-shell.html"
+      },
+      {
+        "source": "/app/**",
+        "destination": "/app-shell.html"
+      },
+      {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/app-shell.html"
       }
     ]
   },

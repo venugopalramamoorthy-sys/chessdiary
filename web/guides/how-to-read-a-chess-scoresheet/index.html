@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A practical guide to algebraic notation, the anatomy of a tournament scoresheet, and the handwriting habits that keep your games recoverable.">
+  <title>How to Read (and Keep) a Chess Scoresheet — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8KWDLD0JLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8KWDLD0JLY');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 44px; letter-spacing: 1px; line-height: 1.02; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 32px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 20px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 12px; }
+    ul, ol { padding: 0 0 0 20px; margin: 0 0 18px; }
+    ul { list-style: none; padding-left: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol li { font-size: 15px; color: var(--muted); margin-bottom: 10px; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 24px; font-size: 14px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--cream); color: var(--muted); }
+    th { color: var(--ink); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--silver); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 01 · Fundamentals</span></div>
+    <h1>HOW TO READ (AND KEEP) A CHESS SCORESHEET</h1>
+    <p class="byline">By the ChessDiary team</p>
+
+    <p>Every tournament chess game leaves behind a paper trail — the scoresheet. Most players fill one out on autopilot, without ever learning why the format looks the way it does, or how a few small habits determine whether that scoresheet is useful six months later or just a page of illegible scratches.</p>
+
+    <p>This guide covers the notation itself, the standard layout of a scoresheet, and the habits that separate a record you can actually replay from one you can't.</p>
+
+    <hr class="divider">
+
+    <h2>1. ALGEBRAIC NOTATION, BRIEFLY</h2>
+
+    <p>Standard algebraic notation names every square on the board by its file (the letters a–h, left to right from White's side) and rank (the numbers 1–8, bottom to top from White's side). The square in White's bottom-right corner is <code>h1</code>; Black's bottom-right corner from White's perspective is <code>a8</code>.</p>
+
+    <p>A move is written as the piece letter followed by the destination square:</p>
+
+    <ul>
+      <li><strong>K</strong> — King</li>
+      <li><strong>Q</strong> — Queen</li>
+      <li><strong>R</strong> — Rook</li>
+      <li><strong>B</strong> — Bishop</li>
+      <li><strong>N</strong> — Knight (not "K" — that's reserved for the king)</li>
+      <li><strong>(no letter)</strong> — Pawn moves are written with the destination square alone, e.g. <code>e4</code>, <code>d5</code></li>
+    </ul>
+
+    <p>A handful of symbols modify the basic move:</p>
+
+    <table>
+      <tr><th>Symbol</th><th>Meaning</th></tr>
+      <tr><td><code>x</code></td><td>Capture, e.g. <code>Nxe5</code> — knight captures on e5</td></tr>
+      <tr><td><code>+</code></td><td>Check</td></tr>
+      <tr><td><code>#</code></td><td>Checkmate</td></tr>
+      <tr><td><code>O-O</code></td><td>Kingside castling</td></tr>
+      <tr><td><code>O-O-O</code></td><td>Queenside castling</td></tr>
+      <tr><td><code>=Q</code></td><td>Pawn promotion, e.g. <code>e8=Q</code> — pawn promotes to queen on e8</td></tr>
+      <tr><td><code>e.p.</code></td><td>En passant capture (optional, most players omit it)</td></tr>
+    </table>
+
+    <p>When two identical pieces could move to the same square, you add a disambiguating letter or number — <code>Nbd7</code> means "the knight on the b-file moves to d7," used when another knight could also reach d7.</p>
+
+    <hr class="divider">
+
+    <h2>2. THE ANATOMY OF A STANDARD SCORESHEET</h2>
+
+    <p>Most tournament scoresheets share the same layout regardless of federation:</p>
+
+    <ul>
+      <li><strong>Header fields</strong> — event name, round number, board number, date, and both players' names, usually with White listed first.</li>
+      <li><strong>Two numbered columns</strong> — one for White's moves, one for Black's, sharing a move-number column down the left edge. Each row is one full move (White plays, then Black replies).</li>
+      <li><strong>A result box</strong> — filled in at the end of the game: 1-0, 0-1, or ½-½.</li>
+      <li><strong>A clock-time column (sometimes)</strong> — some scoresheets have a narrow column for recording remaining time at intervals, required in some time-control formats.</li>
+    </ul>
+
+    <p>Under standard rules, both players are required to record every move as it's played, in real time — not from memory afterward — except in the final minutes of a time scramble, when most rules waive the requirement.</p>
+
+    <hr class="divider">
+
+    <h2>3. THE HABITS THAT KEEP A SCORESHEET READABLE</h2>
+
+    <p>A scoresheet's only job is to let someone — you, an arbiter, or an OCR system — reconstruct the game later. A handful of habits determine whether that's possible:</p>
+
+    <ol>
+      <li><strong>Write the move the instant you make it</strong>, not after your opponent replies. Writing both halves of a move pair together is how players lose track of which column they're in, and a single skipped cell can throw off every move that follows.</li>
+      <li><strong>Never erase mid-game.</strong> If you write a move down wrong, cross it out with a single line and write the correction next to it. Erasing under time pressure wastes the seconds you don't have, and a fully erased square often leaves a smudge that's harder to read than the mistake would have been.</li>
+      <li><strong>If you miss a move, leave both cells blank</strong> rather than shifting the rest of the game up a row. A blank row is obvious and fixable after the game; a shifted column looks like a legal but nonsensical game and is much harder to untangle.</li>
+      <li><strong>Use a pencil, not a fine-tip pen</strong>, if your event allows it. Graphite is far easier to read under phone-camera lighting than a pen that's run dry or smudged.</li>
+      <li><strong>Keep letters and numbers distinct.</strong> The most common misreads — by arbiters and OCR alike — are a lowercase "e" that looks like an "a," and a hastily written "1" that looks like a "7" or vice versa. Slowing down on the file letter and rank number, even by half a second, pays off later.</li>
+    </ol>
+
+    <hr class="divider">
+
+    <h2>4. WHY IT MATTERS AFTER THE GAME IS OVER</h2>
+
+    <p>Most federations require you to keep completed scoresheets for a period after the event, in case a result is disputed or a game needs to be verified. Beyond that formal requirement, a clean scoresheet is the only way to actually go back and study a tournament game — replaying it move by move, running it through an engine, and identifying exactly where the position tipped.</p>
+
+    <p>A scoresheet that's rushed, shorthand, or has entire sequences crossed out and rewritten in the margins isn't just an inconvenience later — it can make a game functionally unrecoverable. If you play OTB regularly and want a record of your games worth returning to, the habits above cost nothing at the board and save real frustration afterward.</p>
+
+    <div class="cta-box">
+      <p>If you'd rather not manually re-type scoresheets after every event, ChessDiary reads a photo of a handwritten scoresheet and extracts the move list automatically, alongside importing games directly from Chess.com and Lichess.</p>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/common-chess-blunders">The Most Common Blunder Patterns in Club-Level Chess →</a>
+      <a href="/guides/chess-opening-principles">Opening Principles Every Improving Player Should Know →</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/privacy">Privacy Policy</a>
+  </footer>
+
+</body>
+</html>
