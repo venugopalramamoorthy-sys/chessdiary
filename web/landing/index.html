@@ -9,7 +9,8 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8KWDLD0JLY"></script>
@@ -68,7 +69,7 @@
     .logo span { color: var(--green-bright); }
     .tagline {
       font-size: 10px; font-weight: 600; font-style: italic; letter-spacing: 0.5px;
-      color: var(--muted); text-transform: uppercase; white-space: nowrap;
+      color: var(--silver); text-transform: uppercase; white-space: nowrap;
     }
     .header-spacer { flex: 1; }
     .signin-link {
@@ -194,7 +195,7 @@
       margin-top: 8px;
     }
     .stat-divider { width: 32px; height: 1px; background: var(--darkgrey); margin-top: 20px; }
-    .stats-note { text-align: center; font-size: 13px; font-style: italic; color: var(--muted); margin-top: 8px; }
+    .stats-note { text-align: center; font-size: 13px; font-style: italic; color: var(--silver); margin-top: 8px; }
     @media (max-width: 1100px) { .stats { padding: 72px 56px; } }
     @media (max-width: 700px) {
       .stats { padding: 72px 28px; }
@@ -263,6 +264,8 @@
     <div class="header-spacer"></div>
     <a href="/app" class="signin-link">Sign in&nbsp;→</a>
   </header>
+
+  <main>
 
   <section class="hero">
     <div class="hero-content">
@@ -362,6 +365,8 @@
     </div>
   </section>
 
+  </main>
+
   <footer>
     <a href="/" class="logo">CHESS<span>DIARY</span></a>
     <div class="footer-links">
@@ -372,9 +377,36 @@
     </div>
   </footer>
 
-  <script src="https://web3forms.com/client/script.js" async defer></script>
   <script>
     (function () {
+      // The web3forms client script pulls in the full hCaptcha widget
+      // (script + iframe + assets) as soon as it runs. Most visitors never
+      // reach the beta-signup form, so defer loading it until the section
+      // is about to scroll into view instead of loading it unconditionally.
+      var betaSection = document.getElementById('beta-signup');
+      var web3formsLoaded = false;
+      function loadWeb3Forms() {
+        if (web3formsLoaded) return;
+        web3formsLoaded = true;
+        var script = document.createElement('script');
+        script.src = 'https://web3forms.com/client/script.js';
+        script.async = true;
+        document.body.appendChild(script);
+      }
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              loadWeb3Forms();
+              observer.disconnect();
+            }
+          });
+        }, { rootMargin: '400px' });
+        observer.observe(betaSection);
+      } else {
+        loadWeb3Forms();
+      }
+
       var form = document.getElementById('beta-form');
       var status = document.getElementById('form-status');
       var submitBtn = form.querySelector('.beta-signup-btn');
