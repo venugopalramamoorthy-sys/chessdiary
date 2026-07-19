@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The tactical patterns responsible for most lost games below master level — forks, back-rank mates, hanging pieces, and the in-between move — explained plainly.">
+  <title>The Most Common Blunder Patterns in Club-Level Chess — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8KWDLD0JLY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8KWDLD0JLY');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul { list-style: none; padding: 0; margin: 0 0 18px; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--silver); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 02 · Tactics</span></div>
+    <h1>THE MOST COMMON BLUNDER PATTERNS IN CLUB-LEVEL CHESS</h1>
+    <p class="byline">By the ChessDiary team</p>
+
+    <p>Run a hundred club games through an engine and a pattern emerges: most losses below expert level don't come from being outplayed strategically. They come from a small, repeating set of tactical oversights — the same handful of motifs, missed again and again, often in positions that looked calm a move before.</p>
+
+    <p>Knowing these patterns by name doesn't just help you spot them in your opponent's position. It helps you check for them in your own before you move.</p>
+
+    <hr class="divider">
+
+    <span class="motif-num">MOTIF 01</span>
+    <h2>THE HANGING PIECE</h2>
+    <p>The single most common blunder at every level below expert: a piece is simply left undefended, or defended by fewer attackers than there are attackers on it. This usually happens a few moves into a tactical skirmish, once both sides have made two or three quick trades and lost track of exactly who's defending what. Before making any developing or "quiet" move, a fast habit worth building is checking every piece you own that's currently on an open diagonal, file, or knight-hop from an enemy piece — and confirming it has as many defenders as attackers.</p>
+
+    <span class="motif-num">MOTIF 02</span>
+    <h2>THE FORK</h2>
+    <p>A single piece — most often a knight, because of its unique movement — attacks two or more enemy pieces simultaneously, and the defender can only save one. Knight forks are especially dangerous because knights move in an L-shape that's easy to miscalculate visually; a knight three squares away can look safe and still land a fork next move. Queen forks are the other frequent offender, usually arising when the king and a rook or queen end up on the same diagonal, file, or rank with nothing in between.</p>
+
+    <span class="motif-num">MOTIF 03</span>
+    <h2>THE PIN</h2>
+    <p>A piece can't move (or shouldn't move) because doing so would expose a more valuable piece behind it — most dangerously the king, in what's called an absolute pin, where moving the pinned piece would be an illegal move entirely. Pins are punishing because the pinned piece is often treated as "developed" and safe, when in fact it's stuck and can be piled on by additional attackers with no way to escape or be defended in return.</p>
+
+    <span class="motif-num">MOTIF 04</span>
+    <h2>THE BACK-RANK MATE</h2>
+    <p>A king castled behind its own pawns, with no escape square and no piece guarding the back rank, gets mated by a single rook or queen sliding down that rank. This is almost always self-inflicted — it happens because a player pushed no pawn moves in front of their castled king and never noticed the back rank was completely undefended. The standard prevention is simple: once your rooks are traded off or committed elsewhere, make sure your king has at least one flight square, usually by pushing the h-pawn (or g-pawn) one square once it's safe to do so.</p>
+
+    <span class="motif-num">MOTIF 05</span>
+    <h2>THE DISCOVERED ATTACK</h2>
+    <p>One piece moves out of the way, revealing an attack from a second piece behind it — meaning the moving piece gets to make a threat <em>and</em> the piece it uncovers makes a second, often unrelated threat, at the same time. Discovered checks are the most dangerous version: the moving piece can capture anything on the board, completely for free, because the opponent is forced to respond to the check first. These are hard to spot precisely because the danger isn't in the piece that moves — it's in the piece that doesn't.</p>
+
+    <span class="motif-num">MOTIF 06</span>
+    <h2>THE IN-BETWEEN MOVE (ZWISCHENZUG)</h2>
+    <p>In the middle of what looks like a forced sequence of recaptures, one side inserts a different move — a check, a bigger threat, or a capture of their own — before completing the expected recapture. Players often calculate a trade sequence, confirm it "works," and stop checking, without noticing their opponent has a stronger in-between move available at some point in the sequence. The fix is habitual: at every step of a forced-looking sequence, check whether the side to move actually has to recapture, or has something better.</p>
+
+    <hr class="divider">
+
+    <h2>BUILDING THE HABIT</h2>
+    <p>None of these patterns require deep calculation to avoid — most are caught by a single consistent habit: before you play a move, scan the board for hanging pieces, pins along your king's file or diagonal, and knights within fork range of your king and queen. That scan takes a few seconds and eliminates the majority of blunders that decide club-level games.</p>
+    <p>The other half of the fix happens after the game, not during it. Reviewing your own losses with an engine — not just replaying them from memory — is the only reliable way to find out which of these six patterns you personally fall for most often, because the pattern you miss in your own games is rarely the one you'd guess.</p>
+
+    <div class="cta-box">
+      <p>ChessDiary runs every imported game through the Stockfish engine and flags exactly which move — and which pattern — turned a game, so you can see which of these motifs costs you the most rating points over time.</p>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/how-to-read-a-chess-scoresheet">How to Read (and Keep) a Chess Scoresheet →</a>
+      <a href="/guides/chess-opening-principles">Opening Principles Every Improving Player Should Know →</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/privacy">Privacy Policy</a>
+  </footer>
+
+</body>
+</html>

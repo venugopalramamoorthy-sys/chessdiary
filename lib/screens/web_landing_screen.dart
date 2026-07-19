@@ -1059,6 +1059,7 @@ class _FooterLinks extends StatelessWidget {
       spacing: 20,
       runSpacing: 8,
       children: [
+        _FooterLink('Chess Guides', () => onOpen('/guides')),
         _FooterLink('Privacy Policy', () => onOpen('/privacy')),
         _FooterLink('Delete My Account', () => onOpen('/delete-account')),
         Text('© 2026 ChessDiary', style: _lora(11, color: _C.silver)),
