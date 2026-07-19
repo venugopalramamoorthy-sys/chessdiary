@@ -1,8 +1,12 @@
 // lib/screens/login_screen.dart
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../services/auth_service.dart';
 import '../utils/theme.dart';
+import '../utils/web_theme.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,7 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Google sign-in failed: ${e.toString()}'), backgroundColor: AppTheme.loss),
+          SnackBar(
+              content: Text('Google sign-in failed: ${e.toString()}'),
+              backgroundColor: AppTheme.loss),
         );
       }
     } finally {
@@ -45,7 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: ${e.toString()}'), backgroundColor: AppTheme.loss),
+          SnackBar(
+              content: Text('Login failed: ${e.toString()}'),
+              backgroundColor: AppTheme.loss),
         );
       }
     } finally {
@@ -53,119 +61,170 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _backToMarketingSite() {
+    launchUrl(Uri.parse('https://chessdiary.app/'), webOnlyWindowName: '_self');
+  }
+
+  Widget _webHeader() {
+    return InkWell(
+      onTap: _backToMarketingSite,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: WT.borderColor)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('CHESS',
+                style: GoogleFonts.anton(
+                    fontSize: 16, letterSpacing: 2, color: WT.textColor)),
+            Text('DIARY',
+                style: GoogleFonts.anton(
+                    fontSize: 16, letterSpacing: 2, color: WT.greenAccent)),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 60),
+        child: Column(
+          children: [
+            if (kIsWeb) _webHeader(),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 60),
 
-              // Logo / Title
-              const Text('♟', style: TextStyle(fontSize: 56)),
-              const SizedBox(height: 16),
-              Text(
-                'ChessDiary',
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      color: AppTheme.primary,
-                      fontWeight: FontWeight.bold,
+                    // Logo / Title
+                    const Text('♟', style: TextStyle(fontSize: 56)),
+                    const SizedBox(height: 16),
+                    Text(
+                      'ChessDiary',
+                      style:
+                          Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                color: AppTheme.primary,
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'All your games. One place.',
-                style: TextStyle(color: AppTheme.textSecondary, fontSize: 16),
-              ),
-
-              const SizedBox(height: 56),
-
-              // Email
-              TextField(
-                controller: _emailCtrl,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email_rounded, color: AppTheme.textSecondary),
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              // Password
-              TextField(
-                controller: _passCtrl,
-                obscureText: _obscure,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: const Icon(Icons.lock_rounded, color: AppTheme.textSecondary),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
-                      color: AppTheme.textSecondary,
-                    ),
-                    onPressed: () => setState(() => _obscure = !_obscure),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 28),
-
-              // Login button
-              _loading
-                  ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
-                  : ElevatedButton(
-                      onPressed: _login,
-                      child: const Text('Login'),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'All your games. One place.',
+                      style: TextStyle(
+                          color: AppTheme.textSecondary, fontSize: 16),
                     ),
 
-              const SizedBox(height: 12),
+                    const SizedBox(height: 56),
 
-              // Divider
-              const Row(children: [
-                Expanded(child: Divider(color: AppTheme.textSecondary)),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Text('or', style: TextStyle(color: AppTheme.textSecondary)),
-                ),
-                Expanded(child: Divider(color: AppTheme.textSecondary)),
-              ]),
+                    // Email
+                    TextField(
+                      controller: _emailCtrl,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        prefixIcon: Icon(Icons.email_rounded,
+                            color: AppTheme.textSecondary),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
 
-              const SizedBox(height: 12),
-
-              // Google Sign-In button
-              _googleLoading
-                  ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
-                  : Builder(builder: (context) {
-                      final scheme = Theme.of(context).colorScheme;
-                      return OutlinedButton.icon(
-                        onPressed: _googleSignIn,
-                        icon: Text('G', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: scheme.primary)),
-                        label: const Text('Continue with Google'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: scheme.primary,
-                          side: BorderSide(color: scheme.outline),
+                    // Password
+                    TextField(
+                      controller: _passCtrl,
+                      obscureText: _obscure,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        prefixIcon: const Icon(Icons.lock_rounded,
+                            color: AppTheme.textSecondary),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded,
+                            color: AppTheme.textSecondary,
+                          ),
+                          onPressed: () => setState(() => _obscure = !_obscure),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
+                    const SizedBox(height: 28),
 
-              const SizedBox(height: 16),
+                    // Login button
+                    _loading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                                color: AppTheme.primary))
+                        : ElevatedButton(
+                            onPressed: _login,
+                            child: const Text('Login'),
+                          ),
 
-              // Sign up
-              Center(
-                child: TextButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const SignupScreen()),
-                  ),
-                  child: const Text(
-                    "Don't have an account? Sign Up",
-                    style: TextStyle(color: AppTheme.primary),
-                  ),
+                    const SizedBox(height: 12),
+
+                    // Divider
+                    const Row(children: [
+                      Expanded(child: Divider(color: AppTheme.textSecondary)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('or',
+                            style: TextStyle(color: AppTheme.textSecondary)),
+                      ),
+                      Expanded(child: Divider(color: AppTheme.textSecondary)),
+                    ]),
+
+                    const SizedBox(height: 12),
+
+                    // Google Sign-In button
+                    _googleLoading
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                                color: AppTheme.primary))
+                        : Builder(builder: (context) {
+                            final scheme = Theme.of(context).colorScheme;
+                            return OutlinedButton.icon(
+                              onPressed: _googleSignIn,
+                              icon: Text('G',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: scheme.primary)),
+                              label: const Text('Continue with Google'),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: scheme.primary,
+                                side: BorderSide(color: scheme.outline),
+                              ),
+                            );
+                          }),
+
+                    const SizedBox(height: 16),
+
+                    // Sign up
+                    Center(
+                      child: TextButton(
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const SignupScreen()),
+                        ),
+                        child: const Text(
+                          "Don't have an account? Sign Up",
+                          style: TextStyle(color: AppTheme.primary),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
