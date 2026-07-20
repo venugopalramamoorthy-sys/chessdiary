@@ -187,8 +187,8 @@
 
     /* ── stats section ─────────────────────────────── */
     .stats { background: var(--charcoal); padding: 104px 100px; }
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; }
-    .stat-item { padding: 0 48px 64px 0; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; row-gap: 48px; }
+    .stat-item { padding: 0 48px 24px 0; }
     .stat-number { font-family: 'Anton', Impact, sans-serif; font-size: 80px; color: var(--green-bright); line-height: 1; }
     .stat-label {
       font-size: 11px; font-weight: 600; color: var(--silver); white-space: pre-line;
@@ -206,7 +206,7 @@
     .feature {
       padding: 96px 100px;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 48px;
     }
     .feature.dark { background: var(--black); color: var(--white); }
@@ -229,7 +229,7 @@
     .feature.light .feature-body p { color: var(--muted); }
     @media (max-width: 1100px) { .feature { padding: 72px 56px; } .feature-body h3 { font-size: 40px; } }
     @media (max-width: 800px) {
-      .feature { padding: 64px 28px; flex-direction: column; gap: 24px; }
+      .feature { padding: 64px 28px; flex-direction: column; align-items: flex-start; gap: 24px; }
       .feature-marker { width: auto; display: flex; align-items: center; gap: 16px; }
       .feature-number { font-size: 64px; }
       .feature-body h3 { font-size: 36px; }
@@ -331,7 +331,7 @@
 
   <section class="feature dark">
     <div class="feature-marker">
-      <div class="feature-number anton">01</div>
+      <div class="feature-number anton" aria-hidden="true">01</div>
       <div class="feature-pawn">♟</div>
     </div>
     <div class="feature-body">
@@ -343,7 +343,7 @@
 
   <section class="feature light">
     <div class="feature-marker">
-      <div class="feature-number anton">02</div>
+      <div class="feature-number anton" aria-hidden="true">02</div>
       <div class="feature-pawn">♟</div>
     </div>
     <div class="feature-body">
@@ -355,7 +355,7 @@
 
   <section class="feature dark">
     <div class="feature-marker">
-      <div class="feature-number anton">03</div>
+      <div class="feature-number anton" aria-hidden="true">03</div>
       <div class="feature-pawn">♟</div>
     </div>
     <div class="feature-body">
