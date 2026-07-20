@@ -73,7 +73,11 @@ test.describe('Marketing landing page — static, at "/"', () => {
   });
 
   test('no login/signup form fields are present on this page', async ({ page }) => {
-    await expect(page.locator('input')).toHaveCount(0);
+    // The beta-signup form's email capture input is expected here — this
+    // page is marketing-only, so the real login/signup screen (which has a
+    // password field) must not be present. A password input is the
+    // distinguishing signal of an actual auth form.
+    await expect(page.locator('input[type="password"]')).toHaveCount(0);
   });
 
   test('AdSense script is NOT loaded on this page', async ({ page }) => {
