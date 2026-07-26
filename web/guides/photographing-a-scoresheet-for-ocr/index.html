@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Practical tips for photographing a paper chess scoresheet so ChessDiary's AI can read it accurately — lighting, angle, and framing that actually matter.">
+  <title>How to Photograph a Scoresheet for Accurate OCR — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 20px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 12px; }
+    ul, ol { padding: 0 0 0 20px; margin: 0 0 18px; }
+    ul { list-style: none; padding-left: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 04 · Using ChessDiary</span></div>
+    <h1>HOW TO PHOTOGRAPH A SCORESHEET FOR ACCURATE OCR</h1>
+    <p class="byline">By the ChessDiary team</p>
+
+    <p>ChessDiary's OCR only sees what the camera actually captures. A blurry photo, a shadow falling across the page, or a scoresheet shot at a steep angle can turn a perfectly legible game into a handful of low-confidence guesses that need manual correction afterward. None of the fixes below take more than a few extra seconds at the board.</p>
+
+    <p>This guide covers the photography habits that make the biggest difference to parse accuracy, roughly in order of how much each one actually matters.</p>
+
+    <hr class="divider">
+
+    <h2>1. LIGHT COMES FIRST</h2>
+    <p>Even, direct light beats a nicer camera every time. The single most common cause of a failed parse isn't bad handwriting — it's a shadow from your own hand, a neighboring board, or the tournament hall's overhead lighting falling diagonally across the move columns. Before you tap the shutter, scan the sheet for any shadow band crossing the writing; if you see one, tilt the sheet slightly or move to a spot with more even light rather than reaching for flash, which usually adds a glare across the page that's just as unreadable as the shadow it replaced.</p>
+
+    <h2>2. HOLD THE CAMERA DIRECTLY OVERHEAD</h2>
+    <p>A scoresheet photographed at an angle doesn't just look skewed — it distorts the relationship between rows, which is exactly what the model uses to figure out which move belongs to which move number. Hold the phone flat and parallel to the table, directly above the sheet, rather than leaning in from one side. If the sheet is on a slanted scoring stand, either lift it flat for the photo or angle the camera to match — anything that keeps the text lines parallel to the edges of the frame.</p>
+
+    <h2>3. FRAME THE WHOLE SHEET, NOT JUST THE MOVES</h2>
+    <p>It's tempting to crop tight around the move columns to make the handwriting bigger in frame, but cropping out the header fields removes context the model uses to fill in player names, the event, and the date automatically. Frame the entire sheet with a small margin on all four sides — corners included. If a game runs onto a second page or a continuation sheet, photograph both and add them as separate imports rather than trying to fit both into one frame.</p>
+
+    <h2>4. THREE FAILURE MODES TO WATCH FOR</h2>
+    <ul>
+      <li><strong>Glare</strong> — a flash or a bright window reflecting directly off the paper, usually turning a whole line into a white blur. Move the light source; don't add one.</li>
+      <li><strong>Creases and folds</strong> — a scoresheet folded in a pocket or scorebook often has a crease running through a column of moves. Flatten it against a hard surface before photographing rather than shooting it curved.</li>
+      <li><strong>Cut-off edges</strong> — a move written right at the paper's edge is easy to lose to a tight crop. Leave visible margin on every side, even if the text looks smaller in frame as a result.</li>
+    </ul>
+
+    <h2>5. PDF SCANS AND SCREENSHOTS FOLLOW THE SAME RULES</h2>
+    <p>If you're scanning a scoresheet with a phone scanning app instead of a plain photo, the same lighting and framing rules apply — most scanning apps correct for angle and crop automatically, but a shadow baked into the original photo before scanning will still confuse the model. Screenshots of an online game skip photography entirely — ChessDiary reads the text directly instead of the image, so none of the above applies there.</p>
+
+    <h2>6. WHY THE EXTRA FEW SECONDS ARE WORTH IT</h2>
+    <p>A well-lit, flat, fully-framed photo usually parses in one pass with nothing left to fix. A rushed one still often works — ChessDiary flags anything it isn't confident about rather than silently guessing — but you'll spend more time afterward checking the move list against the board than you would have spent lining up the shot in the first place.</p>
+    <p>If you're photographing a sheet immediately after a tournament round, in a room you don't control the lighting of, these same habits apply even more: find the evenest light available, hold the camera flat, and frame generously. A few extra seconds at the board saves several minutes of correction later.</p>
+
+    <div class="cta-box">
+      <p>ChessDiary reads scoresheet photos, PDFs, and screenshots automatically with Gemini AI, and shows you the parsed move list to review before anything is saved to your library.</p>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/scoresheet-ocr-messy-handwriting">How ChessDiary Reads Messy Handwriting (and When It Can't) →</a>
+      <a href="/guides/how-to-read-a-chess-scoresheet">How to Read (and Keep) a Chess Scoresheet →</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

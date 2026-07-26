@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How ChessDiary's Gemini-powered OCR handles unclear or rushed handwriting on a chess scoresheet, what parse confidence means, and how to fix a misread move.">
+  <title>How ChessDiary Reads Messy Handwriting (and When It Can't) — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 36px; letter-spacing: 1px; line-height: 1.08; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 27px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 20px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 12px; }
+    ul, ol { padding: 0 0 0 20px; margin: 0 0 18px; }
+    ul { list-style: none; padding-left: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 05 · Using ChessDiary</span></div>
+    <h1>HOW CHESSDIARY READS MESSY HANDWRITING (AND WHEN IT CAN'T)</h1>
+    <p class="byline">By the ChessDiary team</p>
+
+    <p>Every scoresheet OCR system eventually meets a page it can't fully read — a rushed time-scramble scrawl, a smudged pencil line, or a "1" that could just as easily be a "7". ChessDiary's parser, built on Google's Gemini model, doesn't just guess silently in these cases. It flags exactly how confident it is in what it read, and where.</p>
+
+    <p>Understanding what that confidence signal means — and what to do when it's low — turns a frustrating half-parsed game into a two-minute fix instead of a scoresheet you give up on.</p>
+
+    <hr class="divider">
+
+    <h2>1. WHAT THE PARSER ACTUALLY DOES WITH UNCLEAR WRITING</h2>
+    <p>When Gemini reads a scoresheet image, it isn't matching letterforms against a fixed template the way older OCR engines do — it's reasoning about the page the way a person would: this looks like a knight move because it's followed by a file letter, this squiggle is probably a "5" because the column above and below it are also numbers. That context-based reading is what lets it get through genuinely messy handwriting that a strict character-recognition system would reject outright. It's also why an isolated unclear character rarely breaks the whole game — the parser can often infer it from the notation pattern around it.</p>
+
+    <h2>2. WHY AI READING BEATS TRADITIONAL OCR HERE</h2>
+    <p>Traditional OCR is built for printed text — clean, consistent letterforms in a known font. Handwritten chess notation breaks nearly every assumption that relies on: everyone's handwriting is different, players write faster as the clock runs down, and a symbol like <code>x</code> carries specific chess meaning a generic text reader has no way to know. Gemini's model was chosen specifically because it reasons about the page in context rather than matching shapes, which is what makes it usable on genuinely rough club-level scoresheets.</p>
+
+    <h2>3. HOW CONFIDENCE GETS FLAGGED</h2>
+    <p>Every parsed scoresheet comes back with a confidence level — high, medium, or low — along with any specific notes about what was hard to read. A high-confidence parse usually means the handwriting was clean enough that there's little to double-check. A low-confidence result doesn't mean the parse failed; it means the model made its best guess on one or more moves and is telling you exactly where to look before you trust the result.</p>
+
+    <h2>4. THE MOST COMMON MISREADS (AND WHY)</h2>
+    <ul>
+      <li><strong>e vs. a</strong> — a hastily written lowercase e can close up into something that looks like an a, especially under time pressure. Both are common file letters, so a misread here often looks plausible at a glance, which is exactly why it's worth checking.</li>
+      <li><strong>1 vs. 7</strong> — a "1" with a small serif at the top and a fast "7" can look nearly identical in cursive scoresheet writing. This is the single most common numeric misread across handwritten sheets.</li>
+      <li><strong>Missing N</strong> — knight moves use N, and a rushed capital N can look like a stray mark that gets dropped entirely, turning "Nf3" into just "f3" — a pawn move that isn't legal on that square yet.</li>
+      <li><strong>Capture and check marks</strong> — the <code>x</code> for a capture and <code>+</code> for check are small and easy to lose in fast handwriting; when they're missing, the parser infers them from the position where it can, but a genuinely ambiguous case gets flagged.</li>
+    </ul>
+
+    <h2>5. WHAT TO DO WITH A LOW-CONFIDENCE PARSE</h2>
+    <p>Every parsed game — regardless of confidence — is shown to you as a move list before it's saved, not saved automatically in the background. Step through it against the actual scoresheet (or your memory of the game) and correct anything that looks wrong before confirming. This review step exists specifically because no OCR system, however good, should be trusted blindly with a record you might want to study seriously later.</p>
+
+    <h2>6. WHEN IT'S WORTH RE-PHOTOGRAPHING INSTEAD OF CORRECTING</h2>
+    <p>If more than a handful of moves come back uncertain, it's usually faster to retake the photo with better lighting than to manually fix each one — see our guide on photographing a scoresheet for what actually improves parse accuracy. A five-second reshoot with even lighting often turns a low-confidence parse into a clean one.</p>
+
+    <div class="cta-box">
+      <p>ChessDiary's Gemini-powered parser reads photos, PDFs, and screenshots of scoresheets automatically and shows you the result before saving — so a messy page costs you a review, not a lost game.</p>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/photographing-a-scoresheet-for-ocr">How to Photograph a Scoresheet for Accurate OCR →</a>
+      <a href="/guides/pgn-import-vs-chess-com-lichess-sync">PGN Import vs. Chess.com/Lichess Sync: Which to Use →</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

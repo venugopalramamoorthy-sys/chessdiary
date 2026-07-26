@@ -61,6 +61,26 @@
         "destination": "/guides/chess-opening-principles/index.html"
       },
       {
+        "source": "/guides/photographing-a-scoresheet-for-ocr",
+        "destination": "/guides/photographing-a-scoresheet-for-ocr/index.html"
+      },
+      {
+        "source": "/guides/scoresheet-ocr-messy-handwriting",
+        "destination": "/guides/scoresheet-ocr-messy-handwriting/index.html"
+      },
+      {
+        "source": "/guides/pgn-import-vs-chess-com-lichess-sync",
+        "destination": "/guides/pgn-import-vs-chess-com-lichess-sync/index.html"
+      },
+      {
+        "source": "/guides/how-to-read-a-stockfish-analysis-report",
+        "destination": "/guides/how-to-read-a-stockfish-analysis-report/index.html"
+      },
+      {
+        "source": "/guides/what-happens-when-stockfish-is-unreachable",
+        "destination": "/guides/what-happens-when-stockfish-is-unreachable/index.html"
+      },
+      {
         "source": "/",
         "destination": "/landing/index.html"
       },

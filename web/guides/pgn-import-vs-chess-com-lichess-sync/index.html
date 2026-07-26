@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The difference between uploading a PGN file and linking your Chess.com or Lichess account in ChessDiary, and when each one is the right choice.">
+  <title>PGN Import vs. Chess.com/Lichess Sync: Which to Use — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 34px; letter-spacing: 1px; line-height: 1.1; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 26px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 20px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 12px; }
+    ul, ol { padding: 0 0 0 20px; margin: 0 0 18px; }
+    ul { list-style: none; padding-left: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 06 · Using ChessDiary</span></div>
+    <h1>PGN IMPORT VS. CHESS.COM/LICHESS SYNC: WHICH TO USE</h1>
+    <p class="byline">By the ChessDiary team</p>
+
+    <p>ChessDiary has two genuinely different ways to get an online game into your library: uploading a PGN file (or pasting PGN text) one game at a time, and linking your Chess.com or Lichess account to sync your history automatically. They solve different problems, and using the wrong one for the job just means more manual work than necessary.</p>
+
+    <p>Here's what each actually does under the hood, and which one is worth reaching for depending on what you're trying to import.</p>
+
+    <hr class="divider">
+
+    <h2>1. PGN IMPORT — ONE GAME, FULL CONTROL</h2>
+    <p>The PGN File and Paste Moves options on the Add Game screen both do the same thing: read a single game's worth of standard PGN notation — headers, move list, result — and add exactly that one game to your library. This is the right tool when you have one specific game you want to record: an export from a tournament pairing system, a game a friend sent you, or a PGN you copied from a database or analysis site that isn't tied to your Chess.com or Lichess account at all.</p>
+
+    <h2>2. ACCOUNT SYNC — YOUR WHOLE HISTORY, ONE LINK</h2>
+    <p>Linking your Chess.com or Lichess username under Import from Chess.com or Import from Lichess is a different operation entirely. Instead of reading one PGN, ChessDiary calls that platform's public API directly, using only the username you provide, and pulls your existing game history in bulk — you'll see a running import count as it works through however many games are available. Once linked, that username stays bound to your account for future imports, so you're not re-entering it every time you want to catch up on games played since the last sync.</p>
+
+    <h2>3. WHAT SYNC GIVES YOU THAT A SINGLE PGN DOESN'T</h2>
+    <ul>
+      <li><strong>Bulk history</strong> — sync pulls everything available from the platform's API in one pass, not just your most recent game, so it's the fast path for populating your library the first time you connect an account.</li>
+      <li><strong>Metadata for free</strong> — synced games come with the time control (bullet, blitz, rapid, classical, or correspondence), opening name, and both players' ratings already attached, without you typing any of it in.</li>
+      <li><strong>No manual export step</strong> — you never have to go find and download a PGN from Chess.com or Lichess yourself; ChessDiary talks to the API directly using the username you gave it.</li>
+    </ul>
+
+    <h2>4. WHEN A SINGLE PGN IMPORT IS STILL THE RIGHT CALL</h2>
+    <p>Not every game lives on Chess.com or Lichess. A PGN emailed from a tournament organizer, a game recorded in a different app entirely, or a line you're studying from a database export all skip the sync system by design — account sync only ever reaches games actually played under your linked username on that specific platform. For anything outside that, PGN File or Paste Moves is the only path in, and it works exactly the same regardless of where the PGN came from.</p>
+
+    <h2>5. UNLINKING AND RE-LINKING</h2>
+    <p>If you stop wanting a platform synced — or need to switch which username is bound to your account — unlinking clears the connection without touching games already imported; they stay in your library as normal entries. Re-linking with a new username starts fresh from that account's history rather than merging the two.</p>
+
+    <h2>6. USING BOTH TOGETHER</h2>
+    <p>Most players end up using both: link Chess.com and/or Lichess once for the bulk of their online games, then use PGN import for the occasional outlier — a correspondence game from a different site, a puzzle export, or a friend's shared game. The two methods write to the same unified library, so there's no difference in how a game behaves in ChessDiary once it's in, regardless of which door it came through.</p>
+
+    <div class="cta-box">
+      <p>Whichever method you use, every imported game lands in the same library and is ready for the same Stockfish analysis — see our guide on reading a Stockfish blunder report to get the most out of it.</p>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/scoresheet-ocr-messy-handwriting">How ChessDiary Reads Messy Handwriting (and When It Can't) →</a>
+      <a href="/guides/what-happens-when-stockfish-is-unreachable">What Happens When the Analysis Engine Is Unreachable →</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

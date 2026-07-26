@@ -13,6 +13,11 @@ tactical patterns behind their losses using Stockfish engine analysis.
 - [How to Read (and Keep) a Chess Scoresheet](https://chessdiary.app/guides/how-to-read-a-chess-scoresheet): Algebraic notation basics and scoresheet handwriting practices.
 - [The Most Common Blunder Patterns in Club-Level Chess](https://chessdiary.app/guides/common-chess-blunders): The tactical motifs responsible for most losses below master level.
 - [Opening Principles Every Improving Player Should Know](https://chessdiary.app/guides/chess-opening-principles): Five opening principles that keep improving players out of trouble.
+- [How to Photograph a Scoresheet for Accurate OCR](https://chessdiary.app/guides/photographing-a-scoresheet-for-ocr): Lighting, angle, and framing tips for accurate scoresheet parsing.
+- [How ChessDiary Reads Messy Handwriting (and When It Can't)](https://chessdiary.app/guides/scoresheet-ocr-messy-handwriting): How Gemini-powered OCR handles unclear handwriting and parse confidence.
+- [PGN Import vs. Chess.com/Lichess Sync: Which to Use](https://chessdiary.app/guides/pgn-import-vs-chess-com-lichess-sync): The difference between single-game PGN import and account sync.
+- [How to Read a Stockfish Blunder Report](https://chessdiary.app/guides/how-to-read-a-stockfish-analysis-report): What quality labels, centipawn loss, and motifs mean in an analysis report.
+- [What Happens When the Analysis Engine Is Unreachable](https://chessdiary.app/guides/what-happens-when-stockfish-is-unreachable): The automatic Stockfish-to-Gemini fallback, explained.
 
 ## Policies
 

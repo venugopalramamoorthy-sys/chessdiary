@@ -31,6 +31,36 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://chessdiary.app/guides/photographing-a-scoresheet-for-ocr</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chessdiary.app/guides/scoresheet-ocr-messy-handwriting</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chessdiary.app/guides/pgn-import-vs-chess-com-lichess-sync</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chessdiary.app/guides/how-to-read-a-stockfish-analysis-report</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://chessdiary.app/guides/what-happens-when-stockfish-is-unreachable</loc>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://chessdiary.app/privacy</loc>
     <lastmod>2026-07-19</lastmod>
     <changefreq>yearly</changefreq>
