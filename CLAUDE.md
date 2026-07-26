@@ -80,6 +80,11 @@ These files must be obtained separately and placed locally before building:
 - Google Services plugin is applied in `android/app/build.gradle.kts`
 - Release signing config reads from `android/key.properties` (not committed)
 
+## Google Analytics tag — do not remove or change
+The gtag.js snippet (measurement ID `G-T6JH6LZ7VD`) must be present, verbatim, in the `<head>` of every static HTML page:
+`web/index.html`, `web/landing/index.html`, `web/privacy/index.html`, `web/delete-account/index.html`, `web/guides/index.html`, and all files under `web/guides/*/index.html` (the guide articles).
+Any change to these files — restructuring `<head>`, rewriting a page, adding new pages, running a formatter/linter — must leave this tag intact and must not introduce a different measurement ID. If a change legitimately requires removing/moving it, call it out explicitly rather than dropping it silently. Do not swap in a different `G-XXXXXXXXXX` ID unless the user explicitly provides a new one.
+
 ## Known design decisions (don't "fix" these)
 - Stockfish analysis falls back to Gemini automatically — intentional, not a bug
 - Dark theme only, no light mode — intentional
