@@ -176,17 +176,37 @@
       color: var(--charcoal);
       padding: 104px 100px;
     }
-    .problem h2 { font-size: 60px; color: var(--black); margin-bottom: 48px; }
-    .problem h2 .accent { color: var(--green-deep); }
+    .problem h2, .how-it-works h2, .faq h2 { font-size: 60px; color: var(--black); margin-bottom: 48px; }
+    .problem h2 .accent, .how-it-works h2 .accent, .faq h2 .accent { color: var(--green-deep); }
     .problem .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
     .problem p { font-size: 16px; color: var(--darkgrey); }
     .problem strong { color: var(--green-deep); font-weight: 700; }
-    @media (max-width: 1100px) { .problem { padding: 72px 56px; } .problem h2 { font-size: 44px; } }
+    @media (max-width: 1100px) { .problem { padding: 72px 56px; } .problem h2, .how-it-works h2, .faq h2 { font-size: 44px; } }
     @media (max-width: 700px) {
       .problem { padding: 72px 28px; }
-      .problem h2 { font-size: 40px; }
+      .problem h2, .how-it-works h2, .faq h2 { font-size: 40px; }
       .problem .cols { grid-template-columns: 1fr; gap: 24px; }
     }
+
+    /* ── how it works section ──────────────────────── */
+    .how-it-works { background: var(--offwhite); color: var(--charcoal); padding: 104px 100px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 32px; margin-top: 8px; }
+    .step-num { font-family: 'Anton', Impact, sans-serif; font-size: 40px; color: var(--green-deep); line-height: 1; margin-bottom: 14px; }
+    .step-title { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--black); margin-bottom: 10px; }
+    .step-body { font-size: 14px; color: var(--darkgrey); }
+    .how-it-works-note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 40px; }
+    @media (max-width: 1100px) { .how-it-works { padding: 72px 56px; } .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px) { .how-it-works { padding: 72px 28px; } .steps-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    /* ── FAQ section ────────────────────────────────── */
+    .faq { background: var(--offwhite); color: var(--charcoal); padding: 104px 100px; }
+    .faq-list { max-width: 780px; margin-top: 8px; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 24px 0; }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q { font-size: 17px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+    .faq-a { font-size: 15px; color: var(--darkgrey); margin: 0; }
+    @media (max-width: 1100px) { .faq { padding: 72px 56px; } }
+    @media (max-width: 700px) { .faq { padding: 72px 28px; } }
 
     /* ── stats section ─────────────────────────────── */
     .stats { background: var(--charcoal); padding: 104px 100px; }
@@ -332,6 +352,34 @@
     <p class="stats-note">Built by a student chess player, for chess players.</p>
   </section>
 
+  <section class="how-it-works">
+    <div class="section-label on-light"><div class="bar"></div><span>How It Works</span></div>
+    <h2 class="anton">From Scoresheet<br>to <span class="accent">Insight.</span></h2>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num anton">01</div>
+        <div class="step-title">Capture</div>
+        <p class="step-body">Photograph a paper scoresheet, screenshot an online game, upload a PDF, or paste a PGN — whatever format the game is already in.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num anton">02</div>
+        <div class="step-title">Parse</div>
+        <p class="step-body">Gemini AI reads the image or text and extracts a full move list automatically, handling handwriting, notation shorthand, and inconsistent formatting.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num anton">03</div>
+        <div class="step-title">Validate</div>
+        <p class="step-body">Review the parsed moves against the board before saving — catch a misread square or skipped move in seconds, not months later.</p>
+      </div>
+      <div class="step-item">
+        <div class="step-num anton">04</div>
+        <div class="step-title">Analyze</div>
+        <p class="step-body">Stockfish runs the full game move by move, flagging every inaccuracy, mistake, and blunder with the engine's recommended alternative.</p>
+      </div>
+    </div>
+    <p class="how-it-works-note">No manual notation entry, no juggling three separate apps for three sources of games.</p>
+  </section>
+
   <section class="feature dark">
     <div class="feature-marker">
       <div class="feature-number anton" aria-hidden="true">01</div>
@@ -365,6 +413,61 @@
       <h3 class="anton"><span class="accent">TACTICAL</span><br>PATTERN RECOGNITION</h3>
       <div class="feature-divider"></div>
       <p>ChessDiary identifies whether your blunders are forks, pins, back-rank threats, or hanging pieces. After 20 games, you'll know exactly which motif is costing you the most rating points.</p>
+    </div>
+  </section>
+
+  <section class="feature light">
+    <div class="feature-marker">
+      <div class="feature-number anton" aria-hidden="true">04</div>
+      <div class="feature-pawn">♟</div>
+    </div>
+    <div class="feature-body">
+      <h3 class="anton">CHESS.COM &amp; LICHESS<br><span class="accent">SYNC</span></h3>
+      <div class="feature-divider"></div>
+      <p>Link your Chess.com or Lichess username once and ChessDiary pulls your game history straight from their public APIs — no manual PGN exports, no copy-pasting move lists. Online games land in the same library as your paper scoresheets, ready for the same Stockfish analysis.</p>
+    </div>
+  </section>
+
+  <section class="feature dark">
+    <div class="feature-marker">
+      <div class="feature-number anton" aria-hidden="true">05</div>
+      <div class="feature-pawn">♟</div>
+    </div>
+    <div class="feature-body">
+      <h3 class="anton">ONE<br><span class="accent">UNIFIED LIBRARY</span></h3>
+      <div class="feature-divider"></div>
+      <p>Paper tournament games, Chess.com blitz, Lichess correspondence — every game you've played lives in a single searchable library instead of three disconnected apps. Filter by opponent, opening, time control, or result, and see your whole chess history in one place for the first time.</p>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="section-label on-light"><div class="bar"></div><span>FAQ</span></div>
+    <h2 class="anton">Questions,<br><span class="accent">Answered.</span></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <p class="faq-q">What formats does ChessDiary support?</p>
+        <p class="faq-a">Paper scoresheet photos, PDF exports, phone screenshots of online games, and pasted PGN text. Gemini AI reads all of them and produces the same clean move list either way.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Is ChessDiary free?</p>
+        <p class="faq-a">Yes. ChessDiary is currently free to use on both Android and Web, supported by ads rather than a subscription.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">How accurate is the scoresheet OCR?</p>
+        <p class="faq-a">It depends heavily on handwriting — a clearly written scoresheet parses close to perfectly, while rushed time-scramble handwriting needs more correction. Every parsed game is shown for review before it's saved, so you always catch and fix a misread move before it enters your library.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">What happens if the analysis engine is busy or unreachable?</p>
+        <p class="faq-a">ChessDiary automatically falls back to Gemini AI for game analysis if the Stockfish engine server can't be reached, so you still get blunder and mistake flagging instead of a failed request.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Which platforms does ChessDiary run on?</p>
+        <p class="faq-a">Android and Web today, both built from the same codebase. The Android app is currently in closed beta on Google Play — sign up above for an invite.</p>
+      </div>
+      <div class="faq-item">
+        <p class="faq-q">Can I import my existing Chess.com or Lichess history, or just new games?</p>
+        <p class="faq-a">Linking your account pulls your existing game history from Chess.com's or Lichess's public API, not just games played after you connect — so your whole online history lands in the library at once.</p>
+      </div>
     </div>
   </section>
 
