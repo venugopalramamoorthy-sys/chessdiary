@@ -212,7 +212,7 @@
 
     <div class="page-eyebrow"><span>Legal</span></div>
     <h1>PRIVACY<br>POLICY</h1>
-    <p class="effective-date">Effective date: June 28, 2026 &nbsp;·&nbsp; Last updated: June 28, 2026</p>
+    <p class="effective-date">Effective date: June 28, 2026 &nbsp;·&nbsp; Last updated: July 26, 2026</p>
 
     <p>ChessDiary ("we", "our", or "us") is a chess game diary app that helps players record, organise, and analyse their games. This Privacy Policy explains what information we collect, how we use it, and your rights over your data.</p>
     <p>By using ChessDiary you agree to the practices described here. If you do not agree, please do not use the app.</p>
@@ -229,6 +229,8 @@
 
     <p><strong>Chess.com and Lichess data.</strong> If you choose to link your Chess.com or Lichess account, we fetch your game history from their public APIs using the username you provide. We store the imported game data in your ChessDiary library.</p>
 
+    <p><strong>Beta tester signup.</strong> If you request Android beta access via the signup form on our website, we collect the email address you provide (typically your Google Play account email). The form is protected by hCaptcha, which may collect device and browser signals to verify you are not a bot. This submission is separate from your ChessDiary account and is not stored in our Firestore database.</p>
+
     <p><strong>Usage and technical data.</strong> We do not run our own analytics. Firebase (Google) may collect standard technical data (device type, OS version, crash reports) as part of operating the Firebase platform.</p>
 
     <hr class="divider">
@@ -239,6 +241,7 @@
       <li><strong>To parse scoresheets</strong> — sending uploaded images/PDFs to Google Gemini AI so the moves can be extracted automatically.</li>
       <li><strong>To analyse your games</strong> — sending your game's PGN notation to our Stockfish analysis server to identify blunders, mistakes, and inaccuracies.</li>
       <li><strong>To authenticate you</strong> — verifying your identity via Firebase Authentication.</li>
+      <li><strong>To enroll beta testers</strong> — using the email address submitted via our beta signup form to manually add you as a closed tester in Google Play Console and send you an invite link.</li>
       <li><strong>To improve the app</strong> — understanding general usage patterns via crash reports and Firebase diagnostics (no personally identifiable analytics).</li>
     </ul>
 
@@ -252,6 +255,8 @@
       <li><strong>Google Gemini AI</strong> — scoresheet images and PDF content you upload are transmitted to Google's Gemini API to extract chess moves. Google's AI terms apply to this data.</li>
       <li><strong>Render.com (Stockfish analysis server)</strong> — your game's PGN notation is sent to our Stockfish server hosted on Render.com for move-by-move analysis. No personally identifying information is sent alongside the PGN.</li>
       <li><strong>Chess.com / Lichess</strong> — if you import games, we call their public APIs. We only send the username you provide; these platforms' own privacy policies govern their data.</li>
+      <li><strong>Web3Forms</strong> — the Android beta signup form submits your email address directly to Web3Forms, which relays it to us by email. Web3Forms acts as a data processor for this submission; see <a href="https://web3forms.com/privacy" target="_blank" rel="noopener">web3forms.com/privacy</a>.</li>
+      <li><strong>hCaptcha</strong> — the beta signup form uses hCaptcha to verify you are not a bot before submission. See <a href="https://www.hcaptcha.com/privacy" target="_blank" rel="noopener">hcaptcha.com/privacy</a>.</li>
       <li><strong>Google AdMob (Android)</strong> — the Android version of ChessDiary displays ads via Google AdMob. AdMob may collect device identifiers and usage data for ad personalisation according to Google's privacy policy.</li>
     </ul>
 
@@ -264,6 +269,8 @@
     <p>Your game library and account data are retained for as long as your account is active. You can delete individual games at any time from within the app.</p>
 
     <p>To request deletion of your entire account and all associated data, email us at <a href="mailto:venugopal.ramamoorthy@gmail.com">venugopal.ramamoorthy@gmail.com</a> with the subject line "Account deletion request". We will permanently delete your account and game data within 30 days.</p>
+
+    <p>Beta signup emails are retained only in our inbox for as long as needed to manually enroll you as a Play Store closed tester and send your invite. They are not imported into the ChessDiary database or linked to a user account unless you separately create one.</p>
 
     <hr class="divider">
 
