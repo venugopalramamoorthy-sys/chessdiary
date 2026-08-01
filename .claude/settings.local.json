@@ -38,7 +38,23 @@
       "PowerShell(gcloud --version 2>&1 | Select-Object -First 3)",
       "PowerShell(firebase firestore:databases:create *)",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('authorizedDomains:', d.get\\('authorizedDomains', d\\)\\)\")",
-      "Bash(git init *)"
+      "Bash(git init *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)[:5]\\)\")",
+      "Bash(git rm *)",
+      "Bash(git config *)",
+      "Bash(gh --version)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('html_url', d.get\\('message','error'\\)\\)\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d.get\\('html_url', d.get\\('message',''\\)\\)\\)\")",
+      "Bash(python3 *)",
+      "Bash(git remote *)",
+      "Bash(git commit *)",
+      "Bash(flutter devices *)",
+      "Bash(flutter emulators *)",
+      "Bash(nslookup chessdiary.app 8.8.8.8)",
+      "PowerShell(firebase *)",
+      "PowerShell(node --version 2>&1; npx playwright --version 2>&1)",
+      "PowerShell(Get-Process *)",
+      "Bash(xargs grep -l \"Drawer\\\\|PopupMenuButton\\\\|profile\\\\|menu\")"
     ]
   }
 }
