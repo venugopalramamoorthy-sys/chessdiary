@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import '../models/game_model.dart';
 
@@ -11,16 +12,31 @@ class StockfishResult {
 class StockfishService {
   static const String _baseUrl = 'https://chessdiary-stockfish.onrender.com';
 
-  /// Sends a PGN to the Stockfish server.
+  // Injectable FirebaseAuth for unit testing -- same pattern as
+  // AuthService.testAuth (see delete_account_test.dart).
+  static FirebaseAuth? testAuth;
+
+  /// Sends a PGN to the Stockfish server. Requires a signed-in user --
+  /// /analyze started requiring a Firebase ID token after a security
+  /// review found it (and /gemini) completely open to anyone who had
+  /// the URL, which ships in the public web JS bundle regardless.
   /// [client] is optional — pass a mock client in tests.
   static Future<StockfishResult> analyzeGame(String pgn,
       {http.Client? client}) async {
     final c = client ?? http.Client();
     try {
+      final user = (testAuth ?? FirebaseAuth.instance).currentUser;
+      if (user == null) {
+        throw Exception('Sign in required to analyze a game.');
+      }
+      final token = await user.getIdToken();
       final response = await c
           .post(
             Uri.parse('$_baseUrl/analyze'),
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
             body: jsonEncode({'pgn': pgn}),
           )
           .timeout(const Duration(seconds: 90));

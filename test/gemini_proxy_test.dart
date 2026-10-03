@@ -4,13 +4,28 @@
 
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:chessdiary/services/gemini_service.dart';
 
 void main() {
-  // Reset the test client after each test so production code is unaffected.
-  tearDown(() => GeminiService.testHttpClient = null);
+  // _authHeaders() now requires a signed-in user (the proxy started
+  // requiring a Firebase ID token after a security review found it
+  // open to anyone with the URL) -- a signed-in MockUser here, same
+  // pattern as delete_account_test.dart's AuthService.testAuth.
+  setUp(() {
+    GeminiService.testAuth = MockFirebaseAuth(
+      signedIn: true,
+      mockUser: MockUser(uid: 'test-uid', email: 'test@example.com'),
+    );
+  });
+
+  // Reset the test doubles after each test so production code is unaffected.
+  tearDown(() {
+    GeminiService.testHttpClient = null;
+    GeminiService.testAuth = null;
+  });
 
   // ── Proxy endpoint contract ────────────────────────────────────────────────
 
@@ -102,7 +117,7 @@ void main() {
       });
 
       await GeminiService.parseTextGame('1. e4 *');
-      expect(requestBody, contains('gemini-2.0-flash'));
+      expect(requestBody, contains('gemini-2.5-flash'));
     });
   });
 

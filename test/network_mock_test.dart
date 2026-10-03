@@ -4,11 +4,22 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:chessdiary/services/stockfish_service.dart';
 
 void main() {
+  // /analyze now requires a signed-in user's Firebase ID token (see
+  // gemini_proxy_test.dart's setUp for the same pattern/reason).
+  setUp(() {
+    StockfishService.testAuth = MockFirebaseAuth(
+      signedIn: true,
+      mockUser: MockUser(uid: 'test-uid', email: 'test@example.com'),
+    );
+  });
+  tearDown(() => StockfishService.testAuth = null);
+
   group('StockfishService — server failure / fallback', () {
     test('throws on non-200 status code', () async {
       final client = MockClient((_) async => http.Response('Error', 500));

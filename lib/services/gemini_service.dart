@@ -6,6 +6,7 @@
 
 import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import '../models/game_model.dart';
 
@@ -198,17 +199,39 @@ class GeminiService {
   // ignore: invalid_use_of_visible_for_testing_member
   static http.Client? testHttpClient;
 
+  // Injectable FirebaseAuth for unit testing -- same pattern as
+  // AuthService.testAuth (see delete_account_test.dart), needed once
+  // _authHeaders() below started calling FirebaseAuth.instance.
+  static FirebaseAuth? testAuth;
+
   static Future<String> _generateText(String prompt) => _proxyText(prompt);
 
   static Future<String> _generateWithImage(
       Uint8List bytes, String mimeType, String prompt) =>
       _proxyImage(bytes, mimeType, prompt);
 
+  /// The Render proxy started requiring a Firebase ID token after a
+  /// security review found /gemini completely open -- anyone with the
+  /// URL (a public constant in this file, shipped in the web JS bundle
+  /// regardless of obfuscation) could spend the server's GEMINI_API_KEY
+  /// quota/billing with no chessdiary account at all.
+  static Future<Map<String, String>> _authHeaders() async {
+    final user = (testAuth ?? FirebaseAuth.instance).currentUser;
+    if (user == null) {
+      throw Exception('Sign in required to use AI features.');
+    }
+    final token = await user.getIdToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
+
   static Future<String> _proxyText(String prompt) async {
     final client = testHttpClient ?? http.Client();
     final resp = await client.post(
       Uri.parse(proxyEndpoint),
-      headers: {'Content-Type': 'application/json'},
+      headers: await _authHeaders(),
       body: jsonEncode({
         'model': _model,
         'contents': [
@@ -228,7 +251,7 @@ class GeminiService {
     final client = testHttpClient ?? http.Client();
     final resp = await client.post(
       Uri.parse(proxyEndpoint),
-      headers: {'Content-Type': 'application/json'},
+      headers: await _authHeaders(),
       body: jsonEncode({
         'model': _model,
         'contents': [
