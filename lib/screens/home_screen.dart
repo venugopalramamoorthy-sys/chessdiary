@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/game_model.dart';
+import '../services/admob_service.dart';
 import '../services/game_service.dart';
 import '../services/import_manager.dart';
 import '../utils/theme.dart';
@@ -321,51 +322,7 @@ class _Dashboard extends StatelessWidget {
                                   color: web ? WT.border : null)),
                           if (!web) ...[
                             const SizedBox(width: 4),
-                            PopupMenuButton<String>(
-                              icon: const Icon(Icons.more_vert_rounded,
-                                  color: AppTheme.textSecondary),
-                              color: AppTheme.surface,
-                              onSelected: (val) {
-                                if (val == 'signout') confirmLogout(context);
-                                if (val == 'delete') {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) =>
-                                            const DeleteAccountScreen()),
-                                  );
-                                }
-                              },
-                              itemBuilder: (_) => [
-                                PopupMenuItem<String>(
-                                  value: 'signout',
-                                  child: Row(
-                                    children: const [
-                                      Icon(Icons.logout_rounded,
-                                          size: 16,
-                                          color: AppTheme.textSecondary),
-                                      SizedBox(width: 10),
-                                      Text('Sign out',
-                                          style: TextStyle(
-                                              color: AppTheme.textPrimary)),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<String>(
-                                  value: 'delete',
-                                  child: Row(
-                                    children: const [
-                                      Icon(Icons.delete_forever_rounded,
-                                          size: 16, color: AppTheme.loss),
-                                      SizedBox(width: 10),
-                                      Text('Delete account',
-                                          style: TextStyle(
-                                              color: AppTheme.loss)),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                            const _NativeAccountMenu(),
                           ],
                         ],
                       ),
@@ -531,6 +488,83 @@ class _Dashboard extends StatelessWidget {
 
   Widget _vDivider(bool web) => Container(
       width: 1, height: 28, color: web ? WT.border : AppTheme.surfaceAlt);
+}
+
+// ── native-only account menu (sign out / delete / privacy options) ──────────
+// Extracted to its own StatefulWidget (the dashboard it lives in is
+// otherwise stateless) specifically to hold the async result of
+// AdMobService.isPrivacyOptionsRequired() -- UMP's own determination of
+// whether this user (EEA/UK/Switzerland, or wherever else Google's
+// geography rules require it) needs an ongoing way to revisit their ad
+// consent choice, not just the one-time prompt at first launch.
+class _NativeAccountMenu extends StatefulWidget {
+  const _NativeAccountMenu();
+
+  @override
+  State<_NativeAccountMenu> createState() => _NativeAccountMenuState();
+}
+
+class _NativeAccountMenuState extends State<_NativeAccountMenu> {
+  bool _privacyOptionsRequired = false;
+
+  @override
+  void initState() {
+    super.initState();
+    AdMobService.isPrivacyOptionsRequired().then((required) {
+      if (mounted) setState(() => _privacyOptionsRequired = required);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.more_vert_rounded, color: AppTheme.textSecondary),
+      color: AppTheme.surface,
+      onSelected: (val) {
+        if (val == 'signout') confirmLogout(context);
+        if (val == 'delete') {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const DeleteAccountScreen()));
+        }
+        if (val == 'privacy_options') {
+          AdMobService.showPrivacyOptionsForm();
+        }
+      },
+      itemBuilder: (_) => [
+        PopupMenuItem<String>(
+          value: 'signout',
+          child: Row(
+            children: const [
+              Icon(Icons.logout_rounded, size: 16, color: AppTheme.textSecondary),
+              SizedBox(width: 10),
+              Text('Sign out', style: TextStyle(color: AppTheme.textPrimary)),
+            ],
+          ),
+        ),
+        if (_privacyOptionsRequired)
+          PopupMenuItem<String>(
+            value: 'privacy_options',
+            child: Row(
+              children: const [
+                Icon(Icons.privacy_tip_outlined, size: 16, color: AppTheme.textSecondary),
+                SizedBox(width: 10),
+                Text('Privacy options', style: TextStyle(color: AppTheme.textPrimary)),
+              ],
+            ),
+          ),
+        PopupMenuItem<String>(
+          value: 'delete',
+          child: Row(
+            children: const [
+              Icon(Icons.delete_forever_rounded, size: 16, color: AppTheme.loss),
+              SizedBox(width: 10),
+              Text('Delete account', style: TextStyle(color: AppTheme.loss)),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 // ── hover-enabled quick-access card (web) / static card (mobile) ─────────────
