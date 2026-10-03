@@ -230,13 +230,13 @@
         <tr>
           <td class="mv">15...Nxd7</td>
           <td><span class="quality-badge quality-blunder">Blunder</span></td>
-          <td>+100.00 (mate)</td><td>9750</td>
+          <td>Mate in 2</td><td>1000</td>
           <td><span class="motif-tag">Back rank</span></td>
         </tr>
         <tr>
           <td class="mv">17.Rd8#</td>
           <td><span class="quality-badge quality-checkmate">Checkmate</span></td>
-          <td>+100.00</td><td>0</td>
+          <td>Checkmate</td><td>0</td>
           <td><span class="motif-tag">&mdash;</span></td>
         </tr>
       </table>
@@ -244,6 +244,11 @@
 
     <div class="note-box">
       <p><strong>Why 17.Rd8# shows its own "Checkmate" label instead of a quality grade:</strong> a move that ends the game in checkmate is, by definition, the correct move — it can never be an inaccuracy, mistake, or blunder, so ChessDiary's backend recognizes this case directly rather than running it through the normal centipawn-loss grading. (An earlier version of this page showed this exact move as &minus;100.00 and "Blunder" — a real bug in how the engine scored a position the instant after mate, since found and fixed. This page reflects the corrected output.)</p>
+    </div>
+
+    <div class="note-box">
+      <p><strong>Why 15...Nxd7 shows "Mate in 2" and a capped centipawn loss instead of a huge number:</strong> an earlier version of this page showed this move with a centipawn loss of 9750 — the result of literally subtracting a real centipawn score (+2.50) from the flat number the engine previously used to represent any forced mate (+100.00), which produces nonsense once you mix a symbolic "mate" value with a real centipawn count. The backend now recognizes a move that delivers the mover into a forced mate as its own case: still correctly graded "Blunder" (it is one — Black had better defenses, including 15...Qxd7), but on a capped, sensible scale (1000), and the evaluation is reported as the real mate distance the engine found ("Mate in 2") rather than a placeholder number.</p>
+      <p><strong>Why 15.Bxd7+ is still "Blunder" and wasn't changed:</strong> it's tempting to assume this move — the start of the famous queen sacrifice — must itself be a forced mate and so should be exempt too. We checked this directly against the live engine at multiple search depths rather than assume it: Black actually has a defense here, 15...Qxd7, that avoids immediate mate (the engine still evaluates it as badly lost for Black, around &minus;7.7, but not forced mate). The forced mate only becomes real once Black plays the historical 15...Nxd7 instead. So 15.Bxd7+ genuinely isn't "a move that delivers a forced mate" by the engine's own best-play analysis — it's an extremely strong, nearly-decisive move that happens to be graded "Blunder" because a different 15th move would have kept an even larger paper advantage. That's a known, separate limitation of pure centipawn-loss grading (it can call the second-best of two completely winning moves a "blunder"), not a mate-handling bug, and we didn't want to paper over that distinction with an incorrect "forced mate" label.</p>
     </div>
 
     <hr class="divider">
