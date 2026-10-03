@@ -33,6 +33,12 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Android Gradle build output -- /build/ above only covers the
+# top-level Flutter build dir, not Gradle's own nested build dirs
+# (android/build/, android/app/build/, etc.), which showed up as
+# untracked.
+android/**/build/
+
 # Symbolication related
 app.*.symbols
 
