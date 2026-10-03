@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A complete, real ChessDiary analysis report for Morphy's famous 1858 Opera Game — actual Stockfish evaluations, flagged blunders, and tactical motifs. No account needed.">
+  <title>Sample Analysis: Morphy's Opera Game — ChessDiary</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+      --red: #A6372D; --blue: #2B5B8C;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 820px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 44px; letter-spacing: 1px; line-height: 1.02; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 32px; } }
+    .byline { font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 8px; }
+    .game-meta { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+    .game-meta strong { color: var(--ink); }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 22px; letter-spacing: 1.5px; color: var(--ink); margin: 44px 0 14px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 15px; font-weight: 700; color: var(--ink); margin: 20px 0 8px; }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--blue); padding: 16px 20px; margin: 20px 0; font-size: 13.5px; }
+    .note-box p { margin-bottom: 0; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 44px 0 0; }
+    .cta-box p { margin-bottom: 10px; font-size: 14px; }
+
+    /* ── move list ── */
+    .movelist-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 4px; }
+    table.movelist { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    table.movelist th { background: var(--dark); color: var(--white); text-align: left; padding: 8px 10px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    table.movelist td { padding: 7px 10px; border-bottom: 1px solid var(--cream); color: var(--ink); font-family: 'Courier New', monospace; }
+    table.movelist tr:nth-child(even) { background: var(--white); }
+    table.movelist tr:nth-child(odd) { background: var(--offwhite); }
+    .num-col { color: var(--muted); font-family: 'Courier New', monospace; width: 36px; }
+
+    /* ── eval graph ── */
+    .graph-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 20px; }
+    .graph-card svg { width: 100%; height: auto; display: block; }
+    .graph-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 12px; color: var(--muted); }
+    .graph-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+    /* ── flagged moves table ── */
+    .flagged-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 4px; }
+    table.flagged { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    table.flagged th { background: var(--dark); color: var(--white); text-align: left; padding: 10px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+    table.flagged td { padding: 10px 12px; border-bottom: 1px solid var(--cream); background: var(--white); vertical-align: top; }
+    table.flagged .mv { font-family: 'Courier New', monospace; font-weight: 700; color: var(--ink); }
+    .quality-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; }
+    .quality-inaccuracy { background: #FFF3CD; color: #7A5A00; }
+    .quality-mistake { background: #FFE0CC; color: #A6460C; }
+    .quality-blunder { background: #FADBD9; color: var(--red); }
+    .motif-tag { font-size: 12px; color: var(--blue); font-weight: 600; }
+
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    footer a { color: var(--green); font-weight: 600; text-decoration: none; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/app" class="back-link">← Back to app</a>
+  </header>
+
+  <main>
+
+    <div class="page-eyebrow"><span>Sample Analysis Report</span></div>
+    <h1>THE OPERA GAME<br>— A REAL CHESSDIARY REPORT</h1>
+    <p class="byline">By Venugopal Ramamoorthy — <a href="/about">creator of ChessDiary</a></p>
+    <p class="game-meta">
+      <strong>Paul Morphy</strong> vs. <strong>Duke Karl of Brunswick &amp; Count Isouard</strong> (consulting) &nbsp;·&nbsp;
+      Paris Opera House, 1858 &nbsp;·&nbsp; White wins by checkmate, move 17
+    </p>
+
+    <p>This is a complete ChessDiary analysis report for one of the most famous games in chess history — Paul Morphy's "Opera Game." It's public domain, so there's no account or privacy concern in using it as an example, and every number below is real: this exact game was run through ChessDiary's actual Stockfish backend and Gemini tactical-motif pipeline, the same services every imported game goes through. Nothing on this page is a mockup or a made-up example report.</p>
+
+    <div class="note-box">
+      <p><strong>One honest caveat:</strong> ChessDiary's Stockfish endpoint returns a quality label and centipawn loss for each flagged move, but it does not currently return a specific "play this instead" alternative move alongside the Stockfish numbers — that richer suggestion is only produced by the separate Gemini-based fallback path used when Stockfish itself is unreachable (see <a href="/guides/what-happens-when-stockfish-is-unreachable">that guide</a>). So the table below shows the real engine evaluation, quality, and tactical motif for every flagged move, but not an invented "best move" column.</p>
+    </div>
+
+    <hr class="divider">
+
+    <h2>1. THE FULL MOVE LIST</h2>
+    <p>Every move of the game, in standard algebraic notation.</p>
+
+    <div class="movelist-wrap">
+      <table class="movelist">
+        <tr><th>#</th><th>White</th><th>Black</th></tr>
+        <tr><td class="num-col">1</td><td>e4</td><td>e5</td></tr>
+        <tr><td class="num-col">2</td><td>Nf3</td><td>d6</td></tr>
+        <tr><td class="num-col">3</td><td>d4</td><td>Bg4</td></tr>
+        <tr><td class="num-col">4</td><td>dxe5</td><td>Bxf3</td></tr>
+        <tr><td class="num-col">5</td><td>Qxf3</td><td>dxe5</td></tr>
+        <tr><td class="num-col">6</td><td>Bc4</td><td>Nf6</td></tr>
+        <tr><td class="num-col">7</td><td>Qb3</td><td>Qe7</td></tr>
+        <tr><td class="num-col">8</td><td>Nc3</td><td>c6</td></tr>
+        <tr><td class="num-col">9</td><td>Bg5</td><td>b5</td></tr>
+        <tr><td class="num-col">10</td><td>Nxb5</td><td>cxb5</td></tr>
+        <tr><td class="num-col">11</td><td>Bxb5+</td><td>Nbd7</td></tr>
+        <tr><td class="num-col">12</td><td>O-O-O</td><td>Rd8</td></tr>
+        <tr><td class="num-col">13</td><td>Rxd7</td><td>Rxd7</td></tr>
+        <tr><td class="num-col">14</td><td>Rd1</td><td>Qe6</td></tr>
+        <tr><td class="num-col">15</td><td>Bxd7+</td><td>Nxd7</td></tr>
+        <tr><td class="num-col">16</td><td>Qb8+</td><td>Nxb8</td></tr>
+        <tr><td class="num-col">17</td><td>Rd8#</td><td>&nbsp;</td></tr>
+      </table>
+    </div>
+
+    <hr class="divider">
+
+    <h2>2. EVALUATION GRAPH</h2>
+    <p>The engine's evaluation (in centipawns, White's perspective — positive means White is better) after each half-move, for the first 28 plies of the game.</p>
+
+    <div class="graph-card">
+      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
+        <!-- zero line -->
+        <line x1="10" y1="196.7" x2="750" y2="196.7" stroke="#D0CEC7" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="12" y="192" font-size="9" fill="#AAAAAA" font-family="monospace">0.00</text>
+        <polyline points="10.0,184.4 37.4,187.9 64.8,187.9 92.2,186.0 119.6,185.2 147.0,165.5 174.4,172.4 201.9,155.3 229.3,160.9 256.7,152.9 284.1,154.0 311.5,137.7 338.9,136.7 366.3,131.1 393.7,142.5 421.1,136.9 448.5,140.9 475.9,101.7 503.3,109.5 530.7,87.1 558.1,66.3 585.6,63.1 613.0,72.7 640.4,56.7 667.8,64.4 695.2,58.0 722.6,53.7 750.0,29.5"
+          fill="none" stroke="#1B5E20" stroke-width="2.5"/>
+        <circle cx="750.0" cy="29.5" r="4" fill="#1B5E20"/>
+      </svg>
+      <div class="graph-legend">
+        <span><span class="legend-dot" style="background:#1B5E20"></span>White's advantage (centipawns)</span>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <p>The last 5 plies (15...Nxd7 through 17.Rd8#) aren't plotted above — from 15...Nxd7 onward the engine finds a forced mate, and once a mate score appears, the centipawn scale stops being meaningful (ChessDiary's backend reports these as capped ±2000 or an explicit mate score rather than a real centipawn count). The flagged-moves table below shows exactly what the engine returned for each of those moves instead of forcing them onto this chart.</p>
+    </div>
+
+    <hr class="divider">
+
+    <h2>3. FLAGGED MOVES</h2>
+    <p>Every inaccuracy, mistake, and blunder the engine identified, in the order they were played, with the real centipawn loss, the resulting evaluation, and the tactical motif Gemini identified for each (see the guide on <a href="/guides/how-to-read-a-stockfish-analysis-report">reading a Stockfish report</a> for what these labels mean).</p>
+
+    <div class="flagged-wrap">
+      <table class="flagged">
+        <tr><th>Move</th><th>Quality</th><th>Eval after</th><th>Centipawn loss</th><th>Motif</th></tr>
+        <tr>
+          <td class="mv">3...Bg4</td>
+          <td><span class="quality-badge quality-inaccuracy">Inaccuracy</span></td>
+          <td>+1.17</td><td>74</td>
+          <td><span class="motif-tag">Hanging piece</span></td>
+        </tr>
+        <tr>
+          <td class="mv">4...Bxf3</td>
+          <td><span class="quality-badge quality-inaccuracy">Inaccuracy</span></td>
+          <td>+1.55</td><td>64</td>
+          <td><span class="motif-tag">Hanging piece</span></td>
+        </tr>
+        <tr>
+          <td class="mv">6...Nf6</td>
+          <td><span class="quality-badge quality-inaccuracy">Inaccuracy</span></td>
+          <td>+2.21</td><td>61</td>
+          <td><span class="motif-tag">Overloaded</span></td>
+        </tr>
+        <tr>
+          <td class="mv">8.Nc3</td>
+          <td><span class="quality-badge quality-inaccuracy">Inaccuracy</span></td>
+          <td>+2.03</td><td>43</td>
+          <td><span class="motif-tag">Pin</span></td>
+        </tr>
+        <tr>
+          <td class="mv">9...b5</td>
+          <td><span class="quality-badge quality-mistake">Mistake</span></td>
+          <td>+3.56</td><td>147</td>
+          <td><span class="motif-tag">Sacrifice</span></td>
+        </tr>
+        <tr>
+          <td class="mv">10...cxb5</td>
+          <td><span class="quality-badge quality-inaccuracy">Inaccuracy</span></td>
+          <td>+4.11</td><td>84</td>
+          <td><span class="motif-tag">Fork</span></td>
+        </tr>
+        <tr>
+          <td class="mv">12...Rd8</td>
+          <td><span class="quality-badge quality-inaccuracy">Inaccuracy</span></td>
+          <td>+5.25</td><td>60</td>
+          <td><span class="motif-tag">Skewer</span></td>
+        </tr>
+        <tr>
+          <td class="mv">14...Qe6</td>
+          <td><span class="quality-badge quality-mistake">Mistake</span></td>
+          <td>+6.27</td><td>91</td>
+          <td><span class="motif-tag">Hanging piece</span></td>
+        </tr>
+        <tr>
+          <td class="mv">15.Bxd7+</td>
+          <td><span class="quality-badge quality-blunder">Blunder</span></td>
+          <td>+2.50</td><td>377</td>
+          <td><span class="motif-tag">Deflection</span></td>
+        </tr>
+        <tr>
+          <td class="mv">15...Nxd7</td>
+          <td><span class="quality-badge quality-blunder">Blunder</span></td>
+          <td>+100.00 (mate)</td><td>9750</td>
+          <td><span class="motif-tag">Back rank</span></td>
+        </tr>
+        <tr>
+          <td class="mv">17.Rd8#</td>
+          <td><span class="quality-badge quality-blunder">Blunder</span></td>
+          <td>&minus;100.00</td><td>20000</td>
+          <td><span class="motif-tag">Back rank</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="note-box">
+      <p><strong>Why the actual checkmating move (17.Rd8#) shows &minus;100.00 and "blunder":</strong> this is a real, unedited quirk in how the engine scores a position the instant after checkmate is delivered, not a mistake we cleaned up for this page. We're showing it exactly as the backend returned it rather than quietly correcting it — if you run your own games through ChessDiary and see the same thing on a checkmating move, that's why.</p>
+    </div>
+
+    <hr class="divider">
+
+    <h2>4. HOW TO READ THIS REPORT</h2>
+
+    <h3>The move list</h3>
+    <p>Standard algebraic notation, White and Black side by side. If notation itself is unfamiliar, see <a href="/guides/how-to-read-a-chess-scoresheet">How to Read a Chess Scoresheet</a>.</p>
+
+    <h3>The evaluation graph</h3>
+    <p>Each point is the engine's assessment after that move, in centipawns (100 = roughly one pawn's worth of advantage), from White's point of view. A rising line means White's position is improving; a falling line means Black is catching up or taking the lead. A steep jump in either direction usually lines up with a flagged move below.</p>
+
+    <h3>Quality labels and centipawn loss</h3>
+    <p><strong>Centipawn loss</strong> is how much the evaluation swung against the player who just moved, compared to the engine's own best continuation. ChessDiary buckets that swing into five labels: <strong>best</strong> and <strong>good</strong> (0&ndash;40), <strong>inaccuracy</strong> (roughly 40&ndash;90), <strong>mistake</strong> (roughly 90&ndash;200), and <strong>blunder</strong> (200+ or a missed/allowed forced mate).</p>
+
+    <h3>Tactical motifs</h3>
+    <p>For every flagged move, Gemini identifies which recognizable pattern was at play — a fork, a pin, a hanging piece left undefended, and so on. Across enough games, this is what turns "you blunder sometimes" into "you specifically miss hanging pieces in the middlegame," which is the actual point of keeping a diary of your games instead of just playing and moving on.</p>
+
+    <div class="cta-box">
+      <p><strong>Try it with your own games.</strong> Upload a scoresheet photo, paste a PGN, or link your Chess.com/Lichess account — every game gets the same real Stockfish + tactical-motif treatment shown above.</p>
+      <p><a href="/app">Open ChessDiary →</a></p>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a>
+    <div class="footer-links">
+      <a href="/guides">Chess Guides</a> &nbsp;·&nbsp;
+      <a href="/about">About</a> &nbsp;·&nbsp;
+      <a href="/contact">Contact</a> &nbsp;·&nbsp;
+      <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="/delete-account">Delete My Account</a>
+    </div>
+  </footer>
+
+</body>
+</html>

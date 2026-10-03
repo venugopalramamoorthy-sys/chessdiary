@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Why ChessDiary exists: a student chess player's paper scoresheets piled up in a bag while his online games sat scattered across Chess.com and Lichess. Here's the story.">
+  <title>About ChessDiary — Why We Built This</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 52px; letter-spacing: 1px; line-height: 0.95; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 36px; } }
+    .subhead { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 20px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 12px; }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .pull-quote { font-family: 'Lora', Georgia, serif; font-style: italic; font-size: 19px; color: var(--ink); border-left: 3px solid var(--green); padding: 4px 0 4px 24px; margin: 32px 0; }
+    .author-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 28px 24px; margin-top: 16px; display: flex; gap: 20px; align-items: flex-start; }
+    .author-avatar { width: 56px; height: 56px; border-radius: 50%; background: var(--green); color: var(--white); font-family: 'Anton', Impact, sans-serif; font-size: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .author-name { font-family: 'Lora', Georgia, serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .author-role { font-size: 12px; color: var(--green); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .author-bio { font-size: 14px; color: var(--muted); margin: 0; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+    footer a { color: var(--green); font-weight: 600; text-decoration: none; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/app" class="back-link">← Back to app</a>
+  </header>
+
+  <main>
+
+    <div class="page-eyebrow"><span>About</span></div>
+    <h1>WHY WE<br>BUILT THIS</h1>
+    <p class="subhead">The short version: a drawer full of scoresheets I never looked at again.</p>
+
+    <p>ChessDiary started as a problem I had, not a business plan. I'm a student and a club-level tournament player, and for years my chess record lived in three places that never talked to each other.</p>
+
+    <p>Every over-the-board game I played left a paper scoresheet behind. I'd fold it up, drop it in my bag after the round, and — almost without fail — never open it again. By the end of a season I had a shoebox of handwritten notation I couldn't be bothered to transcribe, covering losses I knew I should study but never did. Meanwhile my online games were somewhere else entirely: blitz and rapid on Chess.com, correspondence games on Lichess, each platform holding its own slice of my history with no way to see all of it side by side.</p>
+
+    <p>The actual losing pattern was hiding in plain sight across all three of those places at once, and I had no way to see it. I'd blunder the same type of tactic in a paper tournament game in March and again in a Lichess game in June, and never connect the two, because nothing put them in front of me together.</p>
+
+    <div class="pull-quote">I didn't need another chess app. I needed one place that already had all my games — paper, Chess.com, and Lichess — and told me what I kept getting wrong.</div>
+
+    <p>So I built that. ChessDiary reads a photo of a handwritten scoresheet with Gemini AI and turns it into a clean move list. It pulls your existing history straight from the Chess.com and Lichess public APIs with one-time account linking, no manual PGN exports. And every game, regardless of where it came from, gets run through Stockfish — the same engine used at the top level of the game — so the blunders, mistakes, and inaccuracies are flagged with real centipawn numbers, not a guess.</p>
+
+    <h2>WHAT CHESSDIARY IS NOT TRYING TO BE</h2>
+
+    <p>It's not trying to replace Chess.com or Lichess as a place to actually play. It's not a coaching platform with a human on the other end. It's the layer underneath all of that — the diary part — that collects everything you've already played and makes the patterns visible, whether the game happened on a board with a pencil or on a phone screen at midnight.</p>
+
+    <h2>WHERE IT STANDS TODAY</h2>
+
+    <p>ChessDiary is free to use on Web and in closed beta on Android, built from a single codebase for both. It's ad-supported rather than subscription-based, which is also why you'll see a privacy policy that's honest about Google AdSense and AdMob rather than pretending they're not there. If you've read this far, you probably have the same shoebox-of-scoresheets problem I did — the <a href="/guides">guides</a> are a good place to start, or jump straight into a <a href="/sample-analysis">real example analysis report</a> to see what the engine actually flags in a full game.</p>
+
+    <hr class="divider">
+
+    <h2>THE AUTHOR</h2>
+
+    <div class="author-card">
+      <div class="author-avatar">V</div>
+      <div>
+        <div class="author-name">Venugopal Ramamoorthy</div>
+        <div class="author-role">Builder, ChessDiary</div>
+        <p class="author-bio">Student and club-level tournament chess player. Built ChessDiary to solve his own problem — scattered scoresheets and online games with no single place to see the patterns across them — and kept building once it turned out other players had the exact same drawer full of paper.</p>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <p>Questions, feedback, or just want to say the shoebox-of-scoresheets thing resonated? <a href="/contact">Get in touch</a>.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a>
+    <div class="footer-links">
+      <a href="/guides">Chess Guides</a> &nbsp;·&nbsp;
+      <a href="/sample-analysis">Sample Analysis</a> &nbsp;·&nbsp;
+      <a href="/contact">Contact</a> &nbsp;·&nbsp;
+      <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="/delete-account">Delete My Account</a>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -73,7 +73,7 @@
   <main>
     <div class="page-eyebrow"><span>Guide 05 · Using ChessDiary</span></div>
     <h1>HOW CHESSDIARY READS MESSY HANDWRITING (AND WHEN IT CAN'T)</h1>
-    <p class="byline">By the ChessDiary team</p>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about">creator of ChessDiary</a></p>
 
     <p>Every scoresheet OCR system eventually meets a page it can't fully read — a rushed time-scramble scrawl, a smudged pencil line, or a "1" that could just as easily be a "7". ChessDiary's parser, built on Google's Gemini model, doesn't just guess silently in these cases. It flags exactly how confident it is in what it read, and where.</p>
 
@@ -104,6 +104,16 @@
     <h2>6. WHEN IT'S WORTH RE-PHOTOGRAPHING INSTEAD OF CORRECTING</h2>
     <p>If more than a handful of moves come back uncertain, it's usually faster to retake the photo with better lighting than to manually fix each one — see our guide on photographing a scoresheet for what actually improves parse accuracy. A five-second reshoot with even lighting often turns a low-confidence parse into a clean one.</p>
 
+    <h2>7. A WORKED EXAMPLE: FIXING A LOW-CONFIDENCE GAME</h2>
+    <p>Say a 40-move tournament game comes back flagged as low confidence, with three specific moves called out: move 14 Black, move 27 White, and move 33 Black. Here's the actual review process, not just the general advice:</p>
+    <ol>
+      <li><strong>Open the three flagged moves first</strong>, not the whole game top to bottom. The model already told you exactly where it's uncertain — reviewing 37 moves it was confident about wastes time the flags were designed to save.</li>
+      <li><strong>Check each flagged move against the position, not just the handwriting.</strong> If move 14 Black is unclear between <code>Nd7</code> and <code>Nbd7</code>, look at whether a second knight could actually reach d7 at that point in the game — if not, the disambiguation letter is a misread, not a real option, and the simpler reading is correct.</li>
+      <li><strong>For a genuinely illegible move</strong> (not just ambiguous between two legal options), check your own memory of the game or, if you played with an opponent, ask them to confirm — a tournament scoresheet is a shared record, and your opponent's copy of the same game is often the fastest way to resolve a true illegible gap.</li>
+      <li><strong>Confirm the whole game only after the three flags are resolved</strong>, not before. ChessDiary won't silently save a flagged game without your review, but it also won't stop you from confirming it with the uncertain moves still wrong if you skip past them.</li>
+    </ol>
+    <p>In practice, the vast majority of low-confidence flags resolve in favor of the simpler, more common reading once you check it against the actual position — the model is usually right even when it says it isn't sure, which is exactly why it's worth checking rather than re-photographing by default.</p>
+
     <div class="cta-box">
       <p>ChessDiary's Gemini-powered parser reads photos, PDFs, and screenshots of scoresheets automatically and shows you the result before saving — so a messy page costs you a review, not a lost game.</p>
     </div>
@@ -118,6 +128,9 @@
   <footer>
     &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
     <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact">Contact</a> &nbsp;·&nbsp;
     <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
     <a href="/delete-account">Delete My Account</a>
   </footer>

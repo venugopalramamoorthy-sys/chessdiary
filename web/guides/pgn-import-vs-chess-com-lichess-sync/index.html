@@ -73,7 +73,7 @@
   <main>
     <div class="page-eyebrow"><span>Guide 06 · Using ChessDiary</span></div>
     <h1>PGN IMPORT VS. CHESS.COM/LICHESS SYNC: WHICH TO USE</h1>
-    <p class="byline">By the ChessDiary team</p>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about">creator of ChessDiary</a></p>
 
     <p>ChessDiary has two genuinely different ways to get an online game into your library: uploading a PGN file (or pasting PGN text) one game at a time, and linking your Chess.com or Lichess account to sync your history automatically. They solve different problems, and using the wrong one for the job just means more manual work than necessary.</p>
 
@@ -103,6 +103,18 @@
     <h2>6. USING BOTH TOGETHER</h2>
     <p>Most players end up using both: link Chess.com and/or Lichess once for the bulk of their online games, then use PGN import for the occasional outlier — a correspondence game from a different site, a puzzle export, or a friend's shared game. The two methods write to the same unified library, so there's no difference in how a game behaves in ChessDiary once it's in, regardless of which door it came through.</p>
 
+    <h2>7. A WORKED EXAMPLE: THREE GAMES, THREE PATHS</h2>
+    <p>Say you've just played a tournament weekend and want everything in one place by Monday night. Here's how that actually plays out across the two systems:</p>
+    <ul>
+      <li><strong>Saturday's round, paper scoresheet.</strong> Not on Chess.com or Lichess at all — photograph it and let ChessDiary's OCR extract the move list, which lands it in your library the same way a pasted PGN would, no account sync involved.</li>
+      <li><strong>Sunday's blitz session, played on Lichess.</strong> If you've already linked your Lichess username, these show up automatically on the next sync with time control, opening name, and both ratings attached — no action needed beyond having linked the account at some earlier point.</li>
+      <li><strong>A friend's game from a different platform, sent as a PGN file.</strong> This is the one-off case sync can't reach, since it was never played under your linked username anywhere. PGN File import handles it in one upload, exactly as it would any other PGN regardless of origin.</li>
+    </ul>
+    <p>None of these three require thinking about "which import method is correct" in the moment — the format of what you have in hand (a photo, an already-linked account, or a standalone PGN) decides it for you.</p>
+
+    <h2>8. A COMMON MISTAKE: RE-LINKING INSTEAD OF SYNCING</h2>
+    <p>If a sync seems to be missing recent games, the instinct is often to unlink and re-link the account — but that's usually unnecessary and, per section 5 above, starts the import fresh rather than topping it up. A stalled or incomplete sync is far more often a temporary API issue on Chess.com's or Lichess's side than a broken link; retrying the sync itself (without unlinking first) resolves it in nearly every case, and keeps the games already imported untouched either way.</p>
+
     <div class="cta-box">
       <p>Whichever method you use, every imported game lands in the same library and is ready for the same Stockfish analysis — see our guide on reading a Stockfish blunder report to get the most out of it.</p>
     </div>
@@ -117,6 +129,9 @@
   <footer>
     &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
     <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact">Contact</a> &nbsp;·&nbsp;
     <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
     <a href="/delete-account">Delete My Account</a>
   </footer>

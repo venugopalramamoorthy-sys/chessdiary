@@ -73,7 +73,7 @@
   <main>
     <div class="page-eyebrow"><span>Guide 07 · Analysis</span></div>
     <h1>HOW TO READ A STOCKFISH BLUNDER REPORT</h1>
-    <p class="byline">By the ChessDiary team</p>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about">creator of ChessDiary</a></p>
 
     <p>Running an analysis produces more than just a list of blunders — it's a move-by-move report with a quality label, an estimated cost in centipawns, and sometimes the tactical pattern behind the mistake. Knowing what each field actually measures turns the report from a red-and-orange list into something you can actually study from.</p>
 
@@ -87,7 +87,7 @@
       <li><strong>Good</strong> — a reasonable, sound move that isn't the engine's first choice but doesn't meaningfully worsen the position either.</li>
       <li><strong>Inaccuracy</strong> — a small, usually low-cost slip. Rarely game-deciding on its own, but a pattern of repeated inaccuracies in the same phase of the game is worth noticing.</li>
       <li><strong>Mistake</strong> — a move that meaningfully worsens your position without necessarily losing material outright. Worth reviewing closely, since a mistake often sets up a blunder a few moves later.</li>
-      <li><strong>Blunder</strong> — a move that hands over a significant, usually decisive advantage. Every blunder comes with the engine's recommended alternative so you can see exactly what you missed.</li>
+      <li><strong>Blunder</strong> — a move that hands over a significant, usually decisive advantage. The report shows exactly how much the position swung on that move, so you can see how costly it was even without a specific "play this instead" suggestion attached (Stockfish-sourced reports give you the real evaluation swing; Gemini's fallback analysis — see section 6 below — is the path that also suggests an alternative move).</li>
     </ul>
 
     <h2>2. CENTIPAWN LOSS, IN PLAIN TERMS</h2>
@@ -105,6 +105,16 @@
     <h2>6. WHICH ENGINE PRODUCED THE REPORT</h2>
     <p>A quick note after analysis tells you which engine actually ran: Stockfish, or Gemini AI if the Stockfish server wasn't reachable at the time. Both produce the same report structure — quality labels, comments, and best-move suggestions — but Stockfish's numbers come from genuine engine search, while Gemini's are a language model's best estimate. See our guide on what happens when the analysis engine is unreachable for the full explanation.</p>
 
+    <h2>7. A REAL EXAMPLE, FIELD BY FIELD</h2>
+    <p>Abstract definitions only go so far, so here's one real flagged move from an actual ChessDiary report — move 9 of Morphy's Opera Game, where Black played <code>9...b5</code> (see the <a href="/sample-analysis">full report</a> for every move):</p>
+    <ul>
+      <li><strong>Quality:</strong> Mistake</li>
+      <li><strong>Evaluation after:</strong> +3.56 (White)</li>
+      <li><strong>Centipawn loss:</strong> 147</li>
+      <li><strong>Motif:</strong> Sacrifice</li>
+    </ul>
+    <p>Reading these together: before <code>9...b5</code>, White was already better, but only by a little. The move itself gives up a pawn's worth of material to try to open lines against White's king — a real idea, just one that doesn't work here, which is exactly what "sacrifice" as a motif tag means as opposed to "hanging piece" (an accidental loss) or "fork" (a tactical trick that wins material, not loses it). The 147-point jump tells you precisely how much that attempt cost; the quality label "mistake" rather than "blunder" tells you the position wasn't yet lost outright at that specific point — it's the moves right after it, compounding the problem, that turn it decisive. That's the kind of distinction a bare win/loss result never shows you.</p>
+
     <div class="cta-box">
       <p>ChessDiary runs this same report on every game in your library, so you can see not just that you blundered, but which phase, which pattern, and how often — across your whole history, not just one game.</p>
     </div>
@@ -113,12 +123,16 @@
       <h3>MORE GUIDES</h3>
       <a href="/guides/common-chess-blunders">The Most Common Blunder Patterns in Club-Level Chess →</a>
       <a href="/guides/what-happens-when-stockfish-is-unreachable">What Happens When the Analysis Engine Is Unreachable →</a>
+      <a href="/sample-analysis">See a Real Analysis Report (Morphy's Opera Game) →</a>
     </div>
   </main>
 
   <footer>
     &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
     <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact">Contact</a> &nbsp;·&nbsp;
     <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
     <a href="/delete-account">Delete My Account</a>
   </footer>

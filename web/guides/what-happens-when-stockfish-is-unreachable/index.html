@@ -73,7 +73,7 @@
   <main>
     <div class="page-eyebrow"><span>Guide 08 · Using ChessDiary</span></div>
     <h1>WHAT HAPPENS WHEN THE ANALYSIS ENGINE IS UNREACHABLE</h1>
-    <p class="byline">By the ChessDiary team</p>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about">creator of ChessDiary</a></p>
 
     <p>ChessDiary's move-by-move analysis normally runs on Stockfish — the same open-source engine used in professional preparation. But Stockfish runs on a separate server, and any server can occasionally be slow to wake up, overloaded, or briefly unreachable. When that happens, ChessDiary doesn't show you an error and ask you to try again later. It quietly switches engines instead.</p>
 
@@ -100,6 +100,13 @@
     <p>A dedicated chess engine server costs money to run continuously and can go quiet under low traffic to save on hosting. Rather than let that show up to you as a broken feature, ChessDiary treats Gemini as a genuinely usable second option — not a perfect substitute for engine search, but accurate enough that a temporarily unreachable server doesn't mean you walk away without an analysis at all.</p>
     <p>In practice, most analysis requests complete on Stockfish without any fallback ever triggering — this mostly comes up on the first request in a while, or during a brief spike in server load. It's a safety net, not the common path.</p>
 
+    <h2>7. A REAL EXAMPLE OF THE TIMEOUT IN ACTION</h2>
+    <p>This isn't a hypothetical — while putting together the <a href="/sample-analysis">sample analysis page</a> on this site, the same Gemini motif-tagging step described in section 5 hit exactly this kind of timeout more than once on a single game. The request would occasionally take longer than the server's response window to come back, triggering a retry, and succeed cleanly a few seconds later on the next attempt. Nothing about the analysis itself was wrong in either case — the engine evaluation and quality labels were identical regardless — it was purely a case of one specific step needing a second try.</p>
+    <p>That's the practical shape of "unreachable" in day-to-day use: not a dramatic outage, but an occasional slow response that resolves itself on retry, usually without you noticing anything beyond the analysis taking a few seconds longer than usual.</p>
+
+    <h2>8. WHAT THIS MEANS FOR YOUR OWN GAMES</h2>
+    <p>If an analysis ever comes back noticeably faster or slower than usual, that's a reasonable first signal to check which engine actually produced it (section 4) rather than assuming something is broken. A slow-but-eventually-successful analysis and a fallback-to-Gemini analysis can look similar from the outside — both take longer than the typical case — but only one of them changes which engine's numbers you're looking at.</p>
+
     <div class="cta-box">
       <p>Whichever engine ran, your report lands in the same place with the same fields — see our guide on reading a Stockfish blunder report for what each one means.</p>
     </div>
@@ -108,12 +115,16 @@
       <h3>MORE GUIDES</h3>
       <a href="/guides/how-to-read-a-stockfish-analysis-report">How to Read a Stockfish Blunder Report →</a>
       <a href="/guides/pgn-import-vs-chess-com-lichess-sync">PGN Import vs. Chess.com/Lichess Sync: Which to Use →</a>
+      <a href="/sample-analysis">See a Real Analysis Report (Morphy's Opera Game) →</a>
     </div>
   </main>
 
   <footer>
     &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
     <a href="/guides">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact">Contact</a> &nbsp;·&nbsp;
     <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
     <a href="/delete-account">Delete My Account</a>
   </footer>
