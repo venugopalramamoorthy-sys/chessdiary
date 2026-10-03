@@ -17,6 +17,6 @@
 class AdUnitIds {
   AdUnitIds._();
 
-  static const String banner = 'REPLACE_WITH_REAL_BANNER_AD_UNIT_ID';
+  static const String banner = 'ca-app-pub-1687484988403199/3627771238';
   static const String interstitial = 'REPLACE_WITH_REAL_INTERSTITIAL_AD_UNIT_ID';
 }
