@@ -75,6 +75,11 @@
       color: var(--silver); text-transform: uppercase; white-space: nowrap;
     }
     .header-spacer { flex: 1; }
+    .nav-links { display: flex; align-items: center; gap: 24px; margin-right: 24px; }
+    .nav-links a {
+      font-size: 13px; font-weight: 600; color: var(--silver);
+    }
+    .nav-links a:hover { color: var(--white); }
     .signin-link {
       font-size: 13px; font-weight: 500; color: var(--silver);
       display: inline-flex; align-items: center; gap: 4px;
@@ -83,6 +88,7 @@
     @media (max-width: 640px) {
       header { padding: 0 20px; }
       .tagline { display: none; }
+      .nav-links { display: none; }
     }
 
     /* ── hero ───────────────────────────────────────── */
@@ -121,6 +127,12 @@
       font-size: 15px; font-weight: 700; color: var(--white);
     }
     .arrow-link:hover { color: var(--green-bright); }
+    .hero-ctas { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+    .hero-secondary-link {
+      font-size: 14px; font-weight: 600; color: var(--silver);
+      border-bottom: 1px solid var(--darkgrey); padding-bottom: 2px;
+    }
+    .hero-secondary-link:hover { color: var(--white); border-color: var(--silver); }
     @media (max-width: 1100px) { .hero h1 { font-size: 72px; } }
     @media (max-width: 700px) {
       .hero { padding: 32px 24px 40px; min-height: 500px; }
@@ -197,6 +209,21 @@
     .how-it-works-note { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 40px; }
     @media (max-width: 1100px) { .how-it-works { padding: 72px 56px; } .steps-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 700px) { .how-it-works { padding: 72px 28px; } .steps-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    /* ── from the guides section ───────────────────── */
+    .from-guides { background: var(--offwhite); color: var(--charcoal); padding: 104px 100px; }
+    .guide-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 8px; }
+    .guide-card {
+      display: block; background: var(--white); border: 1px solid var(--border); border-radius: 6px;
+      padding: 28px 24px; transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .guide-card:hover { border-color: var(--green-deep); transform: translateY(-2px); }
+    .guide-card-title { font-size: 17px; font-weight: 700; color: var(--black); margin-bottom: 10px; line-height: 1.3; }
+    .guide-card-desc { font-size: 13.5px; color: var(--muted); margin: 0; }
+    .guides-see-all { margin-top: 40px; color: var(--green-deep); }
+    .guides-see-all:hover { color: var(--black); }
+    @media (max-width: 1100px) { .from-guides { padding: 72px 56px; } .guide-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px) { .from-guides { padding: 72px 28px; } .guide-cards { grid-template-columns: 1fr; } }
 
     /* ── FAQ section ────────────────────────────────── */
     .faq { background: var(--offwhite); color: var(--charcoal); padding: 104px 100px; }
@@ -285,6 +312,10 @@
     <a href="/" class="logo">CHESS<span>DIARY</span></a>
     <span class="tagline">Your games. Your patterns. Your edge.</span>
     <div class="header-spacer"></div>
+    <nav class="nav-links">
+      <a href="/guides">Guides</a>
+      <a href="/sample-analysis">Sample Analysis</a>
+    </nav>
     <a href="/app" class="signin-link">Sign in&nbsp;→</a>
   </header>
 
@@ -295,7 +326,10 @@
       <div class="eyebrow">Personal Chess Intelligence</div>
       <h1 class="anton">Know your<br><span class="accent">blind spots.</span><br>Fix them.</h1>
       <p class="sub">ChessDiary brings your paper scoresheets, Chess.com games, and Lichess history into one place — then shows you exactly where you keep losing.</p>
-      <a href="/app" class="arrow-link">Start Your Journey&nbsp;→</a>
+      <div class="hero-ctas">
+        <a href="/app" class="arrow-link">Start Your Journey&nbsp;→</a>
+        <a href="/sample-analysis" class="hero-secondary-link">See a Sample Analysis</a>
+      </div>
     </div>
   </section>
 
@@ -438,6 +472,26 @@
       <div class="feature-divider"></div>
       <p>Paper tournament games, Chess.com blitz, Lichess correspondence — every game you've played lives in a single searchable library instead of three disconnected apps. Filter by opponent, opening, time control, or result, and see your whole chess history in one place for the first time.</p>
     </div>
+  </section>
+
+  <section class="from-guides">
+    <div class="section-label on-light"><div class="bar"></div><span>From the Guides</span></div>
+    <h2 class="anton">Learn the<br><span class="accent">Patterns.</span></h2>
+    <div class="guide-cards">
+      <a class="guide-card" href="/guides/photographing-a-scoresheet-for-ocr">
+        <div class="guide-card-title">How to Photograph a Scoresheet for Accurate OCR</div>
+        <p class="guide-card-desc">Lighting, angle, and framing habits that make the biggest difference to how accurately ChessDiary reads a handwritten scoresheet.</p>
+      </a>
+      <a class="guide-card" href="/guides/common-chess-blunders">
+        <div class="guide-card-title">The Most Common Blunder Patterns in Club-Level Chess</div>
+        <p class="guide-card-desc">Forks, back-rank mates, hanging pieces, and the in-between move — the handful of tactical motifs responsible for most lost games below master level.</p>
+      </a>
+      <a class="guide-card" href="/guides/how-to-read-a-stockfish-analysis-report">
+        <div class="guide-card-title">How to Read a Stockfish Blunder Report</div>
+        <p class="guide-card-desc">What quality labels, centipawn loss, and tactical motifs actually mean — and how to use them to study a loss instead of just skimming it.</p>
+      </a>
+    </div>
+    <a href="/guides" class="arrow-link guides-see-all">See All Guides&nbsp;→</a>
   </section>
 
   <section class="faq">

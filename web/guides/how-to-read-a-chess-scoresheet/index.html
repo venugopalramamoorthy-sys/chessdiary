@@ -61,6 +61,14 @@
     a:hover { text-decoration: underline; }
     .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
     .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a {
+      display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px;
+    }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
     .related { margin-top: 56px; }
     .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; }
     .related a { display: block; font-size: 14px; margin-bottom: 8px; }
@@ -154,6 +162,11 @@
 
     <div class="cta-box">
       <p>If you'd rather not manually re-type scoresheets after every event, ChessDiary reads a photo of a handwritten scoresheet and extracts the move list automatically, alongside importing games directly from Chess.com and Lichess.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
     </div>
 
     <div class="related">

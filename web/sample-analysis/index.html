@@ -83,6 +83,7 @@
     .quality-inaccuracy { background: #FFF3CD; color: #7A5A00; }
     .quality-mistake { background: #FFE0CC; color: #A6460C; }
     .quality-blunder { background: #FADBD9; color: var(--red); }
+    .quality-checkmate { background: #D7E9D8; color: var(--green); }
     .motif-tag { font-size: 12px; color: var(--blue); font-weight: 600; }
 
     footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
@@ -234,15 +235,15 @@
         </tr>
         <tr>
           <td class="mv">17.Rd8#</td>
-          <td><span class="quality-badge quality-blunder">Blunder</span></td>
-          <td>&minus;100.00</td><td>20000</td>
-          <td><span class="motif-tag">Back rank</span></td>
+          <td><span class="quality-badge quality-checkmate">Checkmate</span></td>
+          <td>+100.00</td><td>0</td>
+          <td><span class="motif-tag">&mdash;</span></td>
         </tr>
       </table>
     </div>
 
     <div class="note-box">
-      <p><strong>Why the actual checkmating move (17.Rd8#) shows &minus;100.00 and "blunder":</strong> this is a real, unedited quirk in how the engine scores a position the instant after checkmate is delivered, not a mistake we cleaned up for this page. We're showing it exactly as the backend returned it rather than quietly correcting it — if you run your own games through ChessDiary and see the same thing on a checkmating move, that's why.</p>
+      <p><strong>Why 17.Rd8# shows its own "Checkmate" label instead of a quality grade:</strong> a move that ends the game in checkmate is, by definition, the correct move — it can never be an inaccuracy, mistake, or blunder, so ChessDiary's backend recognizes this case directly rather than running it through the normal centipawn-loss grading. (An earlier version of this page showed this exact move as &minus;100.00 and "Blunder" — a real bug in how the engine scored a position the instant after mate, since found and fixed. This page reflects the corrected output.)</p>
     </div>
 
     <hr class="divider">
