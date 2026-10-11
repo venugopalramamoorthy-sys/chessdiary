@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Why ChessDiary exists: a student chess player's paper scoresheets piled up in a bag while his online games sat scattered across Chess.com and Lichess. Here's the story.">
   <title>About ChessDiary — Why We Built This</title>
+  <link rel="canonical" href="https://chessdiary.app/about/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="About ChessDiary — Why We Built This">
+  <meta property="og:description" content="Why ChessDiary exists: a student chess player&#x27;s paper scoresheets piled up in a bag while his online games sat scattered across Chess.com and Lichess. Here&#x27;s the story.">
+  <meta property="og:url" content="https://chessdiary.app/about/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,6 +99,22 @@
     <h2>WHERE IT STANDS TODAY</h2>
 
     <p>ChessDiary is free to use on Web and in closed beta on Android, built from a single codebase for both. It's ad-supported rather than subscription-based, which is also why you'll see a privacy policy that's honest about Google AdSense and AdMob rather than pretending they're not there. If you've read this far, you probably have the same shoebox-of-scoresheets problem I did — the <a href="/guides/">guides</a> are a good place to start, or jump straight into a <a href="/sample-analysis/">real example analysis report</a> to see what the engine actually flags in a full game.</p>
+
+    <hr class="divider">
+
+    <h2>HOW THE GUIDES ARE CHECKED</h2>
+
+    <p>The <a href="/guides/">guides</a> explain chess ideas and how ChessDiary works. Where a guide shows a board position, the diagram is generated from the exact position described in its caption, the move lines are checked for legality, and tactical claims (a forced mate, a winning capture, a drawn ending) are only published once the Stockfish engine agrees with them. The explanations are editorial writing; the engine is used as a fact-checker, not as a ghostwriter.</p>
+
+    <p>The <a href="/sample-analysis/">sample analysis</a> pages are a separate thing: they show what ChessDiary's analysis looks like on famous public-domain games, with the engine's numbers shown rather than hidden, including the moves where the famous players went wrong.</p>
+
+    <h2>HOW CHESSDIARY USES AI AND ENGINES</h2>
+
+    <p>Two different tools do two different jobs. <strong>Gemini AI</strong> reads a photo, PDF or screenshot of a game and turns it into a move list, which you review before it is saved. <strong>Stockfish</strong>, a chess engine, calculates the evaluation behind every flagged move. If the Stockfish server cannot be reached, ChessDiary falls back to Gemini for the analysis rather than failing, and the <a href="/guides/what-happens-when-stockfish-is-unreachable/">guide on that fallback</a> spells out what changes.</p>
+
+    <h2>CORRECTIONS</h2>
+
+    <p>If you find an error in a guide or a diagram, a wrong move, a claim you disagree with, a broken link, please <a href="/contact/">tell us</a> and include the page address. Corrections are made to the page itself.</p>
 
     <hr class="divider">
 

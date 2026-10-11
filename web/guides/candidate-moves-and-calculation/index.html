@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A repeatable routine for choosing a move: list candidates, calculate forcing lines first, check the opponent&#x27;s best reply and evaluate, shown on two positions from Morphy&#x27;s Opera Game.">
+  <title>Candidate Moves and Calculation: How to Think Before You Move — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/candidate-moves-and-calculation/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Candidate Moves and Calculation: How to Think Before You Move — ChessDiary">
+  <meta property="og:description" content="A repeatable routine for choosing a move: list candidates, calculate forcing lines first, check the opponent&#x27;s best reply and evaluate, shown on two positions from Morphy&#x27;s Opera Game.">
+  <meta property="og:url" content="https://chessdiary.app/guides/candidate-moves-and-calculation/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Candidate Moves and Calculation: How to Think Before You Move", "description": "A repeatable routine for choosing a move: list candidates, calculate forcing lines first, check the opponent's best reply and evaluate, shown on two positions from Morphy's Opera Game.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/candidate-moves-and-calculation/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 19 · Tactics</span></div>
+    <h1>CANDIDATE MOVES AND CALCULATION: HOW TO THINK BEFORE YOU MOVE</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>Chess players of every level know the feeling: the position is complicated, the clock is running, and the mind jumps between ideas without settling. The result is either a long think that ends in a hurried move or a quick move that overlooked something obvious.</p>
+    <p>A repeatable routine fixes much of that. The one described here follows the approach popularised by Alexander Kotov in <em>Think Like a Grandmaster</em>: list candidate moves first, then analyse each line once, and only then decide. It works because it limits the thinking to the things that matter and prevents you from going round in circles.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>List two to four candidate moves before calculating any of them; your first idea is not always your best one.</li>
+        <li>Start with forcing moves: checks, captures and threats. They narrow the position and are the easiest to calculate.</li>
+        <li>At the end of every line, ask what the opponent's best reply is, not what you hope they will play.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>THE ROUTINE</h2>
+    <ol>
+      <li><strong>Look at what changed.</strong> What did the opponent's last move do? What does it threaten, and what does it give up? Before thinking about your plans, understand theirs.</li>
+      <li><strong>List candidate moves.</strong> Write down, mentally or on paper, two to four moves worth considering, before analysing any. Include the move you were already thinking of, plus at least one that comes from a different idea.</li>
+      <li><strong>Check forcing moves first.</strong> For each candidate, begin with checks, captures and threats. Forcing lines are easier to calculate because the opponent's replies are limited.</li>
+      <li><strong>Calculate each line once.</strong> Follow a line to a position you can evaluate, then stop. Do not return to it unless you spot a mistake in your analysis.</li>
+      <li><strong>Test the opponent's best reply at each step.</strong> At every move in your line, ask what the opponent would play if they were trying to refute you.</li>
+      <li><strong>Compare and decide.</strong> Choose the candidate whose worst realistic outcome is best. Then play it.</li>
+    </ol>
+    <p>The key discipline is step four. Many players calculate a promising line, abandon it to look at something else, and come back to it three minutes later having learned nothing new. Analysing each line once, thoroughly, is far more efficient.</p>
+
+    <h2>CHECKS, CAPTURES, THREATS</h2>
+    <p>When a position is tactical, there is a simple filter for the first pass: look at every <strong>check</strong>, every <strong>capture</strong> and every <strong>threat</strong> (a move that threatens to win material or to give mate), for both sides. This list is short, and most winning tactics are on it.</p>
+    <p>Look at it for the opponent as well. If you find that the opponent has a check or capture that you have not accounted for, your candidate move may be a blunder, however attractive it looks.</p>
+
+    <h2>WORKED EXAMPLE 1: A SACRIFICE THAT THE ROUTINE FINDS</h2>
+    <p>These positions come from Paul Morphy's "Opera Game" (Paris, 1858), which is analysed move by move on our <a href="/sample-analysis/">sample analysis page</a>. In the first, White is to move on move ten. Black has just played ...b5, attacking the bishop on c4.</p>
+    <figure class="board"><img src="/img/diagrams/candidate-moves-and-calculation-1.svg" width="360" height="360" alt="White: Ke1, Qb3, Ra1, Rh1, Bc4, Bg5, Nc3, pawns a2 b2 c2 f2 g2 h2 e4. Black: Ke8, Qe7, Ra8, Rh8, Bf8, Nf6, Nb8, pawns b5 e5 c6 a7 f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>White to move. Candidates include retreating the bishop, trading with Bxf6, and the knight sacrifice <strong>Nxb5</strong>. A capture that also makes a threat goes straight onto the first-pass list.</figcaption></figure>
+    <p>Why <strong>Nxb5</strong> is the move: it is forcing, because it threatens Nc7+, which would fork the king and the rook on a8. If Black takes with <strong>10...cxb5</strong>, then <strong>11.Bxb5+</strong> gives check and pins the knight on d7. White has given a knight for two pawns, but Black's king is still in the middle, White's pieces are developed, and the open lines are pointing at it. The engine rates the position after the sacrifice as clearly better for White. The point of the routine is not that you calculate everything; it is that the sacrifice makes your list and gets examined.</p>
+
+    <h2>WORKED EXAMPLE 2: THE FINISH</h2>
+    <p>Six moves later, the same game reaches a position where the routine produces a forced mate.</p>
+    <figure class="board"><img src="/img/diagrams/candidate-moves-and-calculation-2.svg" width="360" height="360" alt="White: Kc1, Qb3, Rd1, Bg5, pawns a2 b2 c2 f2 g2 h2 e4. Black: Ke8, Qe6, Rh8, Bf8, Nd7, pawns e5 a7 f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>White to move. Checks first: <strong>Qb8+</strong> is a check, and it is a queen sacrifice. After <strong>Nxb8</strong>, the knight has left d7, and <strong>Rd8#</strong> is checkmate. The bishop on g5 protects the rook on d8 and covers e7, so the king has no escape.</figcaption></figure>
+    <p>This position shows the value of listing checks before anything else. A quiet-looking move like Rd2 or Kb1 might be reasonable, but a player scanning only for "safe" moves would not even look at a queen sacrifice. A player who works through the check list will see that Black's only reply to Qb8+ is to capture the queen, and that the capture opens the d-file.</p>
+    <p>Notice also how the opponent's replies were tested. After <strong>Qb8+</strong>, Black has exactly one legal move: the king has no safe square, and the only piece that can answer the check is the knight capturing the queen. A line where every reply is forced is the easiest kind to calculate to the end, which is why checks come first.</p>
+
+    <h2>WHERE CALCULATION GOES WRONG</h2>
+    <ul>
+      <li><strong>Anchoring.</strong> You fall in love with the first idea and analyse only that. Forcing yourself to list a second candidate before you calculate breaks this.</li>
+      <li><strong>Ignoring the opponent's best reply.</strong> You calculate your sequence and assume the opponent cooperates. Always ask what you would play in their position.</li>
+      <li><strong>Stopping on a capture.</strong> You calculate a series of exchanges and stop right after your capture, without checking the recapture or an in-between move.</li>
+      <li><strong>Failing to evaluate at the end of the line.</strong> You reach a position and say "looks good" without counting material or checking for threats against your king.</li>
+      <li><strong>Continuing past the point of usefulness.</strong> If a line is unclear after several moves, evaluate the position you have reached and decide whether you like it. Perfect calculation to the end is not always possible.</li>
+    </ul>
+
+    <h2>A PRACTICE ROUTINE</h2>
+    <p>Calculation improves with deliberate practice, and the best training material is your own games. After each game, find the positions where you spent a long time, or where the engine flagged a mistake, and repeat the routine on them without looking at the engine's answer. First list your candidates. Then calculate. Then compare with the engine. The gap between what you found and what was available is your training target.</p>
+    <p>For puzzles, follow the same method: before moving a piece, write down your first-pass checks, captures and threats. Solving puzzles by random guessing and clicking trains the wrong habit.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>The positions where you went wrong are your best training material. ChessDiary's analysis flags the moves where the evaluation turned, so you can return to those exact positions and run the routine on them.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/checkmate-patterns-every-player-should-know/">Checkmate Patterns Every Player Should Know →</a>
+      <a href="/guides/pins-skewers-and-discovered-attacks/">Pins, Skewers and Discovered Attacks →</a>
+      <a href="/sample-analysis/">See a Real Analysis Report (Morphy's Opera Game) →</a>
+    </div>
+    <p class="credit">Board diagrams are generated from the positions described in each caption. Piece graphics by Colin M.L. Burnett, used under CC BY-SA 3.0 / GPL via the python-chess library.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Get in touch with the ChessDiary team — questions, feedback, data requests, or beta access, by email or the contact form below.">
+  <meta name="description" content="Get in touch with ChessDiary: questions, feedback, corrections to a guide, data requests or Android beta access, by email or the contact form.">
   <title>Contact ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/contact/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Contact ChessDiary">
+  <meta property="og:description" content="Get in touch with ChessDiary: questions, feedback, corrections to a guide, data requests or Android beta access, by email or the contact form.">
+  <meta property="og:url" content="https://chessdiary.app/contact/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +27,8 @@
     gtag('config', 'G-T6JH6LZ7VD');
   </script>
 
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199" crossorigin="anonymous"></script>
+  <!-- AdSense intentionally NOT loaded on this page: it is a utility page with no publisher content
+       (see AdSense policy on "ads on screens without publisher content"). -->
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -63,6 +71,11 @@
     .form-status.success { color: var(--green); }
     .form-status.error { color: #B3261E; }
     .form-status.pending { color: var(--muted); }
+    .contact-h2 { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 1.5px; color: var(--ink); margin: 0 0 12px; }
+    .contact-list { list-style: none; padding: 0; margin: 0 0 8px; }
+    .contact-list li { font-size: 14.5px; color: var(--muted); padding: 7px 0; border-bottom: 1px solid var(--cream); }
+    .contact-list li strong { color: var(--ink); }
+    .contact-list a { color: var(--green); font-weight: 600; }
     footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
     footer a { color: var(--green); font-weight: 600; text-decoration: none; }
     .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 4px; }
@@ -84,6 +97,16 @@
     <div class="direct-email">
       <strong>Email:</strong> <a href="mailto:venugopal.ramamoorthy@gmail.com">venugopal.ramamoorthy@gmail.com</a>
     </div>
+
+    <hr class="divider">
+
+    <h2 class="contact-h2">WHAT TO WRITE ABOUT</h2>
+    <ul class="contact-list">
+      <li><strong>Android beta access.</strong> Use the email linked to your Google Play account.</li>
+      <li><strong>An error in a guide or diagram.</strong> Tell us the page address and what you think is wrong.</li>
+      <li><strong>A bug.</strong> Say what you did, what you expected, and whether it was the web app or Android.</li>
+      <li><strong>Your data.</strong> To delete your account, use the <a href="/delete-account/">account deletion page</a>. For anything else about your data, write here.</li>
+    </ul>
 
     <hr class="divider">
 

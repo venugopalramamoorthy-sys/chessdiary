@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The three ideas that decide almost every king-and-pawn ending: the rule of the square, key squares and the opposition, with engine-checked diagrams.">
+  <title>King and Pawn Endgames: The Rule of the Square, Key Squares and Opposition — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/king-and-pawn-endgames-opposition-key-squares/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="King and Pawn Endgames: The Rule of the Square, Key Squares and Opposition — ChessDiary">
+  <meta property="og:description" content="The three ideas that decide almost every king-and-pawn ending: the rule of the square, key squares and the opposition, with engine-checked diagrams.">
+  <meta property="og:url" content="https://chessdiary.app/guides/king-and-pawn-endgames-opposition-key-squares/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "King and Pawn Endgames: The Rule of the Square, Key Squares and Opposition", "description": "The three ideas that decide almost every king-and-pawn ending: the rule of the square, key squares and the opposition, with engine-checked diagrams.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/king-and-pawn-endgames-opposition-key-squares/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 13 · Endgames</span></div>
+    <h1>KING AND PAWN ENDGAMES: THE RULE OF THE SQUARE, KEY SQUARES AND OPPOSITION</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>Every time you trade down to the last pieces, you are deciding whether to enter a king-and-pawn ending. These positions have no judgment calls: with correct play, each one is either won or drawn. That makes them the most useful endings to know, because a few simple ideas let you evaluate them in seconds.</p>
+    <p>This guide covers the three that matter most: the rule of the square for racing pawns, key squares for escorting them, and the opposition for deciding who gets there first. Every position below has been checked against a chess engine, so the results are not guesswork.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>King-and-pawn endings are exact: each one is a win or a draw, so you should know the result before you trade into it.</li>
+        <li>The <strong>rule of the square</strong> tells you whether a king can catch a running pawn without counting moves.</li>
+        <li><strong>Key squares</strong> and the <strong>opposition</strong> tell you whether a king can escort its pawn to promotion.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>THE RULE OF THE SQUARE</h2>
+    <p>A pawn on its own, running to promote, can be caught by a distant king only if the king gets close enough in time. The <strong>rule of the square</strong> gives the answer without counting moves.</p>
+    <p>Draw an imaginary square whose one side is the path from the pawn to its promotion square (including both ends), extending sideways toward the defending king. If the defending king can step into the square on its move, it catches the pawn. If it cannot, the pawn promotes.</p>
+    <div class="board-pair">
+      <figure class="board"><img src="/img/diagrams/king-and-pawn-endgames-opposition-key-squares-1.svg" width="360" height="360" alt="White: Kh1, pawns b4. Black: Kg3. Black to move." loading="lazy" decoding="async"><figcaption>Black to move. The pawn on b4 has the square b4&ndash;f4&ndash;f8&ndash;b8 (highlighted). The king on g3 is just outside it, but it is Black's move: <strong>...Kf4</strong> steps in and catches the pawn. The result is a draw.</figcaption></figure>
+      <figure class="board"><img src="/img/diagrams/king-and-pawn-endgames-opposition-key-squares-2.svg" width="360" height="360" alt="White: Kh1, pawns b5. Black: Kg3. Black to move." loading="lazy" decoding="async"><figcaption>The same position after White has pushed b5 and it is Black's move. The square has shrunk to b5&ndash;e5&ndash;e8&ndash;b8. The king on g3 cannot enter it, so the pawn promotes. White wins.</figcaption></figure>
+    </div>
+    <p>The only difference between the two positions is whose move it is, which is why the rule is really about tempo. Two refinements: a pawn on its starting rank can move two squares, so treat it as if it stood one rank higher; and the white king sitting nearby can change everything, because it can support the pawn or block the defender's king.</p>
+
+    <h2>KEY SQUARES</h2>
+    <p>When the pawn is not running alone, the attacker's king has a different job: to reach a <strong>key square</strong>. A key square is a square which, if the attacking king stands on it, guarantees that the pawn will promote regardless of what the defender does, provided the defending king is not able to capture the pawn or take the square first.</p>
+    <p>For a pawn on the fifth rank, such as White's pawn on e5, the three squares directly ahead on the sixth rank (d6, e6 and f6) are key squares. If White's king gets to any of them, the pawn queens, whoever is to move.</p>
+    <div class="board-pair">
+      <figure class="board"><img src="/img/diagrams/king-and-pawn-endgames-opposition-key-squares-3.svg" width="360" height="360" alt="White: Kd5, pawns e5. Black: Ke8. White to move." loading="lazy" decoding="async"><figcaption>White to move wins by playing <strong>Kd6</strong>, reaching a key square. The pawn on e5 then walks through to promotion.</figcaption></figure>
+      <figure class="board"><img src="/img/diagrams/king-and-pawn-endgames-opposition-key-squares-4.svg" width="360" height="360" alt="White: Kd5, pawns e5. Black: Ke8. Black to move." loading="lazy" decoding="async"><figcaption>The same position with Black to move. <strong>...Kd7!</strong> takes the opposition and keeps White's king off the key squares. After e6+ Ke8 White cannot make progress, and the game is a draw.</figcaption></figure>
+    </div>
+    <p>These two diagrams are the same position. The only thing that differs is who is to move, and that difference is the whole of the endgame. It is the reason players speak of "the opposition".</p>
+
+    <h2>THE OPPOSITION</h2>
+    <p>The kings are in <strong>opposition</strong> when they stand on the same file (or rank) with exactly one square between them. In that arrangement, the player who does not have to move holds the opposition, because the other king must give way: it has to step to a square that lets the opposing king advance.</p>
+    <p>In the second diagram above, the kings on d5 and d7 face each other with d6 between them. White to move would have to step aside; Black, having just moved there, does not. That is why <strong>...Kd7</strong> holds the draw: it is the most direct way to take the opposition.</p>
+    <p>Opposition is a tool for reaching key squares, not a law of nature. The rule of thumb that works across most positions is: <em>if your king is ahead of your pawn, you want the opposition, and the defender wants to take it away from you.</em> It is less useful once the pawn is far advanced, when the key squares are different, and with a rook pawn, where the rules change.</p>
+
+    <h2>ROOK PAWNS ARE THE EXCEPTION</h2>
+    <p>A pawn on the a- or h-file has the edge of the board on one side, so the defender's king has much more room to hide. If the defending king reaches the corner in front of the pawn, the position is a draw even if the attacker's king is next to the pawn.</p>
+    <figure class="board"><img src="/img/diagrams/king-and-pawn-endgames-opposition-key-squares-5.svg" width="360" height="360" alt="White: Kb6, pawns a5. Black: Ka8. White to move." loading="lazy" decoding="async"><figcaption>White has a king next to the rook pawn, but with Black's king in the corner the game is drawn. If White plays <strong>Kc7</strong> it is stalemate, and if the pawn advances the king shuffles between a8 and b8. The same extra pawn on any other file would be winning.</figcaption></figure>
+    <p>This is why a rook pawn plus king against a lone king in the corner is a standard drawing resource, and why trading into an ending with only a rook pawn is a classic way to save a worse position.</p>
+
+    <h2>USING THIS IN YOUR OWN GAMES</h2>
+    <ol>
+      <li><strong>Before a queen trade or a minor-piece trade that leaves only pawns,</strong> ask yourself whether the resulting ending is won, drawn or lost. Use the rule of the square and the key squares to answer it, not intuition.</li>
+      <li><strong>Count tempi when kings are near the pawns.</strong> A single move often decides who holds the opposition.</li>
+      <li><strong>Keep the king active in the late middlegame.</strong> Kings that reach the centre early are the ones that arrive at key squares first.</li>
+      <li><strong>Look at the pawn endings in your lost games.</strong> If a drawn ending was lost because of a tempo, that is a concrete, fixable weakness.</li>
+    </ol>
+    <p>The good news is that the number of these ideas is small. If you know these three, plus the fact that rook pawns are special, you will correctly evaluate the large majority of pawn endings you will actually reach.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>Endgame errors are some of the most expensive in a game and the hardest to see by eye. Running your games through ChessDiary shows the exact move where a winning or drawn ending was lost.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/pawn-structure-basics/">Pawn Structure Basics: Isolated, Doubled and Passed Pawns →</a>
+      <a href="/guides/how-to-review-a-tournament-loss/">How to Review a Tournament Loss →</a>
+      <a href="/guides/chess-opening-principles/">Opening Principles Every Improving Player Should Know →</a>
+    </div>
+    <p class="credit">Board diagrams are generated from the positions described in each caption. Piece graphics by Colin M.L. Burnett, used under CC BY-SA 3.0 / GPL via the python-chess library.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

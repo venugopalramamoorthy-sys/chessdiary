@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Smothered mate, the Arabian mate, the ladder mate and Scholar&#x27;s mate, each shown on a board with the key idea and how to defend against it.">
+  <title>Checkmate Patterns Every Player Should Know — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/checkmate-patterns-every-player-should-know/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Checkmate Patterns Every Player Should Know — ChessDiary">
+  <meta property="og:description" content="Smothered mate, the Arabian mate, the ladder mate and Scholar&#x27;s mate, each shown on a board with the key idea and how to defend against it.">
+  <meta property="og:url" content="https://chessdiary.app/guides/checkmate-patterns-every-player-should-know/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Checkmate Patterns Every Player Should Know", "description": "Smothered mate, the Arabian mate, the ladder mate and Scholar's mate, each shown on a board with the key idea and how to defend against it.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/checkmate-patterns-every-player-should-know/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 12 · Tactics</span></div>
+    <h1>CHECKMATE PATTERNS EVERY PLAYER SHOULD KNOW</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>Strong players do not calculate checkmates from scratch. They recognise a shape: a king in a corner, a knight on the right square, two rooks ready to step forward, and the pattern tells them what the finish is. The calculation then becomes a quick confirmation instead of a search.</p>
+    <p>This guide shows four patterns that appear regularly in club and tournament games, with a position for each that has been checked against an engine. For each one, notice the same anatomy: a check that cannot be answered, and a king with nowhere to go.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>Most checkmates fall into a handful of recognisable patterns; learning them turns long calculations into short recognitions.</li>
+        <li>Every mating pattern has the same anatomy: the king's flight squares are blocked or covered, and the check cannot be captured or blocked.</li>
+        <li>The fastest way to defend is to count your own king's flight squares before the opponent does.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>THE ANATOMY OF A MATE</h2>
+    <p>A checkmate requires three things at once. The king is attacked. It cannot capture the attacker, or the attacker is protected. And none of its flight squares is safe, either because they are covered by an enemy piece or occupied by the king's own pieces. If you can count those three conditions, you can find, or avoid, any mate.</p>
+    <p>Notice that the king's own pieces are usually part of the problem. In the patterns below, the defender's pawns and rook trap the king as effectively as the attacker's pieces do.</p>
+
+    <h2>SMOTHERED MATE</h2>
+    <p>A smothered mate is delivered by a knight against a king completely surrounded by its own pieces. The knight is the only piece that can give check in this situation, because it jumps over the blockers.</p>
+    <figure class="board"><img src="/img/diagrams/checkmate-patterns-every-player-should-know-1.svg" width="360" height="360" alt="White: Kg1, Ng5. Black: Kh8, Rg8, pawns g7 h7. White to move." loading="lazy" decoding="async"><figcaption>White to move plays <strong>Nf7#</strong>. The king on h8 has no moves: g8 holds its own rook, and g7 and h7 hold its own pawns. Only a knight can check it, and nothing can capture the knight on f7.</figcaption></figure>
+    <p>Defensively, the lesson is to give a cornered king room. Moving a pawn so that the king has a flight square, or keeping the rook off the square next to the king, removes the pattern. Offensively, look for it any time the enemy king is in the corner with its own pieces beside it and a knight can reach the checking square. It often arrives after a queen sacrifice that forces the rook to the corner.</p>
+
+    <h2>THE ARABIAN MATE</h2>
+    <p>The Arabian mate uses a rook and a knight against a king in the corner. The rook gives check on the next rank and the knight both protects the rook and covers the king's escape square.</p>
+    <figure class="board"><img src="/img/diagrams/checkmate-patterns-every-player-should-know-2.svg" width="360" height="360" alt="White: Kg1, Ra7, Nf6. Black: Kh8. White to move." loading="lazy" decoding="async"><figcaption>White to move plays <strong>Rh7#</strong>. The rook gives check from h7. The knight on f6 protects the rook, so the king cannot capture it, and the knight also covers g8, the king's only other flight square. The rook covers g7.</figcaption></figure>
+    <p>The pattern needs the knight a knight's move from both the rook's checking square and the escape square. When your own king is in the corner, the practical defence is to watch for an enemy knight approaching f6 or f3 (or the mirror squares) when a rook can reach the seventh or second rank.</p>
+
+    <h2>THE LADDER MATE</h2>
+    <p>Two rooks (or a rook and queen) can checkmate a bare king by taking turns on adjacent ranks, each one cutting off a rank and pushing the king toward the edge. Because the checks "climb" the board like the rungs of a ladder, it is called the ladder or lawnmower mate.</p>
+    <figure class="board"><img src="/img/diagrams/checkmate-patterns-every-player-should-know-3.svg" width="360" height="360" alt="White: Kg1, Rb1, Ra2. Black: Kh8. White to move." loading="lazy" decoding="async"><figcaption>White to move wins by force. <strong>Rb7</strong> cuts off the seventh rank; after <strong>Kg8</strong>, <strong>Ra8#</strong> delivers mate along the eighth. Each rook covers one rank, so the king has no flight squares.</figcaption></figure>
+    <p>This is the standard way to convert an advantage of two rooks, or rook and queen, in the endgame, and it is worth being able to do it in your sleep, particularly with a clock running. The two checking pieces have to cover adjacent ranks, and they must not be on the same file where one can capture the other.</p>
+
+    <h2>SCHOLAR'S MATE (AND HOW NOT TO FALL FOR IT)</h2>
+    <p>Scholar's mate is the quickest checkmate that a beginner can fall into: White's queen and bishop team up against the weakest square in Black's position, f7, which only the king defends at the start of the game.</p>
+    <figure class="board"><img src="/img/diagrams/checkmate-patterns-every-player-should-know-4.svg" width="360" height="360" alt="White: Ke1, Qh5, Ra1, Rh1, Bc1, Bc4, Nb1, Ng1, pawns a2 b2 c2 d2 f2 g2 h2 e4. Black: Ke8, Qd8, Ra8, Rh8, Bc8, Bf8, Nc6, Nf6, pawns e5 a7 b7 c7 d7 f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>After 1.e4 e5 2.Qh5 Nc6 3.Bc4 Nf6??, White plays <strong>4.Qxf7#</strong>. The queen is protected by the bishop on c4, and the king's flight squares are covered or blocked. Black's natural-looking developing move was the mistake.</figcaption></figure>
+    <p>The defences are simple. After 3.Bc4, Black can play ...g6, attacking the queen, or ...Qe7, protecting f7, or ...Nh6 to cover it. More important than the specific move is the habit behind it: before making a developing move, check whether the opponent's last move created a threat on f7 (or f2 for White), and whether your move addresses it.</p>
+
+    <h2>WHAT TO DO WITH THESE PATTERNS</h2>
+    <ol>
+      <li><strong>Practise recognising the shape.</strong> When you replay a game after the fact, pause on any position where a king is cornered and ask which of these shapes it resembles.</li>
+      <li><strong>Count flight squares for both kings</strong> before any forcing sequence. Your own as well as your opponent's.</li>
+      <li><strong>Look for the checking piece first.</strong> In every example above, one piece gives the check and the rest of the position exists only to make it unanswerable. Find that piece, and the pattern becomes obvious.</li>
+    </ol>
+    <p>Over the board, you will rarely see an exact copy of any of these positions. What you will see is a half-built version of one, with a king boxed in, a knight a move away from a key square, a rook ready to lift. Recognising the half-built version is the skill that wins the game.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>Games that end in checkmate, or nearly do, are the most useful ones to review. ChessDiary's analysis flags the move that allowed the mating pattern, so you can see exactly where the king ran out of room.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/back-rank-mate-how-to-stop-it/">The Back-Rank Mate: How It Happens and How to Stop It →</a>
+      <a href="/guides/knight-forks-how-to-spot-them/">Knight Forks: How to Spot Them Before They Happen →</a>
+      <a href="/sample-analysis/">See a Real Analysis Report (Morphy's Opera Game) →</a>
+    </div>
+    <p class="credit">Board diagrams are generated from the positions described in each caption. Piece graphics by Colin M.L. Burnett, used under CC BY-SA 3.0 / GPL via the python-chess library.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

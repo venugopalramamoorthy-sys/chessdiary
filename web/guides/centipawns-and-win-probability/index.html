@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What a centipawn is, why +1.00 does not mean you are a pawn up, how engine scores map to winning chances, and how to use that when you review your games.">
+  <title>Centipawns and Win Probability: What an Engine Score Really Means — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/centipawns-and-win-probability/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Centipawns and Win Probability: What an Engine Score Really Means — ChessDiary">
+  <meta property="og:description" content="What a centipawn is, why +1.00 does not mean you are a pawn up, how engine scores map to winning chances, and how to use that when you review your games.">
+  <meta property="og:url" content="https://chessdiary.app/guides/centipawns-and-win-probability/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Centipawns and Win Probability: What an Engine Score Really Means", "description": "What a centipawn is, why +1.00 does not mean you are a pawn up, how engine scores map to winning chances, and how to use that when you review your games.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/centipawns-and-win-probability/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 15 · Improving</span></div>
+    <h1>CENTIPAWNS AND WIN PROBABILITY: WHAT AN ENGINE SCORE REALLY MEANS</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>Open any engine report and you will see numbers like +0.35, -1.20 or +3.80. Most players read them as "pawns": +1.20 means I am up a bit more than a pawn. That reading is natural, and it is only partly right, which leads to bad conclusions about how serious a mistake was.</p>
+    <p>This guide explains what the numbers represent, how they translate into the chances of actually winning the game, and what that means for how you read an analysis report of your own games.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>A centipawn is one hundredth of a pawn in the engine's own units; it measures an overall assessment, not literal material.</li>
+        <li>Evaluation and winning chances do not rise in a straight line: the same swing matters much more near equality than when one side is already winning.</li>
+        <li>A 100-centipawn loss from an equal position costs about 9 percentage points of win chance; going from +5.00 to +4.00 costs about 5.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>WHAT A CENTIPAWN IS</h2>
+    <p>A <strong>centipawn</strong> is one hundredth of a pawn. Engines evaluate positions in these units because early chess programs counted material and nothing else, so a pawn was worth 100 points and the other pieces were scaled from there. Modern engines still report in the same units, but the score now reflects far more than material: piece activity, king safety, pawn structure, space and threats are all folded into one number.</p>
+    <p>That is why an evaluation of +1.00 does not mean you are literally a pawn up. You can be up a clean pawn and be +1.00. You can also be level on material with a dominant position, or be a piece down with enough compensation. The number is a summary judgment about the whole position, assuming both sides then play the best moves.</p>
+
+    <h2>FROM EVALUATION TO WINNING CHANCES</h2>
+    <p>What you actually care about is whether you will win, and the relationship between evaluation and result is not a straight line. A few extra centipawns matter a great deal when the game is balanced, and hardly at all when one side is already far ahead. A rough model of this appears on Lichess's <a href="https://lichess.org/page/accuracy" rel="noopener">accuracy page</a>, which uses the following formula to convert centipawns (<em>cp</em>) into an expected win percentage:</p>
+    <p><code>win% = 50 + 50 &times; (2 / (1 + exp(&minus;0.00368208 &times; cp)) &minus; 1)</code></p>
+    <p>Plotted, it is an S-shaped curve. It rises steeply around zero and flattens toward the ends.</p>
+    <figure class="board"><svg viewBox="0 0 640 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wt wd" style="max-width:100%;height:auto">
+<title id="wt">Win chance against engine evaluation</title>
+<desc id="wd">An S-shaped curve: win chance rises from near 0 percent at minus 800 centipawns to 50 percent at zero and near 100 percent at plus 800 centipawns, flattening at both ends.</desc>
+<rect x="0" y="0" width="640" height="330" fill="#FFFFFF"/>
+<line x1="64" y1="270.0" x2="616" y2="270.0" stroke="#E8E6DF" stroke-width="1"/>
+<text x="56" y="274.0" font-size="11" text-anchor="end" fill="#666" font-family="Georgia,serif">0%</text>
+<line x1="64" y1="208.5" x2="616" y2="208.5" stroke="#E8E6DF" stroke-width="1"/>
+<text x="56" y="212.5" font-size="11" text-anchor="end" fill="#666" font-family="Georgia,serif">25%</text>
+<line x1="64" y1="147.0" x2="616" y2="147.0" stroke="#E8E6DF" stroke-width="1"/>
+<text x="56" y="151.0" font-size="11" text-anchor="end" fill="#666" font-family="Georgia,serif">50%</text>
+<line x1="64" y1="85.5" x2="616" y2="85.5" stroke="#E8E6DF" stroke-width="1"/>
+<text x="56" y="89.5" font-size="11" text-anchor="end" fill="#666" font-family="Georgia,serif">75%</text>
+<line x1="64" y1="24.0" x2="616" y2="24.0" stroke="#E8E6DF" stroke-width="1"/>
+<text x="56" y="28.0" font-size="11" text-anchor="end" fill="#666" font-family="Georgia,serif">100%</text>
+<line x1="64.0" y1="24" x2="64.0" y2="270" stroke="#E8E6DF" stroke-width="1"/>
+<text x="64.0" y="288" font-size="11" text-anchor="middle" fill="#666" font-family="Georgia,serif">-8</text>
+<line x1="202.0" y1="24" x2="202.0" y2="270" stroke="#E8E6DF" stroke-width="1"/>
+<text x="202.0" y="288" font-size="11" text-anchor="middle" fill="#666" font-family="Georgia,serif">-4</text>
+<line x1="340.0" y1="24" x2="340.0" y2="270" stroke="#E8E6DF" stroke-width="1"/>
+<text x="340.0" y="288" font-size="11" text-anchor="middle" fill="#666" font-family="Georgia,serif">0</text>
+<line x1="478.0" y1="24" x2="478.0" y2="270" stroke="#E8E6DF" stroke-width="1"/>
+<text x="478.0" y="288" font-size="11" text-anchor="middle" fill="#666" font-family="Georgia,serif">+4</text>
+<line x1="616.0" y1="24" x2="616.0" y2="270" stroke="#E8E6DF" stroke-width="1"/>
+<text x="616.0" y="288" font-size="11" text-anchor="middle" fill="#666" font-family="Georgia,serif">+8</text>
+<polyline points="64.0,257.7 70.9,256.8 77.8,255.9 84.7,254.9 91.6,253.8 98.5,252.6 105.4,251.4 112.3,250.1 119.2,248.7 126.1,247.2 133.0,245.7 139.9,244.0 146.8,242.2 153.7,240.4 160.6,238.4 167.5,236.3 174.4,234.1 181.3,231.8 188.2,229.4 195.1,226.8 202.0,224.1 208.9,221.3 215.8,218.4 222.7,215.3 229.6,212.1 236.5,208.8 243.4,205.3 250.3,201.8 257.2,198.1 264.1,194.3 271.0,190.3 277.9,186.3 284.8,182.2 291.7,178.0 298.6,173.7 305.5,169.4 312.4,165.0 319.3,160.5 326.2,156.0 333.1,151.5 340.0,147.0 346.9,142.5 353.8,138.0 360.7,133.5 367.6,129.0 374.5,124.6 381.4,120.3 388.3,116.0 395.2,111.8 402.1,107.7 409.0,103.7 415.9,99.7 422.8,95.9 429.7,92.2 436.6,88.7 443.5,85.2 450.4,81.9 457.3,78.7 464.2,75.6 471.1,72.7 478.0,69.9 484.9,67.2 491.8,64.6 498.7,62.2 505.6,59.9 512.5,57.7 519.4,55.6 526.3,53.6 533.2,51.8 540.1,50.0 547.0,48.3 553.9,46.8 560.8,45.3 567.7,43.9 574.6,42.6 581.5,41.4 588.4,40.2 595.3,39.1 602.2,38.1 609.1,37.2 616.0,36.3" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linejoin="round"/>
+<circle cx="236.5" cy="208.8" r="4" fill="#1B5E20"/>
+<text x="228.5" y="224.8" font-size="11" text-anchor="end" fill="#0C0C0C" font-family="Georgia,serif" font-weight="bold">25%</text>
+<circle cx="305.5" cy="169.4" r="4" fill="#1B5E20"/>
+<text x="297.5" y="185.4" font-size="11" text-anchor="end" fill="#0C0C0C" font-family="Georgia,serif" font-weight="bold">41%</text>
+<circle cx="374.5" cy="124.6" r="4" fill="#1B5E20"/>
+<text x="382.5" y="116.6" font-size="11" text-anchor="start" fill="#0C0C0C" font-family="Georgia,serif" font-weight="bold">59%</text>
+<circle cx="443.5" cy="85.2" r="4" fill="#1B5E20"/>
+<text x="451.5" y="77.2" font-size="11" text-anchor="start" fill="#0C0C0C" font-family="Georgia,serif" font-weight="bold">75%</text>
+<text x="340.0" y="318" font-size="11.5" text-anchor="middle" fill="#666" font-family="Georgia,serif">Engine evaluation (pawns, from the side being assessed)</text>
+<text x="14" y="147.0" font-size="11.5" text-anchor="middle" fill="#666" font-family="Georgia,serif" transform="rotate(-90 14 147.0)">Expected win chance</text>
+</svg><figcaption>Expected win chance against evaluation, using the model above. The curve is steepest near equality and nearly flat beyond about +5.</figcaption></figure>
+    <div class="table-wrap"><table class="simple">
+      <tr><th>Evaluation (pawns)</th><th>Centipawns</th><th>Expected win chance</th></tr>
+      <tr><td>0.00</td><td>0</td><td>50.0%</td></tr>
+      <tr><td>+0.50</td><td>50</td><td>54.6%</td></tr>
+      <tr><td>+1.00</td><td>100</td><td>59.1%</td></tr>
+      <tr><td>+1.50</td><td>150</td><td>63.5%</td></tr>
+      <tr><td>+2.00</td><td>200</td><td>67.6%</td></tr>
+      <tr><td>+3.00</td><td>300</td><td>75.1%</td></tr>
+      <tr><td>+4.00</td><td>400</td><td>81.3%</td></tr>
+      <tr><td>+5.00</td><td>500</td><td>86.3%</td></tr>
+      <tr><td>+8.00</td><td>800</td><td>95.0%</td></tr>
+    </table></div>
+    <p>These are model values, not laws. Different sites and engines use different curves, and the real relationship depends on the rating and playing style of the people involved. Treat them as a shape to understand, not a number to quote.</p>
+
+    <h2>WHY THE SAME SWING COSTS DIFFERENT AMOUNTS</h2>
+    <p>Because of the S-curve, a loss of 100 centipawns does not always cost the same. Using the model: dropping from 0.00 to &minus;1.00 reduces your chances by about 9 percentage points. Dropping from +5.00 to +4.00 reduces them by about 5. Going from +9.00 to +8.00 costs about 1.5, which is almost nothing.</p>
+    <p>This is why a flagged "blunder" in a position that was already completely winning is far less important than a smaller slip in a balanced position. It also means labels based on a fixed centipawn loss (as in ChessDiary's quality labels: roughly 0&ndash;40 best or good, 40&ndash;90 inaccuracy, 90&ndash;200 mistake, 200 and above blunder) are a simplification. They are a useful way to find the moves worth reviewing, but the practical cost depends on where you started.</p>
+
+    <h2>WHAT AN ENGINE SCORE DOES NOT TELL YOU</h2>
+    <ul>
+      <li><strong>Difficulty for a human.</strong> A +3.00 position that requires ten accurate "only moves" in a row is a much harder win than a +3.00 position with a simple plan.</li>
+      <li><strong>Whether the plan is findable.</strong> The engine sees the winning line instantly. You may not, and neither may your opponent.</li>
+      <li><strong>Fortresses and draws.</strong> Some positions with a high evaluation are held by a drawing setup the engine only recognises with deep search. Be sceptical of large scores in closed or blocked positions.</li>
+      <li><strong>Mate scores.</strong> Once the engine finds a forced mate, the centipawn scale stops being meaningful. Reports typically show "mate in N" or a capped value.</li>
+    </ul>
+
+    <h2>HOW TO USE THIS WHEN YOU REVIEW A GAME</h2>
+    <ol>
+      <li><strong>Focus on the swings, not the totals.</strong> Look for moves where the evaluation moved by roughly 1.5 pawns or more in a position that was still close. Those are the turning points.</li>
+      <li><strong>Find where the sign flipped.</strong> The moment the evaluation crossed zero in the opponent's favour is usually where the game was actually decided.</li>
+      <li><strong>Ignore noise in lopsided positions.</strong> Once a position is clearly won or lost, small evaluation changes mean much less.</li>
+      <li><strong>Read your own conversion record.</strong> Over a set of games, ask: when I reached +2.00 or better, how often did I win? That is your personal version of the curve above, and it is one of the most revealing numbers a game diary can give you.</li>
+    </ol>
+    <p>The last point is the one that is easy to overlook. The curve in the chart is an average over many players. Yours may sit lower, if you lose won games, or higher, if you are strong at converting. Seeing the gap between the engine's expectation and your own results is a clear signal of what to work on: calculation when the position is balanced, or technique when you are ahead.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>ChessDiary's analysis report shows the centipawn loss and quality label for each flagged move, and the evaluation graph shows where each game turned. Over many games, it also lets you see how you actually perform from winning positions.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/how-to-read-a-stockfish-analysis-report/">How to Read a Stockfish Blunder Report →</a>
+      <a href="/guides/how-to-review-a-tournament-loss/">How to Review a Tournament Loss →</a>
+      <a href="/sample-analysis/">See a Real Analysis Report (Morphy's Opera Game) →</a>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

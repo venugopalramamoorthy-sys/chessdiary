@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Practical chess guides on reading scoresheets, avoiding common blunders, and opening principles — written for improving club players by ChessDiary.">
+  <meta name="description" content="Practical chess guides on tactics, endgames, pawn structure, reviewing your games and time management, plus guides to using ChessDiary. Board diagrams are engine-checked.">
   <title>Chess Guides — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Chess Guides — ChessDiary">
+  <meta property="og:description" content="Practical chess guides on tactics, endgames, pawn structure, reviewing your games and time management, plus guides to using ChessDiary. Board diagrams are engine-checked.">
+  <meta property="og:url" content="https://chessdiary.app/guides/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +66,13 @@
     .guide-desc { font-size: 14px; color: var(--muted); }
     footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
     footer a { color: var(--green); font-weight: 600; text-decoration: none; }
+  
+    .section-title { font-family: 'Anton', Impact, sans-serif; font-size: 22px; letter-spacing: 1.5px; color: var(--ink); margin: 48px 0 6px; }
+    .section-note { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+    .intro a { color: var(--green); font-weight: 600; text-decoration: none; }
+    .intro a:hover { text-decoration: underline; }
   </style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "Chess Guides — ChessDiary", "url": "https://chessdiary.app/guides/", "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://chessdiary.app/guides/how-to-read-a-chess-scoresheet/", "name": "How to Read (and Keep) a Chess Scoresheet"}, {"@type": "ListItem", "position": 2, "url": "https://chessdiary.app/guides/common-chess-blunders/", "name": "The Most Common Blunder Patterns in Club-Level Chess"}, {"@type": "ListItem", "position": 3, "url": "https://chessdiary.app/guides/chess-opening-principles/", "name": "Opening Principles Every Improving Player Should Know"}, {"@type": "ListItem", "position": 4, "url": "https://chessdiary.app/guides/photographing-a-scoresheet-for-ocr/", "name": "How to Photograph a Scoresheet for Accurate OCR"}, {"@type": "ListItem", "position": 5, "url": "https://chessdiary.app/guides/scoresheet-ocr-messy-handwriting/", "name": "How ChessDiary Reads Messy Handwriting (and When It Can't)"}, {"@type": "ListItem", "position": 6, "url": "https://chessdiary.app/guides/pgn-import-vs-chess-com-lichess-sync/", "name": "PGN Import vs. Chess.com/Lichess Sync: Which to Use"}, {"@type": "ListItem", "position": 7, "url": "https://chessdiary.app/guides/how-to-read-a-stockfish-analysis-report/", "name": "How to Read a Stockfish Blunder Report"}, {"@type": "ListItem", "position": 8, "url": "https://chessdiary.app/guides/what-happens-when-stockfish-is-unreachable/", "name": "What Happens When the Analysis Engine Is Unreachable"}, {"@type": "ListItem", "position": 9, "url": "https://chessdiary.app/guides/back-rank-mate-how-to-stop-it/", "name": "The Back-Rank Mate: How It Happens and How to Stop It"}, {"@type": "ListItem", "position": 10, "url": "https://chessdiary.app/guides/knight-forks-how-to-spot-them/", "name": "Knight Forks: How to Spot Them Before They Happen"}, {"@type": "ListItem", "position": 11, "url": "https://chessdiary.app/guides/pins-skewers-and-discovered-attacks/", "name": "Pins, Skewers and Discovered Attacks"}, {"@type": "ListItem", "position": 12, "url": "https://chessdiary.app/guides/checkmate-patterns-every-player-should-know/", "name": "Checkmate Patterns Every Player Should Know"}, {"@type": "ListItem", "position": 13, "url": "https://chessdiary.app/guides/king-and-pawn-endgames-opposition-key-squares/", "name": "King and Pawn Endgames: The Rule of the Square, Key Squares and Opposition"}, {"@type": "ListItem", "position": 14, "url": "https://chessdiary.app/guides/pawn-structure-basics/", "name": "Pawn Structure Basics: Isolated, Doubled and Passed Pawns"}, {"@type": "ListItem", "position": 15, "url": "https://chessdiary.app/guides/centipawns-and-win-probability/", "name": "Centipawns and Win Probability: What an Engine Score Really Means"}, {"@type": "ListItem", "position": 16, "url": "https://chessdiary.app/guides/how-to-review-a-tournament-loss/", "name": "How to Review a Tournament Loss: A Step-by-Step Method"}, {"@type": "ListItem", "position": 17, "url": "https://chessdiary.app/guides/chess-time-management-classical-games/", "name": "Time Management in Classical Chess: Where to Spend Your Clock"}, {"@type": "ListItem", "position": 18, "url": "https://chessdiary.app/guides/what-to-record-in-a-chess-journal/", "name": "What to Record in a Chess Journal (and What to Skip)"}, {"@type": "ListItem", "position": 19, "url": "https://chessdiary.app/guides/candidate-moves-and-calculation/", "name": "Candidate Moves and Calculation: How to Think Before You Move"}]}}</script>
 </head>
 <body>
 
@@ -71,28 +85,93 @@
     <div class="page-eyebrow"><span>Guides</span></div>
     <h1>CHESS<br>GUIDES</h1>
     <p class="intro">
-      Practical, no-nonsense chess guides for club and tournament players who want to
-      understand their games better — from reading a scoresheet correctly to
-      the blunder patterns that cost the most rating points, plus guides to
-      getting the most out of ChessDiary itself. Written by the ChessDiary team,
-      drawing on patterns we see across thousands of imported games.
+      Practical chess guides for club and tournament players: tactics you can learn to recognise, endgame and pawn-structure fundamentals, ways to review and keep track of your own games, and guides to using ChessDiary itself. Where a guide shows a board position, the position and its claims have been checked against the Stockfish engine. Guides are published under the author's byline; see <a href="/about/">About</a> for how they are made and how to report an error.
     </p>
 
+    <h2 class="section-title">Tactics</h2>
+    <p class="section-note">Patterns you can learn to see on the board, and a routine for calculating them.</p>
     <div class="guide-list">
-      <a class="guide-card" href="/guides/how-to-read-a-chess-scoresheet/">
-        <span class="guide-number">GUIDE 01</span>
-        <div class="guide-title">How to Read (and Keep) a Chess Scoresheet</div>
-        <div class="guide-desc">Algebraic notation basics, the parts of a standard scoresheet, and the handwriting habits that make a game easy to recover later — or impossible to.</div>
-      </a>
       <a class="guide-card" href="/guides/common-chess-blunders/">
         <span class="guide-number">GUIDE 02</span>
         <div class="guide-title">The Most Common Blunder Patterns in Club-Level Chess</div>
         <div class="guide-desc">Forks, back-rank mates, hanging pieces, and the in-between move — the handful of tactical motifs responsible for most lost games below master level.</div>
       </a>
+      <a class="guide-card" href="/guides/back-rank-mate-how-to-stop-it/">
+        <span class="guide-number">GUIDE 09</span>
+        <div class="guide-title">The Back-Rank Mate: How It Happens and How to Stop It</div>
+        <div class="guide-desc">Why castled kings get mated on the back rank, three ways to prevent it, and how to spot the combinations that exploit it, with verified board diagrams.</div>
+      </a>
+      <a class="guide-card" href="/guides/knight-forks-how-to-spot-them/">
+        <span class="guide-number">GUIDE 10</span>
+        <div class="guide-title">Knight Forks: How to Spot Them Before They Happen</div>
+        <div class="guide-desc">Why knights fork so well, the royal and family fork patterns, and a scan that stops them in your own games.</div>
+      </a>
+      <a class="guide-card" href="/guides/pins-skewers-and-discovered-attacks/">
+        <span class="guide-number">GUIDE 11</span>
+        <div class="guide-title">Pins, Skewers and Discovered Attacks</div>
+        <div class="guide-desc">Three line-based tactics side by side: how each works on the board, how to win material with it and how to avoid it.</div>
+      </a>
+      <a class="guide-card" href="/guides/checkmate-patterns-every-player-should-know/">
+        <span class="guide-number">GUIDE 12</span>
+        <div class="guide-title">Checkmate Patterns Every Player Should Know</div>
+        <div class="guide-desc">Smothered mate, the Arabian mate, the ladder mate and Scholar's mate, with the key idea and defence for each.</div>
+      </a>
+      <a class="guide-card" href="/guides/candidate-moves-and-calculation/">
+        <span class="guide-number">GUIDE 19</span>
+        <div class="guide-title">Candidate Moves and Calculation: How to Think Before You Move</div>
+        <div class="guide-desc">A repeatable routine for choosing a move, shown on two positions from Morphy's Opera Game.</div>
+      </a>
+    </div>
+    <h2 class="section-title">Strategy &amp; Endgames</h2>
+    <p class="section-note">The structures and endings that quietly decide games.</p>
+    <div class="guide-list">
       <a class="guide-card" href="/guides/chess-opening-principles/">
         <span class="guide-number">GUIDE 03</span>
         <div class="guide-title">Opening Principles Every Improving Player Should Know</div>
         <div class="guide-desc">You don't need to memorize theory to stop losing in the opening. Five principles that keep you out of trouble in the first ten moves.</div>
+      </a>
+      <a class="guide-card" href="/guides/pawn-structure-basics/">
+        <span class="guide-number">GUIDE 14</span>
+        <div class="guide-title">Pawn Structure Basics: Isolated, Doubled and Passed Pawns</div>
+        <div class="guide-desc">What each pawn structure means, which weakness and compensation it carries, and which plan it points to.</div>
+      </a>
+      <a class="guide-card" href="/guides/king-and-pawn-endgames-opposition-key-squares/">
+        <span class="guide-number">GUIDE 13</span>
+        <div class="guide-title">King and Pawn Endgames: The Rule of the Square, Key Squares and Opposition</div>
+        <div class="guide-desc">The three ideas that decide almost every king-and-pawn ending, with engine-checked diagrams.</div>
+      </a>
+    </div>
+    <h2 class="section-title">Improving Your Game</h2>
+    <p class="section-note">How to review, track and learn from your own games.</p>
+    <div class="guide-list">
+      <a class="guide-card" href="/guides/centipawns-and-win-probability/">
+        <span class="guide-number">GUIDE 15</span>
+        <div class="guide-title">Centipawns and Win Probability: What an Engine Score Really Means</div>
+        <div class="guide-desc">What an engine score measures, how it maps to winning chances, and how to read swings when reviewing your games.</div>
+      </a>
+      <a class="guide-card" href="/guides/how-to-review-a-tournament-loss/">
+        <span class="guide-number">GUIDE 16</span>
+        <div class="guide-title">How to Review a Tournament Loss: A Step-by-Step Method</div>
+        <div class="guide-desc">A 30-minute method for turning a lost game into one concrete rule, and a monthly count that shows your real weakness.</div>
+      </a>
+      <a class="guide-card" href="/guides/chess-time-management-classical-games/">
+        <span class="guide-number">GUIDE 17</span>
+        <div class="guide-title">Time Management in Classical Chess: Where to Spend Your Clock</div>
+        <div class="guide-desc">Why players run short of time, how to budget the clock, how to play when time is short, and the scoresheet rule.</div>
+      </a>
+      <a class="guide-card" href="/guides/what-to-record-in-a-chess-journal/">
+        <span class="guide-number">GUIDE 18</span>
+        <div class="guide-title">What to Record in a Chess Journal (and What to Skip)</div>
+        <div class="guide-desc">A five-field minimum for a chess journal, the fuller set if you want more, an example entry and a monthly review.</div>
+      </a>
+    </div>
+    <h2 class="section-title">Scoresheets &amp; Notation</h2>
+    <p class="section-note">Getting a game out of your head or off paper and into a form you can analyse.</p>
+    <div class="guide-list">
+      <a class="guide-card" href="/guides/how-to-read-a-chess-scoresheet/">
+        <span class="guide-number">GUIDE 01</span>
+        <div class="guide-title">How to Read (and Keep) a Chess Scoresheet</div>
+        <div class="guide-desc">Algebraic notation basics, the parts of a standard scoresheet, and the handwriting habits that make a game easy to recover later — or impossible to.</div>
       </a>
       <a class="guide-card" href="/guides/photographing-a-scoresheet-for-ocr/">
         <span class="guide-number">GUIDE 04</span>
@@ -104,6 +183,10 @@
         <div class="guide-title">How ChessDiary Reads Messy Handwriting (and When It Can't)</div>
         <div class="guide-desc">What parse confidence means, the most common handwriting misreads, and what to do when a scoresheet comes back uncertain.</div>
       </a>
+    </div>
+    <h2 class="section-title">Using ChessDiary</h2>
+    <p class="section-note">How the app imports, analyses and falls back.</p>
+    <div class="guide-list">
       <a class="guide-card" href="/guides/pgn-import-vs-chess-com-lichess-sync/">
         <span class="guide-number">GUIDE 06</span>
         <div class="guide-title">PGN Import vs. Chess.com/Lichess Sync: Which to Use</div>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A practical guide to keeping a chess journal: the fields worth recording for every game, a five-field minimum, an example entry and how to review it each month.">
+  <title>What to Record in a Chess Journal (and What to Skip) — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/what-to-record-in-a-chess-journal/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="What to Record in a Chess Journal (and What to Skip) — ChessDiary">
+  <meta property="og:description" content="A practical guide to keeping a chess journal: the fields worth recording for every game, a five-field minimum, an example entry and how to review it each month.">
+  <meta property="og:url" content="https://chessdiary.app/guides/what-to-record-in-a-chess-journal/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "What to Record in a Chess Journal (and What to Skip)", "description": "A practical guide to keeping a chess journal: the fields worth recording for every game, a five-field minimum, an example entry and how to review it each month.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/what-to-record-in-a-chess-journal/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 18 · Improving</span></div>
+    <h1>WHAT TO RECORD IN A CHESS JOURNAL (AND WHAT TO SKIP)</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>Most players who want to improve have tried keeping some kind of record at some point, and most gave up within a few weeks. Usually the reason is the same: they tried to record too much, the notes were too vague to be useful, or the record was in a place they never looked at again.</p>
+    <p>This guide is about what to record, so that the effort is worth it. It is written for over-the-board and online players, and it applies whether you keep notes on paper, in a spreadsheet or in an app.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>A journal that you actually keep is worth more than a perfect one you abandon: start with five fields.</li>
+        <li>Record the objective facts (what was played) and the subjective ones (what you thought and felt); you need both to find patterns.</li>
+        <li>The value appears in the monthly review, so record in a form you can count.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>WHY KEEP ONE AT ALL</h2>
+    <p>A single game rarely teaches you much about your own play. The same mistake appearing in six different games does. A journal turns a stream of separate games into data: which openings you score badly in, whether you lose more with Black than White, whether you play worse in the last round of a tournament, whether your losses cluster after you fall below ten minutes.</p>
+    <p>You can only see these things if the information is recorded the same way every time. That is the real function of a journal: it makes your games comparable.</p>
+
+    <h2>THE FIVE-FIELD MINIMUM</h2>
+    <p>If recording feels like a chore, you will stop. Start with these five fields for every serious game, and add more only if you find you want them:</p>
+    <ol>
+      <li><strong>The moves.</strong> The full game, as a scoresheet or PGN. Without this, nothing else can be checked.</li>
+      <li><strong>Result and colour.</strong> Win, draw or loss, and whether you were White or Black.</li>
+      <li><strong>Opening.</strong> Its name or the first four to six moves. This lets you group games by opening later.</li>
+      <li><strong>The turning point.</strong> One sentence on the move or moment where the game was decided.</li>
+      <li><strong>One lesson.</strong> One sentence, written as an instruction for next time (see <a href="/guides/how-to-review-a-tournament-loss/">How to Review a Tournament Loss</a>).</li>
+    </ol>
+
+    <h2>THE FULL SET, IF YOU WANT MORE</h2>
+    <div class="table-wrap"><table class="simple">
+      <tr><th>Field</th><th>Why it is worth recording</th></tr>
+      <tr><td><strong>Date and event</strong></td><td>Lets you see trends across tournaments and over time.</td></tr>
+      <tr><td><strong>Time control</strong></td><td>Your results at rapid and classical may differ a lot.</td></tr>
+      <tr><td><strong>Opponent and rating</strong></td><td>Shows how you perform against stronger and weaker players. Use only what is already public in the pairings.</td></tr>
+      <tr><td><strong>Time left at checkpoints</strong></td><td>Reveals whether you spend your clock well. See <a href="/guides/chess-time-management-classical-games/">Time Management in Classical Chess</a>.</td></tr>
+      <tr><td><strong>Engine's biggest swings</strong></td><td>The two or three moves where the evaluation changed most.</td></tr>
+      <tr><td><strong>Cause of the mistake</strong></td><td>One category from a fixed list (tactical oversight, time trouble, endgame technique and so on).</td></tr>
+      <tr><td><strong>Your state</strong></td><td>Tired, calm, rushed or distracted. It often matters more than the opening.</td></tr>
+    </table></div>
+
+    <h2>AN EXAMPLE ENTRY</h2>
+    <p>This is an invented entry, to show the level of detail that is enough:</p>
+    <div class="table-wrap"><table class="simple">
+      <tr><th>Field</th><th>Entry</th></tr>
+      <tr><td>Event / time control</td><td>Club rapid, 25 + 5</td></tr>
+      <tr><td>Colour / result</td><td>Black, loss</td></tr>
+      <tr><td>Opening</td><td>Queen's Gambit Declined (1.d4 d5 2.c4 e6)</td></tr>
+      <tr><td>Turning point</td><td>Move 21: I traded my last rook and did not notice that the back rank was open</td></tr>
+      <tr><td>Cause</td><td>Tactical oversight (back rank)</td></tr>
+      <tr><td>State</td><td>Calm, but I was playing on autopilot after move 15</td></tr>
+      <tr><td>Lesson</td><td>Before any rook trade, check my king's flight square.</td></tr>
+    </table></div>
+    <p>That takes about two minutes to write once you have the game, and it is already enough to be counted and compared with other games.</p>
+
+    <h2>WHAT TO SKIP</h2>
+    <ul>
+      <li><strong>Long written annotations of every move.</strong> They take hours and are rarely re-read. Record the swings, not the whole game.</li>
+      <li><strong>Elaborate scoring systems.</strong> If you need a rubric to fill it in, you will not fill it in.</li>
+      <li><strong>Information that you will never count.</strong> Every field should be something you might later group or compare.</li>
+      <li><strong>Personal details about opponents.</strong> Their name and rating from the public pairing are enough. Do not store anything about them that you would not want written about yourself.</li>
+    </ul>
+
+    <h2>THE MONTHLY REVIEW</h2>
+    <p>A journal only pays off when you read it. Once a month, spend half an hour going through the entries and answering a few counting questions:</p>
+    <ul>
+      <li>Which opening did I play most, and what was my score with it?</li>
+      <li>Do my results differ with White and Black?</li>
+      <li>Which cause appears most often in my losses?</li>
+      <li>Do my losses concentrate in particular rounds, times of day or time controls?</li>
+      <li>Which of my lessons did I actually follow, and which did I forget?</li>
+    </ul>
+    <p>The answer to the third question is the most useful one. It is your current weakness, as measured by your own games, and it determines what to train next month.</p>
+
+    <h2>PAPER OR DIGITAL</h2>
+    <p>Either works. Paper is quick at the board and suits those who write the moves anyway, but it is hard to search or count. A digital record can be sorted, filtered and compared, which is where the value of the monthly review comes from. A practical combination is to keep the paper scoresheet for the game and then put the moves and notes into a digital record afterwards, so that nothing is lost and everything can be searched.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>ChessDiary covers the objective half of the journal: it stores every game from paper, Chess.com and Lichess in one library you can filter by opponent, opening, time control and result, and it flags the biggest mistakes in each. Your notes on state, turning point and lesson are the other half.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/how-to-review-a-tournament-loss/">How to Review a Tournament Loss →</a>
+      <a href="/guides/chess-time-management-classical-games/">Time Management in Classical Chess →</a>
+      <a href="/guides/how-to-read-a-chess-scoresheet/">How to Read (and Keep) a Chess Scoresheet →</a>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

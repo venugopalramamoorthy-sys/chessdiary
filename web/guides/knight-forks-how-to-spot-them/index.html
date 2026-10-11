@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How knight forks work, which squares to watch, the royal and family fork patterns with diagrams, and a practical scan that stops them in your own games.">
+  <title>Knight Forks: How to Spot Them Before They Happen — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/knight-forks-how-to-spot-them/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Knight Forks: How to Spot Them Before They Happen — ChessDiary">
+  <meta property="og:description" content="How knight forks work, which squares to watch, the royal and family fork patterns with diagrams, and a practical scan that stops them in your own games.">
+  <meta property="og:url" content="https://chessdiary.app/guides/knight-forks-how-to-spot-them/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Knight Forks: How to Spot Them Before They Happen", "description": "How knight forks work, which squares to watch, the royal and family fork patterns with diagrams, and a practical scan that stops them in your own games.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/knight-forks-how-to-spot-them/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 10 · Tactics</span></div>
+    <h1>KNIGHT FORKS: HOW TO SPOT THEM BEFORE THEY HAPPEN</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>A fork is a single move that attacks two or more enemy pieces at once, so the opponent can only save one of them. Any piece can fork, and pawns and queens do it regularly, but the knight is the champion of the technique. It is also the piece players most often misjudge, because the way it moves is hard to picture a move in advance.</p>
+    <p>This guide explains why knights are such good forkers, shows the two patterns that win the most material, and gives you a simple scan to run on your own games so you stop being the victim.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>A piece attacked by an enemy knight (other than another knight) cannot attack the knight back, which is why a fork is so hard to answer.</li>
+        <li>The most damaging version is the <strong>check fork</strong>: the king must respond, so the second piece falls for free.</li>
+        <li>Before each move, list the squares an enemy knight can reach next turn and ask what it would attack from each of them.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>WHY THE KNIGHT FORKS SO WELL</h2>
+    <p>A knight moves two squares in one direction and one square at right angles, and it jumps over anything in the way. From the centre it attacks eight squares. Two properties make those attacks dangerous:</p>
+    <ul>
+      <li><strong>The attack is one-way.</strong> A rook, bishop, queen or king standing on a square attacked by a knight is not attacking the knight in return. Only another knight can attack back. So you cannot answer a knight fork by capturing the knight with the attacked piece.</li>
+      <li><strong>Blocking does nothing.</strong> A knight jumps, so you cannot interpose between it and its target the way you can against a bishop, rook or queen.</li>
+    </ul>
+    <figure class="board"><img src="/img/diagrams/knight-forks-how-to-spot-them-1.svg" width="360" height="360" alt="White: Kh1, Ne4. Black: Ka8. White to move." loading="lazy" decoding="async"><figcaption>The eight squares attacked by a knight on e4, highlighted. Any two enemy pieces standing on two of these squares are forkable the moment the knight lands there, and a single knight move changes the whole set.</figcaption></figure>
+    <p>That second picture is what you need to carry in your head: the set of squares a knight attacks changes completely with every move it makes, and the new set is always on the opposite colour from the old one. A knight on a white square attacks only black squares, and vice versa.</p>
+
+    <h2>PATTERN 1: THE ROYAL FORK</h2>
+    <p>A royal fork attacks the king and another piece. Because the king must respond to the check, the other piece cannot be saved, and the knight collects it on the next move. This is the version that actually decides games.</p>
+    <figure class="board"><img src="/img/diagrams/knight-forks-how-to-spot-them-2.svg" width="360" height="360" alt="White: Ke1, Nd5, pawns a2 b2 c2. Black: Ke8, Ra8. White to move." loading="lazy" decoding="async"><figcaption>White to move. <strong>Nc7+</strong> attacks the king on e8 and the rook on a8 at the same time. The king has to move, and then <strong>Nxa8</strong> wins the rook for nothing.</figcaption></figure>
+    <p>The condition that makes it work is that the king and the other piece are exactly a knight's move apart from the same square, or that one is on that square after a forced move. You will see this most often with a king and rook on their starting squares, which is why the squares c7 and f7 (c2 and f2 against White's king) deserve a second look in the opening, before castling.</p>
+
+    <h2>PATTERN 2: THE FAMILY FORK</h2>
+    <p>The "family fork" attacks the king, the queen and often a rook as well. It is the royal fork scaled up, and it wins the most valuable piece on the board.</p>
+    <figure class="board"><img src="/img/diagrams/knight-forks-how-to-spot-them-3.svg" width="360" height="360" alt="White: Kg1, Ng5, pawns a2 b2 c2. Black: Kh8, Qd8. White to move." loading="lazy" decoding="async"><figcaption>White to move. <strong>Nf7+</strong> forks the king on h8 and the queen on d8. After the king moves, <strong>Nxd8</strong> wins the queen. A knight on f7 attacks both d8 and h8, which is why f7 is a standard fork square against a king in the corner.</figcaption></figure>
+
+    <h2>WHERE FORKS COME FROM</h2>
+    <p>Forks are rarely random. They usually arrive after a forcing move that puts a piece on the wrong square, or after a trade that changes which of your pieces is defended. The most common ways:</p>
+    <ul>
+      <li><strong>A capture that opens the square.</strong> You capture something and recapture on a square the knight can now reach with tempo.</li>
+      <li><strong>A check that drives a piece.</strong> The enemy has to move the king or interpose, and the new arrangement leaves two pieces a knight's move apart.</li>
+      <li><strong>A pawn removal.</strong> The pawn that used to control the fork square disappears, often in a trade you thought was harmless.</li>
+      <li><strong>Time pressure.</strong> With little time left, players stop looking at what their opponent's knight can do next move.</li>
+    </ul>
+
+    <h2>A DEFENDER'S SCAN</h2>
+    <p>You do not need to calculate anything long. You need one habit that you run before each move, especially after any capture or check has changed the position.</p>
+    <ol>
+      <li><strong>Find every enemy knight.</strong> For each one, list the squares it can reach on its next move. That is at most eight squares per knight, and often only two or three are playable.</li>
+      <li><strong>Check what each of those squares would attack.</strong> If any of them would attack two valuable pieces (queen, rook, king), or a piece plus the king, treat it as a threat now.</li>
+      <li><strong>Count defenders on the fork square.</strong> A fork square covered by one of your pawns or minor pieces is usually harmless, because you simply capture the knight.</li>
+      <li><strong>Decide how to fix it.</strong> You can control the fork square, move one of the targets so they no longer share a square, trade the knight, or make your own bigger threat first.</li>
+    </ol>
+    <p>The same scan works for attack. Run it from your own knight's point of view, looking for squares that attack two targets, and you will find forks that were not obvious. It also tells you which enemy pieces are badly placed: two pieces a knight's move apart are a standing weakness even before any knight is nearby.</p>
+
+    <h2>FORKS BY OTHER PIECES</h2>
+    <p>Everything above applies to other forkers too. Queens fork a king and rook that share a line or diagonal. Pawns fork two pieces by advancing between them, and a pawn fork wins material even if the pawn is lost afterwards, because a pawn is worth less than the pieces it attacks. Bishops fork along diagonals. The knight is simply the one where players most often misjudge the geometry, because the pattern is hard to see visually. If you review your lost games and find forks recurring, that is a signal to slow down at one point only: the move after any capture.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>ChessDiary tags blunders with a tactical motif, including <em>fork</em>. If forks keep appearing across your games, that is the concrete weakness to train, and it shows up in the Progress view once you have enough games.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/pins-skewers-and-discovered-attacks/">Pins, Skewers and Discovered Attacks →</a>
+      <a href="/guides/common-chess-blunders/">The Most Common Blunder Patterns in Club-Level Chess →</a>
+      <a href="/guides/candidate-moves-and-calculation/">Candidate Moves and Calculation →</a>
+    </div>
+    <p class="credit">Board diagrams are generated from the positions described in each caption. Piece graphics by Colin M.L. Burnett, used under CC BY-SA 3.0 / GPL via the python-chess library.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

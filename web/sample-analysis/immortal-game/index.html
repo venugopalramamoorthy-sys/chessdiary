@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Anderssen&#x27;s famous 1851 sacrificial game, move by move with Stockfish 17.1 evaluations: where the engine says the brilliance was real, and where Black missed better.">
+  <title>The Immortal Game (Anderssen v Kieseritzky, 1851), Annotated with Engine Numbers — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/sample-analysis/immortal-game/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="The Immortal Game (Anderssen v Kieseritzky, 1851), Annotated with Engine Numbers — ChessDiary">
+  <meta property="og:description" content="Anderssen&#x27;s famous 1851 sacrificial game, move by move with Stockfish 17.1 evaluations: where the engine says the brilliance was real, and where Black missed better.">
+  <meta property="og:url" content="https://chessdiary.app/sample-analysis/immortal-game/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "The Immortal Game (Anderssen v Kieseritzky, 1851), Annotated with Engine Numbers", "description": "Anderssen's famous 1851 sacrificial game, move by move with Stockfish 17.1 evaluations: where the engine says the brilliance was real, and where Black missed better.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/sample-analysis/immortal-game/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+
+    .game-meta { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+    .game-meta strong { color: var(--ink); }
+    .graph-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 14px 14px 8px; margin: 22px 0; }
+    .graph-card svg { display: block; width: 100%; height: auto; }
+    .graph-legend { font-size: 12px; color: var(--muted); font-style: italic; padding: 6px 4px 4px; }
+    .movelist-wrap, .flagged-wrap { overflow-x: auto; margin: 22px 0; }
+    table.movelist { border-collapse: collapse; background: var(--white); border: 1px solid var(--border); min-width: 320px; }
+    table.movelist th { font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 8px 16px; text-align: left; background: var(--offwhite); border-bottom: 1px solid var(--border); }
+    table.movelist td { padding: 6px 16px; font-size: 14px; color: var(--ink); border-bottom: 1px solid var(--cream); font-family: 'Courier New', monospace; }
+    table.movelist td.num-col { color: var(--muted); }
+    table.flagged { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid var(--border); font-size: 13.5px; }
+    table.flagged th { text-align: left; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 9px 10px; background: var(--offwhite); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    table.flagged td { padding: 8px 10px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.flagged td.mv { font-family: 'Courier New', monospace; color: var(--ink); white-space: nowrap; }
+    .qb { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+    .q-inaccuracy { background: #FFF3C4; color: #6B5300; }
+    .q-mistake { background: #FFD9B3; color: #7A3B00; }
+    .q-blunder { background: #F8C9C4; color: #8A1C12; }
+    .q-checkmate { background: #CFE8D1; color: #1B5E20; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/sample-analysis/" class="back-link">← Sample analysis</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Annotated Game</span></div>
+    <h1>THE IMMORTAL GAME, ANNOTATED</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+    <p class="game-meta"><strong>White:</strong> Adolf Anderssen &nbsp;·&nbsp; <strong>Black:</strong> Lionel Kieseritzky &nbsp;·&nbsp; London, 1851 &nbsp;·&nbsp; <strong>Result:</strong> 1&ndash;0, checkmate on move 23</p>
+
+    <p>The Immortal Game is the most reprinted attacking game in chess. White gives up a bishop, both rooks and the queen, and then mates with the three minor pieces that remain. Almost every account of it is admiring. This page does something different: it runs a modern engine over every move, so you can see which parts of the legend hold up and which do not.</p>
+    <p>The short version is that the engine does not find the game as flawless as the story suggests. White&rsquo;s sacrifices do work, but several of them only work because Black&rsquo;s defence fell apart at specific moments. That is useful for a club player: it shows that a bold attack and a correct attack are not the same thing, and how a single reply can swing the evaluation by more than two pawns.</p>
+
+    <div class="note-box"><p><strong>About these numbers.</strong> The evaluations on this page come from Stockfish 17.1, searched to depth 24 with a 20-second cap per position, and were run for this page; they are not output from ChessDiary&rsquo;s own pipeline. Scores are in pawns from White&rsquo;s point of view (positive favours White, negative favours Black). A different engine version, depth or computer can give slightly different numbers, so read them as approximate sizes of swings, not exact values. Move numbering follows the standard published score of the game.</p></div>
+
+    <hr class="divider">
+
+    <h2>THE GAME IN ONE GRAPH</h2>
+    <p>Each point below is the engine&rsquo;s evaluation after one half-move. Watch where the line moves, not just how high it ends.</p>
+    <div class="graph-card">
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gt gd">
+<title id="gt">Engine evaluation after each half-move</title>
+<desc id="gd">Line chart of the Stockfish evaluation from White's point of view after every move, capped at plus and minus 8 pawns. Mate scores are drawn at the cap.</desc>
+<line x1="44" y1="224.0" x2="686" y2="224.0" stroke="#E8E6DF" stroke-width="1"/>
+<text x="38" y="228.0" font-size="10.5" text-anchor="end" fill="#666" font-family="Georgia,serif">−8</text>
+<line x1="44" y1="171.5" x2="686" y2="171.5" stroke="#E8E6DF" stroke-width="1"/>
+<text x="38" y="175.5" font-size="10.5" text-anchor="end" fill="#666" font-family="Georgia,serif">−4</text>
+<line x1="44" y1="119.0" x2="686" y2="119.0" stroke="#9A9890" stroke-width="1" stroke-dasharray="3,3"/>
+<text x="38" y="123.0" font-size="10.5" text-anchor="end" fill="#666" font-family="Georgia,serif">0</text>
+<line x1="44" y1="66.5" x2="686" y2="66.5" stroke="#E8E6DF" stroke-width="1"/>
+<text x="38" y="70.5" font-size="10.5" text-anchor="end" fill="#666" font-family="Georgia,serif">+4</text>
+<line x1="44" y1="14.0" x2="686" y2="14.0" stroke="#E8E6DF" stroke-width="1"/>
+<text x="38" y="18.0" font-size="10.5" text-anchor="end" fill="#666" font-family="Georgia,serif">+8</text>
+<line x1="186.7" y1="14" x2="186.7" y2="224" stroke="#EFEDE6" stroke-width="1"/>
+<text x="186.7" y="240" font-size="10.5" text-anchor="middle" fill="#666" font-family="Georgia,serif">move 5</text>
+<line x1="329.3" y1="14" x2="329.3" y2="224" stroke="#EFEDE6" stroke-width="1"/>
+<text x="329.3" y="240" font-size="10.5" text-anchor="middle" fill="#666" font-family="Georgia,serif">move 10</text>
+<line x1="472.0" y1="14" x2="472.0" y2="224" stroke="#EFEDE6" stroke-width="1"/>
+<text x="472.0" y="240" font-size="10.5" text-anchor="middle" fill="#666" font-family="Georgia,serif">move 15</text>
+<line x1="614.7" y1="14" x2="614.7" y2="224" stroke="#EFEDE6" stroke-width="1"/>
+<text x="614.7" y="240" font-size="10.5" text-anchor="middle" fill="#666" font-family="Georgia,serif">move 20</text>
+<polyline points="44.0,115.2 58.3,115.5 72.5,114.9 86.8,126.3 101.1,126.0 115.3,128.1 129.6,126.0 143.9,127.1 158.1,119.0 172.4,119.0 186.7,115.5 200.9,115.5 215.2,114.9 229.5,122.7 243.7,111.3 258.0,131.5 272.3,129.5 286.5,126.7 300.8,115.1 315.1,136.1 329.3,127.1 343.6,127.4 357.9,97.3 372.1,93.4 386.4,96.6 400.7,96.7 414.9,94.8 429.2,93.8 443.5,85.8 457.7,82.6 472.0,80.4 486.3,81.3 500.5,59.2 514.8,69.3 529.1,66.6 543.3,97.1 557.6,72.5 571.9,87.2 586.1,81.1 600.4,68.1 614.7,14.0 628.9,14.0 643.2,14.0 657.5,14.0 671.7,14.0 686.0,14.0" fill="none" stroke="#1B5E20" stroke-width="2.4" stroke-linejoin="round"/>
+<circle cx="258.0" cy="131.5" r="4" fill="#B3261E"/>
+<text x="258.0" y="147.5" font-size="10.5" text-anchor="middle" fill="#0C0C0C" font-weight="bold" font-family="Georgia,serif">8.Nh4</text>
+<circle cx="357.9" cy="97.3" r="4" fill="#B3261E"/>
+<text x="357.9" y="87.3" font-size="10.5" text-anchor="middle" fill="#0C0C0C" font-weight="bold" font-family="Georgia,serif">11...cxb5</text>
+<circle cx="543.3" cy="97.1" r="4" fill="#B3261E"/>
+<text x="543.3" y="117.1" font-size="10.5" text-anchor="middle" fill="#0C0C0C" font-weight="bold" font-family="Georgia,serif">18.Bd6</text>
+<circle cx="614.7" cy="14.0" r="4" fill="#B3261E"/>
+<text x="614.7" y="36.0" font-size="10.5" text-anchor="middle" fill="#0C0C0C" font-weight="bold" font-family="Georgia,serif">20...Na6</text>
+<circle cx="686.0" cy="14.0" r="4" fill="#B3261E"/>
+<text x="686.0" y="36.0" font-size="10.5" text-anchor="end" fill="#0C0C0C" font-weight="bold" font-family="Georgia,serif">23.Be7#</text>
+<text x="365.0" y="256" font-size="10.5" text-anchor="middle" fill="#666" font-family="Georgia,serif">Evaluation after each half-move, White's point of view (pawns)</text>
+</svg>
+      <div class="graph-legend">Red dots mark the moves discussed below. The line is capped at ±8 pawns; once a forced mate appears it is drawn at the top or bottom edge.</div>
+    </div>
+
+    <hr class="divider">
+
+    <h2>KEY MOMENTS</h2>
+    <h3>The opening: a gambit that is not objectively best</h3>
+    <p>Anderssen opens with the King&rsquo;s Gambit. After 3&hellip;Qh4+ he has to move his king, and 4.Kf1 costs him castling for the rest of the game. At depth 24 the engine rates this position at −0.62, a small edge for Black, and it prefers Nf3 over 2.f4 on move two (a loss of about 87 centipawns for the gambit).</p>
+    <figure class="board"><img src="/img/diagrams/immortal-game-1.svg" width="360" height="360" alt="White: Kf1, Qd1, Ra1, Rh1, Bc1, Bc4, Nb1, Ng1, pawns a2 b2 c2 d2 g2 h2 e4. Black: Ke8, Qh4, Ra8, Rh8, Bc8, Bf8, Nb8, Ng8, pawns f4 a7 b7 c7 d7 f7 g7 h7. Black to move." loading="lazy" decoding="async"><figcaption>Position after 1.e4 e5 2.f4 exf4 3.Bc4 Qh4+ 4.Kf1. White has lost the right to castle, but has development to come.</figcaption></figure>
+    <p>That is not a refutation. A deficit of this size is easily within what a stronger attacking player can play for, and Black&rsquo;s own next move, 4&hellip;b5, is a gambit in return (the engine prefers d6, which keeps Black a little ahead). The lesson is that this type of opening makes the position sharp, not good for one side.</p>
+    <h3>8.Nh4: the first real mistake</h3>
+    <p>Before this move White has a slight advantage, +0.59. After 8.Nh4 the evaluation drops to −0.95, a loss of 154 centipawns, because the knight heads for the edge of the board, attacking the queen but leaving the centre. The engine prefers Rg1, which brings the rook into play on the open g-file.</p>
+    <figure class="board"><img src="/img/diagrams/immortal-game-2.svg" width="360" height="360" alt="White: Kf1, Qd1, Ra1, Rh1, Bc1, Bb5, Nb1, Nf3, pawns a2 b2 c2 g2 h2 d3 e4. Black: Ke8, Qh6, Ra8, Rh8, Bc8, Bf8, Nh5, Nb8, pawns f4 a7 c7 d7 f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>White to move. The game continued 8.Nh4 (red). The engine&rsquo;s choice is 8.Rg1 (green).</figcaption></figure>
+    <p>It gets worse a move later: 10.g4 drops the evaluation from +0.30 to −1.30, with the engine preferring Ba4. By that point Black is clearly better by the numbers. White&rsquo;s play looks wild, and it is, but this is where the attack is objectively behind.</p>
+    <h3>11&hellip;cxb5: the move that gave the game back</h3>
+    <p>This is the turning point. Here Black is the one who is better, by 0.64 pawns in Black&rsquo;s favour. Taking the bishop on b5 looks natural, and wins material, yet the evaluation moves from −0.64 to +1.65, a swing of 229 centipawns. The engine&rsquo;s preference is h5, a quiet move that stops White&rsquo;s h-pawn from advancing.</p>
+    <figure class="board"><img src="/img/diagrams/immortal-game-3.svg" width="360" height="360" alt="White: Kf1, Qd1, Ra1, Rg1, Bc1, Bb5, Nb1, Nf5, pawns a2 b2 c2 h2 d3 e4 g4. Black: Ke8, Qg5, Ra8, Rh8, Bc8, Bf8, Nf6, Nb8, pawns f4 c6 a7 d7 f7 g7 h7. Black to move." loading="lazy" decoding="async"><figcaption>Black to move. Kieseritzky took the bishop with 11&hellip;cxb5 (red). The engine&rsquo;s choice is the quiet 11&hellip;h5 (green).</figcaption></figure>
+    <p>Why does an extra piece not help? After 11&hellip;cxb5 Black has opened the c- and b-files near his own king and given White time for h4 and h5, with the queen driven back and the pieces still aiming at the kingside. The moment to ask &ldquo;what does my opponent get for this piece?&rdquo; was just before taking. This is the kind of swing that the <a href="/guides/candidate-moves-and-calculation/">candidate-moves routine</a> is built to catch.</p>
+    <h3>18.Bd6: brilliant, and not the best move</h3>
+    <p>This is the position in which the Immortal Game earned its name. White is already winning on the engine&rsquo;s numbers (+3.99). The bishop sacrifice on d6 keeps a decisive advantage, but the evaluation is +1.67 afterwards, a drop of 232 centipawns. The engine prefers Re1, a quieter move that keeps more of the advantage.</p>
+    <figure class="board"><img src="/img/diagrams/immortal-game-4.svg" width="360" height="360" alt="White: Kf1, Qf3, Ra1, Rg1, Bf4, Nd5, Nf5, pawns a2 c2 d3 e4 g4 h5. Black: Ke8, Qb2, Ra8, Rh8, Bc5, Bc8, Nb8, Ng8, pawns b5 a7 d7 f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>White to move. Anderssen played the famous 18.Bd6 (red). The engine prefers 18.Re1 (green).</figcaption></figure>
+    <p>Black&rsquo;s reply was also not the best. After 18&hellip;Bxg1 the evaluation climbs back to +3.54; the engine prefers Qxa1+, taking the other rook with check first. The famous middle of the game is a sequence of two inexact moves that both lead to White still being on top.</p>
+    <h3>20&hellip;Na6: the move that loses by force</h3>
+    <p>Black is already behind, at +3.88 for White, but still in the game. 20&hellip;Na6 develops a piece, but it ignores White&rsquo;s threat, and the engine now sees a mate in 3 for White. The bishop move 20&hellip;Ba6 is its choice and keeps the game going, even though Black remains clearly worse.</p>
+    <figure class="board"><img src="/img/diagrams/immortal-game-5.svg" width="360" height="360" alt="White: Ke2, Qf3, Bd6, Nd5, Nf5, pawns a2 c2 d3 g4 e5 h5. Black: Ke8, Qa1, Ra8, Rh8, Bg1, Bc8, Nb8, Ng8, pawns b5 a7 d7 f7 g7 h7. Black to move." loading="lazy" decoding="async"><figcaption>Black to move. 20&hellip;Na6 (red) allows a forced mate. 20&hellip;Ba6 (green) keeps the game going.</figcaption></figure>
+    <p>From here the finish is forced: 21.Nxg7+ Kd8 22.Qf6+ Nxf6 23.Be7#. The continuation is forced, and from here the queen sacrifice is objectively sound.</p>
+    <h3>The final position: a mate with three minor pieces</h3>
+    <p>The final mate is a pattern worth knowing in itself. Black&rsquo;s king is hemmed in by his own pieces; the bishop on e7 gives check, the knights on d5 and g7 cover the two squares left, and Black&rsquo;s own pieces block the rest. White has sacrificed the queen and both rooks and still has mate with minor pieces alone.</p>
+    <figure class="board"><img src="/img/diagrams/immortal-game-6.svg" width="360" height="360" alt="White: Ke2, Bd6, Nd5, Ng7, pawns a2 c2 d3 g4 e5 h5. Black: Kd8, Qa1, Ra8, Rh8, Bg1, Bc8, Na6, Nf6, pawns b5 a7 d7 f7 h7. White to move." loading="lazy" decoding="async"><figcaption>White to move: 23.Be7#. The king on d8 has no flight square: the knight on d5 covers c7, the knight on g7 covers e8, and Black&rsquo;s own bishop and pawn block c8 and d7.</figcaption></figure>
+
+    <hr class="divider">
+
+    <h2>EVERY MOVE THE ENGINE FLAGGED</h2>
+    <p>The same quality labels ChessDiary uses, applied to this game: <strong>inaccuracy</strong> (roughly 40&ndash;90 centipawns lost), <strong>mistake</strong> (90&ndash;200) and <strong>blunder</strong> (200 and more, or a forced mate for the opponent). In the opening, a label means the move scores worse than the engine's top choice by that much, not that the line is unplayable.</p>
+<div class="flagged-wrap"><table class="flagged">
+<tr><th>Move</th><th>Quality</th><th>Eval after</th><th>Centipawn loss</th><th>Engine preferred</th></tr>
+<tr><td class="mv">2.f4</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>−0.56</td><td>87</td><td class="mv">Nf3</td></tr>
+<tr><td class="mv">4...b5</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>0.00</td><td>62</td><td class="mv">d6</td></tr>
+<tr><td class="mv">7.d3</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>−0.28</td><td>59</td><td class="mv">d4</td></tr>
+<tr><td class="mv">7...Nh5</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>+0.59</td><td>87</td><td class="mv">c6</td></tr>
+<tr><td class="mv">8.Nh4</td><td><span class="qb q-mistake">Mistake</span></td><td>−0.95</td><td>154</td><td class="mv">Rg1</td></tr>
+<tr><td class="mv">9...c6</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>+0.30</td><td>89</td><td class="mv">g6</td></tr>
+<tr><td class="mv">10.g4</td><td><span class="qb q-mistake">Mistake</span></td><td>−1.30</td><td>160</td><td class="mv">Ba4</td></tr>
+<tr><td class="mv">10...Nf6</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>−0.62</td><td>68</td><td class="mv">g6</td></tr>
+<tr><td class="mv">11...cxb5</td><td><span class="qb q-blunder">Blunder</span></td><td>+1.65</td><td>229</td><td class="mv">h5</td></tr>
+<tr><td class="mv">14...Ng8</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>+2.53</td><td>61</td><td class="mv">Bb7</td></tr>
+<tr><td class="mv">16...Bc5</td><td><span class="qb q-mistake">Mistake</span></td><td>+4.56</td><td>169</td><td class="mv">Qc6</td></tr>
+<tr><td class="mv">17.Nd5</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>+3.79</td><td>77</td><td class="mv">d4</td></tr>
+<tr><td class="mv">18.Bd6</td><td><span class="qb q-blunder">Blunder</span></td><td>+1.67</td><td>232</td><td class="mv">Re1</td></tr>
+<tr><td class="mv">18...Bxg1</td><td><span class="qb q-mistake">Mistake</span></td><td>+3.54</td><td>187</td><td class="mv">Qxa1+</td></tr>
+<tr><td class="mv">19.e5</td><td><span class="qb q-mistake">Mistake</span></td><td>+2.42</td><td>112</td><td class="mv">Re1</td></tr>
+<tr><td class="mv">19...Qxa1+</td><td><span class="qb q-inaccuracy">Inaccuracy</span></td><td>+2.89</td><td>47</td><td class="mv">Qxa1+</td></tr>
+<tr><td class="mv">20...Na6</td><td><span class="qb q-blunder">Blunder</span></td><td>mate in 3 for White</td><td>&mdash;</td><td class="mv">Ba6</td></tr>
+<tr><td class="mv">21...Kd8</td><td><span class="qb q-blunder">Blunder</span></td><td>mate in 2 for White</td><td>&mdash;</td><td class="mv">Kd8</td></tr>
+<tr><td class="mv">22...Nxf6</td><td><span class="qb q-blunder">Blunder</span></td><td>mate in 1 for White</td><td>&mdash;</td><td class="mv">Nxf6</td></tr>
+</table></div>
+
+    <h2>THE FULL MOVE LIST</h2>
+<div class="movelist-wrap"><table class="movelist"><tr><th>#</th><th>White</th><th>Black</th></tr>
+<tr><td class="num-col">1</td><td>e4</td><td>e5</td></tr>
+<tr><td class="num-col">2</td><td>f4</td><td>exf4</td></tr>
+<tr><td class="num-col">3</td><td>Bc4</td><td>Qh4+</td></tr>
+<tr><td class="num-col">4</td><td>Kf1</td><td>b5</td></tr>
+<tr><td class="num-col">5</td><td>Bxb5</td><td>Nf6</td></tr>
+<tr><td class="num-col">6</td><td>Nf3</td><td>Qh6</td></tr>
+<tr><td class="num-col">7</td><td>d3</td><td>Nh5</td></tr>
+<tr><td class="num-col">8</td><td>Nh4</td><td>Qg5</td></tr>
+<tr><td class="num-col">9</td><td>Nf5</td><td>c6</td></tr>
+<tr><td class="num-col">10</td><td>g4</td><td>Nf6</td></tr>
+<tr><td class="num-col">11</td><td>Rg1</td><td>cxb5</td></tr>
+<tr><td class="num-col">12</td><td>h4</td><td>Qg6</td></tr>
+<tr><td class="num-col">13</td><td>h5</td><td>Qg5</td></tr>
+<tr><td class="num-col">14</td><td>Qf3</td><td>Ng8</td></tr>
+<tr><td class="num-col">15</td><td>Bxf4</td><td>Qf6</td></tr>
+<tr><td class="num-col">16</td><td>Nc3</td><td>Bc5</td></tr>
+<tr><td class="num-col">17</td><td>Nd5</td><td>Qxb2</td></tr>
+<tr><td class="num-col">18</td><td>Bd6</td><td>Bxg1</td></tr>
+<tr><td class="num-col">19</td><td>e5</td><td>Qxa1+</td></tr>
+<tr><td class="num-col">20</td><td>Ke2</td><td>Na6</td></tr>
+<tr><td class="num-col">21</td><td>Nxg7+</td><td>Kd8</td></tr>
+<tr><td class="num-col">22</td><td>Qf6+</td><td>Nxf6</td></tr>
+<tr><td class="num-col">23</td><td>Be7#</td><td>&nbsp;</td></tr>
+</table></div>
+
+    <hr class="divider">
+
+    <h2>WHAT TO TAKE FROM THIS GAME</h2>
+    <ul>
+      <li><strong>Brilliant is not the same as best.</strong> The engine prefers a different move at 18.Bd6, and a gambit that is objectively slightly worse can still be the right practical choice.</li>
+      <li><strong>Most of the damage came from a few moves.</strong> The biggest swings are 11&hellip;cxb5, 18.Bd6, 18&hellip;Bxg1 and 20&hellip;Na6. Finding the three or four moves that matter is what a review is for.</li>
+      <li><strong>Greedy captures need a check.</strong> 11&hellip;cxb5 won a piece and lost most of the advantage. Before any capture, ask what the opponent gets in return.</li>
+      <li><strong>Know the finishing pattern.</strong> The mate on move 23 uses a bishop and two knights against a boxed-in king. See <a href="/guides/checkmate-patterns-every-player-should-know/">Checkmate Patterns Every Player Should Know</a>.</li>
+    </ul>
+
+    <div class="cta-box">
+      <p>This is the same kind of report ChessDiary produces for your own games: the evaluation line, the moves where it swung, and the better move for each. Upload a scoresheet, a PGN, or sync a Chess.com or Lichess account to try it on a game you played.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/sample-analysis/" class="cta-secondary">See the full sample report →</a>
+    </div>
+
+    <div class="related">
+      <h3>RELATED</h3>
+      <a href="/sample-analysis/evergreen-game/">The Evergreen Game, Annotated →</a>
+      <a href="/guides/how-to-read-a-stockfish-analysis-report/">How to Read a Stockfish Blunder Report →</a>
+      <a href="/guides/centipawns-and-win-probability/">Centipawns and Win Probability →</a>
+    </div>
+    <p class="credit">Board diagrams are generated from the positions described in each caption. Piece graphics by Colin M.L. Burnett, used under CC BY-SA 3.0 / GPL via the python-chess library.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>

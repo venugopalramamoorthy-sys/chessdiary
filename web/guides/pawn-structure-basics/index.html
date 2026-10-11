@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What isolated, doubled, backward and passed pawns are, why they matter, and how each structure decides which plan to follow, with board diagrams.">
+  <title>Pawn Structure Basics: Isolated, Doubled and Passed Pawns — ChessDiary</title>
+  <link rel="canonical" href="https://chessdiary.app/guides/pawn-structure-basics/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ChessDiary">
+  <meta property="og:title" content="Pawn Structure Basics: Isolated, Doubled and Passed Pawns — ChessDiary">
+  <meta property="og:description" content="What isolated, doubled, backward and passed pawns are, why they matter, and how each structure decides which plan to follow, with board diagrams.">
+  <meta property="og:url" content="https://chessdiary.app/guides/pawn-structure-basics/">
+  <meta property="og:image" content="https://chessdiary.app/icons/Icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T6JH6LZ7VD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T6JH6LZ7VD');
+  </script>
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199"
+       crossorigin="anonymous"></script>
+
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pawn Structure Basics: Isolated, Doubled and Passed Pawns", "description": "What isolated, doubled, backward and passed pawns are, why they matter, and how each structure decides which plan to follow, with board diagrams.", "author": {"@type": "Person", "name": "Venugopal Ramamoorthy", "url": "https://chessdiary.app/about/"}, "publisher": {"@type": "Organization", "name": "ChessDiary", "url": "https://chessdiary.app/"}, "datePublished": "2026-10-11", "dateModified": "2026-10-11", "mainEntityOfPage": "https://chessdiary.app/guides/pawn-structure-basics/"}</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0C0C0C; --ink: #0C0C0C; --dark: #1A1A1A; --darkgrey: #2E2E2E;
+      --muted: #666666; --silver: #AAAAAA; --border: #D0CEC7;
+      --cream: #E8E6DF; --offwhite: #F4F3EF; --white: #FFFFFF; --green: #1B5E20;
+    }
+    html, body { background: var(--offwhite); color: var(--ink); font-family: 'Lora', Georgia, serif; line-height: 1.7; font-size: 16px; }
+    header { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--darkgrey); }
+    .logo { font-family: 'Anton', Impact, sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+    .logo span { color: #66BB6A; }
+    .back-link { font-family: 'Lora', Georgia, serif; font-size: 13px; font-weight: 600; color: var(--silver); text-decoration: none; }
+    .back-link:hover { color: var(--white); }
+    main { max-width: 740px; margin: 0 auto; padding: 56px 24px 96px; }
+    .page-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .page-eyebrow::before { content: ''; display: block; width: 16px; height: 1px; background: var(--green); flex-shrink: 0; }
+    .page-eyebrow span { font-family: 'Lora', Georgia, serif; font-size: 10px; font-weight: 700; font-style: italic; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+    h1 { font-family: 'Anton', Impact, sans-serif; font-size: 40px; letter-spacing: 1px; line-height: 1.05; color: var(--ink); margin-bottom: 12px; }
+    @media (max-width: 480px) { h1 { font-size: 30px; } }
+    .byline { font-family: 'Lora', Georgia, serif; font-size: 13px; color: var(--muted); font-style: italic; margin-bottom: 40px; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    p strong { color: var(--ink); font-weight: 600; }
+    h2 { font-family: 'Anton', Impact, sans-serif; font-size: 19px; letter-spacing: 1.5px; color: var(--ink); margin: 40px 0 6px; }
+    h3 { font-family: 'Lora', Georgia, serif; font-size: 16px; font-weight: 700; color: var(--ink); margin: 26px 0 6px; }
+    .motif-num { font-family: 'Anton', Impact, sans-serif; font-size: 12px; color: var(--green); letter-spacing: 1px; display: block; margin-bottom: 4px; }
+    ul, ol { margin: 0 0 18px; }
+    ul { list-style: none; padding: 0; }
+    ul li { font-size: 15px; color: var(--muted); padding: 7px 0 7px 20px; position: relative; border-bottom: 1px solid var(--cream); }
+    ul li:first-child { border-top: 1px solid var(--cream); }
+    ul li::before { content: '♟'; position: absolute; left: 0; font-size: 11px; color: var(--green); top: 10px; }
+    ul li strong { color: var(--ink); font-weight: 600; }
+    ol { padding-left: 22px; }
+    ol li { font-size: 15px; color: var(--muted); padding: 5px 0 5px 4px; }
+    ol li strong { color: var(--ink); font-weight: 600; }
+    code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13.5px; color: var(--ink); }
+    a { color: var(--green); font-weight: 600; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .cta-box { background: var(--cream); border-left: 3px solid var(--green); padding: 20px 24px; margin: 40px 0; }
+    .cta-box p { margin-bottom: 0; font-size: 14px; }
+    .cta-actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 20px 0 0; }
+    .cta-actions a { display: inline-block; font-size: 13.5px; font-weight: 700; padding: 10px 20px; border-radius: 4px; }
+    .cta-actions .cta-primary { background: var(--green); color: var(--white); }
+    .cta-actions .cta-primary:hover { background: #164a18; text-decoration: none; }
+    .cta-actions .cta-secondary { border: 1px solid var(--border); color: var(--ink); }
+    .cta-actions .cta-secondary:hover { border-color: var(--green); text-decoration: none; }
+    .related { margin-top: 56px; }
+    .related h3 { font-family: 'Anton', Impact, sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 14px; font-weight: 400; }
+    .related a { display: block; font-size: 14px; margin-bottom: 8px; }
+    .takeaways { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 4px; padding: 18px 22px 6px; margin: 0 0 32px; }
+    .takeaways h3 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 13px; letter-spacing: 1.5px; color: var(--green); margin: 0 0 8px; }
+    .takeaways ul { margin-bottom: 12px; }
+    .takeaways ul li { border: none; padding: 4px 0 4px 20px; font-size: 14.5px; }
+    .takeaways ul li::before { top: 7px; }
+    .note-box { background: var(--cream); border-left: 3px solid var(--green); padding: 16px 22px 2px; margin: 24px 0; }
+    .note-box p { font-size: 14px; }
+    figure.board { margin: 26px 0; text-align: center; }
+    figure.board img { display: block; margin: 0 auto; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 3px; background: var(--white); }
+    figure.board figcaption { font-size: 13px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.5; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .board-pair { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
+    .board-pair figure.board { flex: 1 1 280px; max-width: 360px; margin: 18px 0; }
+    .table-wrap { overflow-x: auto; margin: 22px 0; }
+    table.simple { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--white); border: 1px solid var(--border); }
+    table.simple th { text-align: left; font-family: 'Lora', Georgia, serif; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; color: var(--green); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--offwhite); }
+    table.simple td { padding: 9px 12px; border-bottom: 1px solid var(--cream); color: var(--muted); vertical-align: top; }
+    table.simple td strong { color: var(--ink); }
+    .credit { font-size: 11.5px; color: var(--muted); margin-top: 36px; }
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/" class="logo">CHESS<span>DIARY</span></a>
+    <a href="/guides/" class="back-link">← All guides</a>
+  </header>
+
+  <main>
+    <div class="page-eyebrow"><span>Guide 14 · Strategy</span></div>
+    <h1>PAWN STRUCTURE BASICS: ISOLATED, DOUBLED AND PASSED PAWNS</h1>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
+
+    <p>Pawns are the only pieces that cannot go back. That is why they are called the soul of chess: once a pawn has moved, the squares it used to guard stay unguarded for good, and the shape it leaves behind decides where your pieces can live, where your plans can happen and which endgames are favourable.</p>
+    <p>You do not need to memorise opening theory to benefit from this. If you can name the structure you are playing, you can usually name the right plan. This guide covers the structures that appear most often at club level and what each one asks of you.</p>
+
+    <div class="takeaways">
+      <h3>KEY TAKEAWAYS</h3>
+      <ul>
+        <li>Pawns cannot move backward, so every pawn move changes the structure permanently, and the structure tells you which plans make sense.</li>
+        <li>An isolated pawn has no friendly pawns on neighbouring files; a doubled pawn shares a file with another; a passed pawn has no enemy pawns in front of it or on adjacent files.</li>
+        <li>No structure is simply "good" or "bad": each comes with weaknesses and compensating strengths.</li>
+      </ul>
+    </div>
+    <hr class="divider">
+
+
+    <h2>ISOLATED PAWNS</h2>
+    <p>An isolated pawn has no friendly pawns on either neighbouring file, so no pawn can ever defend it. The most common one is the <strong>isolated queen's pawn</strong> (IQP), which arises when the c- and e-pawns have been exchanged but the d-pawn remains.</p>
+    <figure class="board"><img src="/img/diagrams/pawn-structure-basics-1.svg" width="360" height="360" alt="White: Ke1, Qd1, Ra1, Rh1, Bc1, Bg2, Nc3, Nd4, pawns a2 b2 e2 f2 h2 g3. Black: Ke8, Qd8, Ra8, Rh8, Bc8, Bf8, Nc6, Nf6, pawns d5 a7 b7 f7 g7 h7. Black to move." loading="lazy" decoding="async"><figcaption>A standard IQP position after 1.d4 d5 2.c4 e6 3.Nc3 c5 4.cxd5 exd5 5.Nf3 Nc6 6.g3 Nf6 7.Bg2 cxd4 8.Nxd4. Black has no pawns on the c- or e-files, so the d5 pawn is isolated. White has no c- or d-pawn left, but has only two pawn islands (a&ndash;b and e&ndash;h) against Black's three.</figcaption></figure>
+    <p><strong>The weakness:</strong> the pawn itself, and especially the square in front of it, which no pawn can ever control. Pieces (typically a knight) can settle there and sit untouchable. In an endgame the pawn becomes a target, because only pieces can defend it.</p>
+    <p><strong>The compensation:</strong> space and piece activity. The IQP controls the squares diagonally in front of it, supports an outpost for your knight, and opens lines for your bishops, so the side with the pawn tends to attack in the middlegame. The side playing against it usually wants to trade pieces and head for an ending.</p>
+
+    <h2>DOUBLED PAWNS</h2>
+    <p>Doubled pawns are two pawns of the same colour on the same file. They usually come from a capture that drags a pawn sideways.</p>
+    <figure class="board"><img src="/img/diagrams/pawn-structure-basics-2.svg" width="360" height="360" alt="White: Ke1, Qd1, Ra1, Rh1, Bc1, Nb1, Nf3, pawns a2 b2 c2 d2 f2 g2 h2 e4. Black: Ke8, Qd8, Ra8, Rh8, Bc8, Bf8, Ng8, pawns e5 a6 c6 b7 c7 f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>The Exchange Variation of the Ruy Lopez: 1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Bxc6 dxc6. Black's recapture leaves two pawns on the c-file (c7 and c6). In return, Black keeps both bishops, because White has traded one of his for a knight.</figcaption></figure>
+    <p><strong>The weakness:</strong> the two pawns cannot defend each other, they control fewer squares between them than two healthy pawns would, and the front pawn can be harder to move. In an endgame, the extra pawn on a file gives you less effective pawn strength than the count suggests.</p>
+    <p><strong>The compensation:</strong> doubled pawns often come with a half-open file for a rook and with the bishop pair. They also add central control (a pawn that captured toward the centre often controls more central squares). Whether the doubled pawns are a real weakness depends on whether the opponent can attack them before the compensation takes hold.</p>
+
+    <h2>PASSED PAWNS</h2>
+    <p>A passed pawn has no enemy pawn in front of it on its own file or on either adjacent file, so no pawn can stop it on its way to promotion.</p>
+    <figure class="board"><img src="/img/diagrams/pawn-structure-basics-3.svg" width="360" height="360" alt="White: Kg1, pawns f2 h2 g3 d5. Black: Kg8, pawns f7 g7 h7. White to move." loading="lazy" decoding="async"><figcaption>White's pawn on d5 is passed: Black has no pawns on the c-, d- or e-files, so no enemy pawn can ever block or capture it. Black's king and pieces have to stop it, and the pawn ties them down for as long as it exists.</figcaption></figure>
+    <p>A passed pawn is a standing threat: the opponent has to keep a piece nearby to blockade it, and the value of the pawn grows as pieces leave the board. Three useful refinements:</p>
+    <ul>
+      <li><strong>Blockade it.</strong> Place a piece (ideally a knight) directly in front of the pawn. A blockading piece does a double job, because it stops the pawn and is hard to dislodge.</li>
+      <li><strong>An outside passed pawn</strong> (one far from the other pawns) is a powerful endgame asset, because it drags the defending king away from the pawns on the other side.</li>
+      <li><strong>A protected passed pawn</strong> (defended by another pawn) cannot be won by attacking it, so it becomes a long-term asset.</li>
+    </ul>
+
+    <h2>BACKWARD PAWNS AND PAWN ISLANDS</h2>
+    <p>A <strong>backward pawn</strong> is a pawn that has been left behind its neighbours and cannot advance safely, because the square in front is controlled by an enemy pawn. It cannot be defended by another pawn either, which makes it a long-term target, especially on a half-open file.</p>
+    <p>A <strong>pawn island</strong> is a group of connected pawns on adjacent files. The fewer islands you have, the fewer pawns can be isolated: a side with two islands against three has an advantage in structure, all other things being equal.</p>
+
+    <h2>WHAT EACH STRUCTURE ASKS OF YOU</h2>
+    <div class="table-wrap"><table class="simple">
+      <tr><th>Structure</th><th>Main weakness</th><th>Typical compensation</th><th>Usual plan for the side that owns it</th></tr>
+      <tr><td><strong>Isolated pawn</strong></td><td>The pawn and the square in front of it</td><td>Space, active pieces, attacking chances</td><td>Attack before pieces are traded; advance the pawn only when it wins something</td></tr>
+      <tr><td><strong>Doubled pawns</strong></td><td>Less pawn control, harder to move</td><td>Half-open file, central control, bishop pair</td><td>Use the open file and the bishops quickly before the weaknesses show</td></tr>
+      <tr><td><strong>Passed pawn</strong></td><td>Needs support to advance, may be blockaded</td><td>Ties the opponent's pieces, grows in value as pieces come off</td><td>Trade pieces, support the pawn with the king and pieces, push when it is safe</td></tr>
+      <tr><td><strong>Backward pawn</strong></td><td>Cannot advance or be defended by pawns</td><td>Often protects a strong outpost behind it</td><td>Free it with a pawn break, or keep pieces defending it</td></tr>
+    </table></div>
+
+    <h2>USING PAWN STRUCTURE IN YOUR OWN GAMES</h2>
+    <ol>
+      <li><strong>Before you capture,</strong> check how the recapture changes the pawn structure. A trade that leaves you with an isolated or doubled pawn should come with a clear reason.</li>
+      <li><strong>Name the structure.</strong> After the opening, ask yourself which pawns are isolated, doubled, backward or passed, for both sides. The answer tells you where your pieces belong.</li>
+      <li><strong>Plan with the weakness in mind.</strong> Aim your pieces at the opponent's weak pawns and put yours on active squares in front of your own.</li>
+      <li><strong>Remember that pawn moves are permanent.</strong> If an advance weakens a square, expect the opponent to use it.</li>
+    </ol>
+    <p>When you review your own games, look at the moment the structure was decided. Many lost games turn on a pawn exchange early in the middlegame that changed the plan, long before any piece was lost.</p>
+
+    <hr class="divider">
+
+    <div class="cta-box">
+      <p>Opening names and pawn structures are the thread that connects your games. In ChessDiary's library you can filter your games by opening and see how you actually perform in the structures you reach most often.</p>
+    </div>
+
+    <div class="cta-actions">
+      <a href="/app" class="cta-primary">Try ChessDiary →</a>
+      <a href="/#beta-signup" class="cta-secondary">Join the Android Beta →</a>
+    </div>
+
+    <div class="related">
+      <h3>MORE GUIDES</h3>
+      <a href="/guides/king-and-pawn-endgames-opposition-key-squares/">King and Pawn Endgames: Opposition and Key Squares →</a>
+      <a href="/guides/chess-opening-principles/">Opening Principles Every Improving Player Should Know →</a>
+      <a href="/guides/how-to-review-a-tournament-loss/">How to Review a Tournament Loss →</a>
+    </div>
+    <p class="credit">Board diagrams are generated from the positions described in each caption. Piece graphics by Colin M.L. Burnett, used under CC BY-SA 3.0 / GPL via the python-chess library.</p>
+  </main>
+
+  <footer>
+    &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
+  </footer>
+
+</body>
+</html>
