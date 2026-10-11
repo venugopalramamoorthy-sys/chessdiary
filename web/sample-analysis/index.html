@@ -102,7 +102,7 @@
 
     <div class="page-eyebrow"><span>Sample Analysis Report</span></div>
     <h1>THE OPERA GAME<br>— A REAL CHESSDIARY REPORT</h1>
-    <p class="byline">By Venugopal Ramamoorthy — <a href="/about">creator of ChessDiary</a></p>
+    <p class="byline">By Venugopal Ramamoorthy — <a href="/about/">creator of ChessDiary</a></p>
     <p class="game-meta">
       <strong>Paul Morphy</strong> vs. <strong>Duke Karl of Brunswick &amp; Count Isouard</strong> (consulting) &nbsp;·&nbsp;
       Paris Opera House, 1858 &nbsp;·&nbsp; White wins by checkmate, move 17
@@ -111,7 +111,7 @@
     <p>This is a complete ChessDiary analysis report for one of the most famous games in chess history — Paul Morphy's "Opera Game." It's public domain, so there's no account or privacy concern in using it as an example, and every number below is real: this exact game was run through ChessDiary's actual Stockfish backend and Gemini tactical-motif pipeline, the same services every imported game goes through. Nothing on this page is a mockup or a made-up example report.</p>
 
     <div class="note-box">
-      <p><strong>One honest caveat:</strong> ChessDiary's Stockfish endpoint returns a quality label and centipawn loss for each flagged move, but it does not currently return a specific "play this instead" alternative move alongside the Stockfish numbers — that richer suggestion is only produced by the separate Gemini-based fallback path used when Stockfish itself is unreachable (see <a href="/guides/what-happens-when-stockfish-is-unreachable">that guide</a>). So the table below shows the real engine evaluation, quality, and tactical motif for every flagged move, but not an invented "best move" column.</p>
+      <p><strong>One honest caveat:</strong> ChessDiary's Stockfish endpoint returns a quality label and centipawn loss for each flagged move, but it does not currently return a specific "play this instead" alternative move alongside the Stockfish numbers — that richer suggestion is only produced by the separate Gemini-based fallback path used when Stockfish itself is unreachable (see <a href="/guides/what-happens-when-stockfish-is-unreachable/">that guide</a>). So the table below shows the real engine evaluation, quality, and tactical motif for every flagged move, but not an invented "best move" column.</p>
     </div>
 
     <hr class="divider">
@@ -168,7 +168,7 @@
     <hr class="divider">
 
     <h2>3. FLAGGED MOVES</h2>
-    <p>Every inaccuracy, mistake, and blunder the engine identified, in the order they were played, with the real centipawn loss, the resulting evaluation, and the tactical motif Gemini identified for each (see the guide on <a href="/guides/how-to-read-a-stockfish-analysis-report">reading a Stockfish report</a> for what these labels mean).</p>
+    <p>Every inaccuracy, mistake, and blunder the engine identified, in the order they were played, with the real centipawn loss, the resulting evaluation, and the tactical motif Gemini identified for each (see the guide on <a href="/guides/how-to-read-a-stockfish-analysis-report/">reading a Stockfish report</a> for what these labels mean).</p>
 
     <div class="flagged-wrap">
       <table class="flagged">
@@ -256,7 +256,7 @@
     <h2>4. HOW TO READ THIS REPORT</h2>
 
     <h3>The move list</h3>
-    <p>Standard algebraic notation, White and Black side by side. If notation itself is unfamiliar, see <a href="/guides/how-to-read-a-chess-scoresheet">How to Read a Chess Scoresheet</a>.</p>
+    <p>Standard algebraic notation, White and Black side by side. If notation itself is unfamiliar, see <a href="/guides/how-to-read-a-chess-scoresheet/">How to Read a Chess Scoresheet</a>.</p>
 
     <h3>The evaluation graph</h3>
     <p>Each point is the engine's assessment after that move, in centipawns (100 = roughly one pawn's worth of advantage), from White's point of view. A rising line means White's position is improving; a falling line means Black is catching up or taking the lead. A steep jump in either direction usually lines up with a flagged move below.</p>
@@ -277,11 +277,11 @@
   <footer>
     &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a>
     <div class="footer-links">
-      <a href="/guides">Chess Guides</a> &nbsp;·&nbsp;
-      <a href="/about">About</a> &nbsp;·&nbsp;
-      <a href="/contact">Contact</a> &nbsp;·&nbsp;
-      <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
-      <a href="/delete-account">Delete My Account</a>
+      <a href="/guides/">Chess Guides</a> &nbsp;·&nbsp;
+      <a href="/about/">About</a> &nbsp;·&nbsp;
+      <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+      <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="/delete-account/">Delete My Account</a>
     </div>
   </footer>
 

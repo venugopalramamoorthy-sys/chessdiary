@@ -75,13 +75,13 @@
 
   <header>
     <a href="/" class="logo">CHESS<span>DIARY</span></a>
-    <a href="/guides" class="back-link">← All guides</a>
+    <a href="/guides/" class="back-link">← All guides</a>
   </header>
 
   <main>
     <div class="page-eyebrow"><span>Guide 08 · Using ChessDiary</span></div>
     <h1>WHAT HAPPENS WHEN THE ANALYSIS ENGINE IS UNREACHABLE</h1>
-    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about">creator of ChessDiary</a></p>
+    <p class="byline">By Venugopal Ramamoorthy — tournament chess player and <a href="/about/">creator of ChessDiary</a></p>
 
     <p>ChessDiary's move-by-move analysis normally runs on Stockfish — the same open-source engine used in professional preparation. But Stockfish runs on a separate server, and any server can occasionally be slow to wake up, overloaded, or briefly unreachable. When that happens, ChessDiary doesn't show you an error and ask you to try again later. It quietly switches engines instead.</p>
 
@@ -109,7 +109,7 @@
     <p>In practice, most analysis requests complete on Stockfish without any fallback ever triggering — this mostly comes up on the first request in a while, or during a brief spike in server load. It's a safety net, not the common path.</p>
 
     <h2>7. A REAL EXAMPLE OF THE TIMEOUT IN ACTION</h2>
-    <p>This isn't a hypothetical — while putting together the <a href="/sample-analysis">sample analysis page</a> on this site, the same Gemini motif-tagging step described in section 5 hit exactly this kind of timeout more than once on a single game. The request would occasionally take longer than the server's response window to come back, triggering a retry, and succeed cleanly a few seconds later on the next attempt. Nothing about the analysis itself was wrong in either case — the engine evaluation and quality labels were identical regardless — it was purely a case of one specific step needing a second try.</p>
+    <p>This isn't a hypothetical — while putting together the <a href="/sample-analysis/">sample analysis page</a> on this site, the same Gemini motif-tagging step described in section 5 hit exactly this kind of timeout more than once on a single game. The request would occasionally take longer than the server's response window to come back, triggering a retry, and succeed cleanly a few seconds later on the next attempt. Nothing about the analysis itself was wrong in either case — the engine evaluation and quality labels were identical regardless — it was purely a case of one specific step needing a second try.</p>
     <p>That's the practical shape of "unreachable" in day-to-day use: not a dramatic outage, but an occasional slow response that resolves itself on retry, usually without you noticing anything beyond the analysis taking a few seconds longer than usual.</p>
 
     <h2>8. WHAT THIS MEANS FOR YOUR OWN GAMES</h2>
@@ -126,20 +126,20 @@
 
     <div class="related">
       <h3>MORE GUIDES</h3>
-      <a href="/guides/how-to-read-a-stockfish-analysis-report">How to Read a Stockfish Blunder Report →</a>
-      <a href="/guides/pgn-import-vs-chess-com-lichess-sync">PGN Import vs. Chess.com/Lichess Sync: Which to Use →</a>
-      <a href="/sample-analysis">See a Real Analysis Report (Morphy's Opera Game) →</a>
+      <a href="/guides/how-to-read-a-stockfish-analysis-report/">How to Read a Stockfish Blunder Report →</a>
+      <a href="/guides/pgn-import-vs-chess-com-lichess-sync/">PGN Import vs. Chess.com/Lichess Sync: Which to Use →</a>
+      <a href="/sample-analysis/">See a Real Analysis Report (Morphy's Opera Game) →</a>
     </div>
   </main>
 
   <footer>
     &copy; 2026 ChessDiary &nbsp;·&nbsp; <a href="/">chessdiary.app</a> &nbsp;·&nbsp;
-    <a href="/guides">All Guides</a> &nbsp;·&nbsp;
-    <a href="/about">About</a> &nbsp;·&nbsp;
-    <a href="/sample-analysis">Sample Analysis</a> &nbsp;·&nbsp;
-    <a href="/contact">Contact</a> &nbsp;·&nbsp;
-    <a href="/privacy">Privacy Policy</a> &nbsp;·&nbsp;
-    <a href="/delete-account">Delete My Account</a>
+    <a href="/guides/">All Guides</a> &nbsp;·&nbsp;
+    <a href="/about/">About</a> &nbsp;·&nbsp;
+    <a href="/sample-analysis/">Sample Analysis</a> &nbsp;·&nbsp;
+    <a href="/contact/">Contact</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="/delete-account/">Delete My Account</a>
   </footer>
 
 </body>

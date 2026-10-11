@@ -99,10 +99,6 @@
       {
         "source": "/app/**",
         "destination": "/app-shell.html"
-      },
-      {
-        "source": "**",
-        "destination": "/app-shell.html"
       }
     ]
   },
