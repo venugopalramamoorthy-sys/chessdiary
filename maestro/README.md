@@ -8,12 +8,20 @@ End-to-end UI tests using Maestro. Tests run against the real app on a device.
 Download from https://github.com/mobile-dev-inc/maestro/releases/latest
 Extract and add `bin/` to PATH. Verify with: `maestro --version`
 
-### 2. Create the test Firebase account
-In Firebase Console → Authentication → Add user:
-- Email: `testuser@chessdiary.test`
-- Password: `TestPass123!`
+### 2. Test-account credentials
+Create `.env.test` in the repo root. It's gitignored — the repo is public, so
+credentials must never be committed:
+```
+TEST_EMAIL=testuser@chessdiary.test
+TEST_PASSWORD=<the test account's password>
+```
+The Playwright suite (`e2e/`) reads the same file. If the account doesn't
+exist yet, `node maestro/create_test_user.js` creates it from these values.
 
 Use this account for all functional tests — never your real account.
+`run_functional_tests.sh` passes the values to every flow. To run a single
+flow by hand, add `-e TEST_EMAIL=... -e TEST_PASSWORD=...` (and
+`-e SIGNUP_EMAIL=<new address>` for `flow_signup`).
 
 ### 3. Push test assets to device
 ```bash

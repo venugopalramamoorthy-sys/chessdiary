@@ -13,10 +13,10 @@ appId: com.chessdiary.app
 
 - tapOn:
     text: "Email"
-- inputText: "testuser@chessdiary.test"
+- inputText: "${TEST_EMAIL}"
 - tapOn:
     text: "Password"
-- inputText: "TestPass123!"
+- inputText: "${TEST_PASSWORD}"
 - tapOn: "Login"
 
 - extendedWaitUntil:

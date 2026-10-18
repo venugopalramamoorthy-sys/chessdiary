@@ -81,3 +81,6 @@ android/upload-keystore.jks
 
 # Claude Code local settings
 .claude/
+
+# Test-account credentials (see e2e/playwright.config.js, maestro/README.md)
+.env.test

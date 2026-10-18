@@ -1,8 +1,27 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // Field-count caps are generous (the app writes at most 19 top-level
+    // fields, on a game) -- they stop a client from using its own space as
+    // arbitrary storage, not normal use. Firestore itself caps each
+    // document at 1 MiB.
+    match /users/{userId} {
+      allow read, delete: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+                            && request.resource.data.size() <= 30;
+
+      // Only the subcollections the app uses
+      match /{collection}/{docId} {
+        allow read, delete: if isOwner(userId)
+                            && collection in ['games', 'ratings', 'badges'];
+        allow create, update: if isOwner(userId)
+                              && collection in ['games', 'ratings', 'badges']
+                              && request.resource.data.size() <= 50;
+      }
     }
   }
 }

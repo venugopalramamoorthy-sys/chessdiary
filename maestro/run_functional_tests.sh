@@ -5,6 +5,18 @@
 
 set -e
 
+# Test-account credentials live in the gitignored .env.test at the repo root
+if [ -f .env.test ]; then
+  set -a; . ./.env.test; set +a
+fi
+if [ -z "${TEST_EMAIL:-}" ] || [ -z "${TEST_PASSWORD:-}" ]; then
+  echo "❌ Set TEST_EMAIL and TEST_PASSWORD in .env.test (repo root) first."
+  exit 1
+fi
+# flow_signup creates a fresh account each run
+SIGNUP_EMAIL="maestro-$(date +%s)@chessdiary.test"
+ENV_FLAGS=(-e "TEST_EMAIL=$TEST_EMAIL" -e "TEST_PASSWORD=$TEST_PASSWORD" -e "SIGNUP_EMAIL=$SIGNUP_EMAIL")
+
 DEVICE_ID="${MAESTRO_DEVICE_ID:-}"  # optional: set to specific device ID
 DEVICE_FLAG=""
 if [ -n "$DEVICE_ID" ]; then
@@ -28,7 +40,7 @@ run_flow() {
   local flow=$1
   local name=$(basename "$flow" .yaml)
   printf "%-40s " "$name"
-  if maestro $DEVICE_FLAG test "$flow" --no-ansi 2>&1 | tail -1 | grep -q "COMPLETED"; then
+  if maestro $DEVICE_FLAG test "${ENV_FLAGS[@]}" "$flow" --no-ansi 2>&1 | tail -1 | grep -q "COMPLETED"; then
     echo "✅ PASS"
     PASS=$((PASS + 1))
   else

@@ -11,7 +11,10 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const PAGES = ['landing', 'privacy', 'delete-account', 'guides'];
+const PAGES = [
+  'landing', 'privacy', 'delete-account', 'guides', 'about', 'contact',
+  'sample-analysis',
+];
 
 for (const page of PAGES) {
   const src = path.join(ROOT, 'web', page);

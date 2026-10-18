@@ -15,10 +15,10 @@ name: flow_signup
 - inputText: "Maestro Test"
 - tapOn:
     text: "Email"
-- inputText: "maestrotest99@chessdiary.test"
+- inputText: "${SIGNUP_EMAIL}"
 - tapOn:
     text: "Password (min 6 chars)"
-- inputText: "TestPass123!"
+- inputText: "${TEST_PASSWORD}"
 - tapOn: "Create Account"
 - extendedWaitUntil:
     visible: "Add Game"

@@ -1,12 +1,27 @@
 // @ts-check
 const path = require('path');
+const fs = require('fs');
 const { defineConfig, devices } = require('@playwright/test');
 
-// Credentials for the dedicated test account (never use personal account).
-// Set these in a .env file or as environment variables before running.
-// TEST_EMAIL and TEST_PASSWORD should match a real Firebase account.
-//
-// Defaults match the Maestro test suite credentials.
+// Credentials for the dedicated test account (never use personal account)
+// come from TEST_EMAIL / TEST_PASSWORD -- set them in the environment or in
+// the gitignored .env.test at the repo root (shared with the Maestro suite).
+// They are deliberately not in this file: the repo is public.
+const envFile = path.resolve(__dirname, '..', '.env.test');
+if (fs.existsSync(envFile)) {
+  for (const line of fs.readFileSync(envFile, 'utf8').split(/\r?\n/)) {
+    const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*?)\s*$/);
+    if (m && process.env[m[1]] === undefined) process.env[m[1]] = m[2];
+  }
+}
+
+function requireCredential(name) {
+  if (!process.env[name]) {
+    throw new Error(`${name} is not set -- add it to .env.test at the repo root or export it.`);
+  }
+  return process.env[name];
+}
+
 //
 // Runs against a local Firebase Hosting emulator by default (see webServer
 // below) — this serves build/web using the exact rewrites/headers from
@@ -20,10 +35,10 @@ const { defineConfig, devices } = require('@playwright/test');
 // the local emulator — see reuseExistingServer below.)
 const BASE_URL = process.env.BASE_URL || 'http://127.0.0.1:5000';
 
-// Force HTML renderer so Flutter renders real DOM elements (text, inputs,
-// buttons) that Playwright can query. The production auto-build supports
-// runtime renderer selection via query param.
-const WEB_URL = `${BASE_URL}?flutter.renderer=html`;
+// The static marketing site is served at "/", the Flutter app at "/app/".
+// Flutter no longer has an HTML renderer, so app tests query the
+// accessibility (semantics) tree instead -- see enableSemantics in helpers.js.
+const APP_PATH = '/app/';
 
 module.exports = defineConfig({
   testDir: '.',
@@ -36,7 +51,7 @@ module.exports = defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: WEB_URL,
+    baseURL: BASE_URL,
     screenshot: 'on',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
@@ -68,6 +83,6 @@ module.exports = defineConfig({
 });
 
 // Export test URL so spec files can use it
-module.exports.WEB_URL = WEB_URL;
-module.exports.TEST_EMAIL = process.env.TEST_EMAIL || 'testuser@chessdiary.test';
-module.exports.TEST_PASSWORD = process.env.TEST_PASSWORD || 'TestPass123!';
+module.exports.APP_PATH = APP_PATH;
+module.exports.TEST_EMAIL = requireCredential('TEST_EMAIL');
+module.exports.TEST_PASSWORD = requireCredential('TEST_PASSWORD');
