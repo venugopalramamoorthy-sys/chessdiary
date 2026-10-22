@@ -3,7 +3,7 @@
 // Prerequisites:
 //   1. npm install -g firebase-tools
 //   2. firebase login
-//   3. In C:\ChessDiary, run:
+//   3. In C:\src\ChessDiary, run:
 //        firebase emulators:start --only auth,firestore
 //   4. Then in another terminal:
 //        flutter test integration_test/ -d emulator-5554 --reporter expanded
