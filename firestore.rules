@@ -22,6 +22,15 @@ service cloud.firestore {
                               && collection in ['games', 'ratings', 'badges']
                               && request.resource.data.size() <= 50;
       }
+
+      // Daily health check's write/read/delete round-trip
+      // (healthcheck/healthcheck.py) -- one doc, one timestamp field.
+      match /_healthcheck/ping {
+        allow read, delete: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+                              && request.resource.data.keys().hasOnly(['checkedAt'])
+                              && request.resource.data.checkedAt is timestamp;
+      }
     }
   }
 }
