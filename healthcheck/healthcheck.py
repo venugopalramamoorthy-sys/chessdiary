@@ -48,7 +48,8 @@ import requests
 
 # Credentials live in secrets.json next to this script (gitignored --
 # this repo is public). Keys: WEB_API_KEY, HEALTHCHECK_EMAIL,
-# HEALTHCHECK_PASSWORD, AUTOMATION_SECRET.
+# HEALTHCHECK_PASSWORD, AUTOMATION_SECRET, and optionally
+# TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID for ChessDiary's own alert bot.
 _SECRETS_PATH = Path(__file__).resolve().parent / "secrets.json"
 _SECRETS = json.loads(_SECRETS_PATH.read_text(encoding="utf-8"))
 
@@ -64,6 +65,11 @@ BACKEND_URL = "https://chessdiary-stockfish.onrender.com"
 
 AUTOMATION_SECRET = _SECRETS["AUTOMATION_SECRET"]
 NOTIFY_URL = "https://43-205-148-181.sslip.io/automation/notify"
+
+# ChessDiary's own Telegram bot. When both are set, reports go straight to
+# Telegram instead of through the trading-terminal relay above.
+TELEGRAM_BOT_TOKEN = _SECRETS.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_CHAT_ID = _SECRETS.get("TELEGRAM_CHAT_ID", "")
 
 TEST_PGN = "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6"
 VALID_QUALITIES = {"best", "good", "inaccuracy", "mistake", "blunder"}
@@ -222,6 +228,17 @@ def check_firestore(token: str, uid: str) -> str:
 
 
 def send_telegram(text: str) -> bool:
+    if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+        try:
+            r = requests.post(
+                f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+                json={"chat_id": TELEGRAM_CHAT_ID, "text": text},
+                timeout=20,
+            )
+            return r.status_code == 200 and r.json().get("ok") is True
+        except Exception:
+            return False
+
     try:
         r = requests.post(
             NOTIFY_URL,
