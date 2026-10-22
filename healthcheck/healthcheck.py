@@ -6,7 +6,7 @@ Background: the equivalent cloud routine (claude.ai routines, trigger
 trig_01EmshszbBSL7PeXjrSV9Vqr) is blocked by its sandbox's network
 egress policy, which only allows *.googleapis.com and a handful of
 package registries -- chessdiary.app, the Firebase web.app domain, the
-Render backend, and the trading-terminal Telegram relay are all
+Render backend, and the Telegram relay it then used are all
 rejected. That policy lives in claude.ai's cloud-environment settings
 (a pure click-through UI with no API/URL, confirmed via Anthropic's own
 docs), not something fixable from code. Running the exact same checks
@@ -32,8 +32,8 @@ Tests, in order:
      a clean pass.
   7. Firestore round-trip under the real per-user security rule
      (write -> read back -> delete the test doc).
-  8. Compose a plain-text report and send it via trading-terminal's
-     existing Telegram relay (chessdiary has no channel of its own).
+  8. Compose a plain-text report and send it via ChessDiary's own
+     Telegram alert bot (@Chessdiary_alerts_bot).
 """
 
 from __future__ import annotations
@@ -48,8 +48,7 @@ import requests
 
 # Credentials live in secrets.json next to this script (gitignored --
 # this repo is public). Keys: WEB_API_KEY, HEALTHCHECK_EMAIL,
-# HEALTHCHECK_PASSWORD, AUTOMATION_SECRET, and optionally
-# TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID for ChessDiary's own alert bot.
+# HEALTHCHECK_PASSWORD, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.
 _SECRETS_PATH = Path(__file__).resolve().parent / "secrets.json"
 _SECRETS = json.loads(_SECRETS_PATH.read_text(encoding="utf-8"))
 
@@ -63,13 +62,9 @@ APP_SHELL_URL = "https://chessdiary.app/app"
 WEBAPP_URL = "https://chessdiary-7f1e3.web.app/"
 BACKEND_URL = "https://chessdiary-stockfish.onrender.com"
 
-AUTOMATION_SECRET = _SECRETS["AUTOMATION_SECRET"]
-NOTIFY_URL = "https://43-205-148-181.sslip.io/automation/notify"
-
-# ChessDiary's own Telegram bot. When both are set, reports go straight to
-# Telegram instead of through the trading-terminal relay above.
-TELEGRAM_BOT_TOKEN = _SECRETS.get("TELEGRAM_BOT_TOKEN", "")
-TELEGRAM_CHAT_ID = _SECRETS.get("TELEGRAM_CHAT_ID", "")
+# ChessDiary's own Telegram alert bot (@Chessdiary_alerts_bot).
+TELEGRAM_BOT_TOKEN = _SECRETS["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID = _SECRETS["TELEGRAM_CHAT_ID"]
 
 TEST_PGN = "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6"
 VALID_QUALITIES = {"best", "good", "inaccuracy", "mistake", "blunder"}
@@ -228,25 +223,13 @@ def check_firestore(token: str, uid: str) -> str:
 
 
 def send_telegram(text: str) -> bool:
-    if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
-        try:
-            r = requests.post(
-                f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-                json={"chat_id": TELEGRAM_CHAT_ID, "text": text},
-                timeout=20,
-            )
-            return r.status_code == 200 and r.json().get("ok") is True
-        except Exception:
-            return False
-
     try:
         r = requests.post(
-            NOTIFY_URL,
-            headers={"X-Automation-Secret": AUTOMATION_SECRET, "Content-Type": "application/json"},
-            json={"text": text},
+            f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
+            json={"chat_id": TELEGRAM_CHAT_ID, "text": text},
             timeout=20,
         )
-        return r.status_code == 200 and r.json().get("sent") is True
+        return r.status_code == 200 and r.json().get("ok") is True
     except Exception:
         return False
 

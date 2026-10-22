@@ -4,7 +4,7 @@
 # blocker: its cloud sandbox's network egress policy only allows
 # *.googleapis.com and a few package registries, rejecting
 # chessdiary.app, the Firebase web.app domain, the Render backend, and
-# the Telegram relay this check needs to report through. That policy
+# the Telegram relay this check then reported through. That policy
 # lives in a pure click-through UI with no API or direct URL (confirmed
 # against Anthropic's own docs), so running the same checks from this
 # machine's own unrestricted network sidesteps the problem entirely.
