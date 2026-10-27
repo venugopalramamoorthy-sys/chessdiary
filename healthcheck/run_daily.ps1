@@ -14,7 +14,7 @@
 #
 #   $action = New-ScheduledTaskAction -Execute "powershell.exe" `
 #       -Argument '-NoProfile -ExecutionPolicy Bypass -File "C:\src\ChessDiary\healthcheck\run_daily.ps1"'
-#   $trigger = New-ScheduledTaskTrigger -Daily -At 7:30AM
+#   $trigger = New-ScheduledTaskTrigger -Daily -At 11:00AM
 #   Register-ScheduledTask -TaskName "ChessDiaryHealthCheck" -Action $action -Trigger $trigger `
 #       -Description "Daily deep health check for chessdiary (website, backend, Gemini, Firestore) -- reports via Telegram"
 #
