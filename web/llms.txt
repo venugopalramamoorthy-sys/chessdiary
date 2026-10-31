@@ -31,6 +31,7 @@ tactical patterns behind their losses using Stockfish engine analysis.
 - [Candidate Moves and Calculation: How to Think Before You Move](https://chessdiary.app/guides/candidate-moves-and-calculation): A repeatable routine for choosing a move, shown on two positions from Morphy's Opera Game.
 - [The Immortal Game, annotated](https://chessdiary.app/sample-analysis/immortal-game): Anderssen vs. Kieseritzky, 1851, with Stockfish evaluations and the moves where the engine disagrees with the legend.
 - [The Evergreen Game, annotated](https://chessdiary.app/sample-analysis/evergreen-game): Anderssen vs. Dufresne, 1852, with Stockfish evaluations.
+- [The Game of the Century, annotated](https://chessdiary.app/sample-analysis/game-of-the-century): Byrne vs. Fischer, 1956, with Stockfish evaluations, including the queen offer on move 17 and the moves that decided the game.
 
 ## Policies
 
