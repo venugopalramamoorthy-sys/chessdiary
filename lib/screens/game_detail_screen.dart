@@ -11,9 +11,11 @@ import '../services/game_service.dart';
 import '../services/admob_service.dart';
 import '../services/gemini_service.dart';
 import '../services/pgn_export_service.dart';
+import '../services/public_report_service.dart';
 import '../services/stockfish_service.dart';
 import '../utils/theme.dart';
 import '../utils/web_theme.dart';
+import 'publish_report_screen.dart';
 
 class _H2H {
   final int wins, losses, draws;
@@ -144,6 +146,11 @@ class _GameDetailScreenState extends State<GameDetailScreen>
               title: 'vs $oppName',
               actions: [
                 IconButton(
+                    icon: Icon(Icons.public_rounded,
+                        color: _game.publicSlug != null ? WT.greenDark : WT.silver),
+                    tooltip: _game.publicSlug != null ? 'Public page' : 'Publish to web',
+                    onPressed: _openPublish),
+                IconButton(
                     icon: const Icon(Icons.share_rounded, color: WT.silver),
                     tooltip: 'Export PGN',
                     onPressed: _exportPgn),
@@ -156,6 +163,11 @@ class _GameDetailScreenState extends State<GameDetailScreen>
           : AppBar(
               title: Text('vs $oppName'),
               actions: [
+                IconButton(
+                    icon: Icon(Icons.public_rounded,
+                        color: _game.publicSlug != null ? AppTheme.primary : null),
+                    tooltip: _game.publicSlug != null ? 'Public page' : 'Publish to web',
+                    onPressed: _openPublish),
                 IconButton(
                     icon: const Icon(Icons.share_rounded),
                     tooltip: 'Export PGN',
@@ -1554,6 +1566,26 @@ class _GameDetailScreenState extends State<GameDetailScreen>
         );
       }),
     );
+  }
+
+  // ── Publish to web ────────────────────────────────────────────────────────
+
+  Future<void> _openPublish() async {
+    final reason = PublicReportService.cannotPublishReason(_game);
+    if (reason != null && _game.publicSlug == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(reason)));
+      return;
+    }
+    final slug = await PublishReportScreen.open(context, _game);
+    if (slug == null || !mounted) return;
+    setState(() => _game = slug.isEmpty
+        ? _game.copyWith(clearPublicSlug: true)
+        : _game.copyWith(publicSlug: slug));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(slug.isEmpty
+          ? 'Public page removed'
+          : 'Published: ${PublicReportService.urlFor(slug)}'),
+    ));
   }
 
   // ── PGN Export ────────────────────────────────────────────────────────────

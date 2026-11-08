@@ -362,6 +362,7 @@ class _DeletionList extends StatelessWidget {
       ('All games in your library', true),
       ('Move sequences, analysis results, and coaching tips', true),
       ('Your account profile and email address', true),
+      ('Game reports you published to the web', true),
       ('Linked Chess.com / Lichess account connections', true),
       ('Your sign-in credentials', true),
     ];

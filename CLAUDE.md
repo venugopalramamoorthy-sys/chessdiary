@@ -20,7 +20,15 @@ flutter analyze          # Static analysis (linting)
 flutter test             # Run all tests
 flutter build apk        # Build release APK
 flutter build appbundle  # Build release AAB (for Play Store)
-bash deploy.sh           # Build web release + deploy to chessdiary.app (Firebase Hosting)
+bash deploy.sh           # Build web release + public game pages, deploy to chessdiary.app (needs serviceAccount.json)
+```
+
+Public game reports (see `docs/public-game-reports.md`):
+```bash
+cd tools/public-games && npm ci         # first time
+node reports.js list --pending          # moderation queue; also show/approve/unapprove/takedown <slug>
+npm test                                # offline build test
+firebase deploy --only firestore:rules  # after changing firestore.rules
 ```
 
 For the Stockfish server (Python/Flask):
@@ -45,6 +53,7 @@ python app.py            # Run locally on port 5000
 - `auth_service.dart` — thin wrapper around `FirebaseAuth.instance`
 - `game_service.dart` — all Firestore CRUD under `users/{uid}/games/{gameId}`; also computes player stats
 - `account_link_service.dart` — handles linking/unlinking Chess.com and Lichess accounts to the user profile
+- `public_report_service.dart` — publishes an analysed game as a privacy-filtered public copy in top-level `publicGames/{slug}`; rendered on the web by `web/g/` and built into static pages by `tools/public-games/build.js` once approved (see `docs/public-game-reports.md`)
 
 ### Data flow for adding a game
 `add_game_screen.dart` → user picks image/PDF/text → `gemini_service.parseMoves()` → user reviews parsed data → `game_service.saveGame()` → Firestore
@@ -65,7 +74,8 @@ These files must be obtained separately and placed locally before building:
 2. **`android/key.properties`** + **`android/upload-keystore.jks`** — Android signing keys for Play Store release builds. Keep the keystore backed up; losing it means you can never update the Play Store app.
 3. **`lib/services/gemini_service.dart`** — contains `apiKey` filled in with the actual Gemini API key (from Google AI Studio). Already set on the original dev machine.
 4. **`lib/services/stockfish_service.dart`** — contains the Render.com server URL. Already set on the original dev machine.
-5. **`lib/firebase_options.dart`** — contains Firebase config for web and Android. Already committed with real values (web config is safe to commit; Android values mirror google-services.json).
+5. **`serviceAccount.json`** (repo root) — Firebase Admin SDK key (Console → Project settings → Service accounts). `deploy.sh` needs it to build the public game pages and fails without it; `SKIP_PUBLIC_GAMES=1` deploys without them, which takes approved reports offline.
+6. **`lib/firebase_options.dart`** — contains Firebase config for web and Android. Already committed with real values (web config is safe to commit; Android values mirror google-services.json).
 
 ## Firebase project
 - **Project:** `chessdiary-7f1e3`
@@ -82,11 +92,13 @@ These files must be obtained separately and placed locally before building:
 
 ## Google Analytics tag — do not remove or change
 The gtag.js snippet (measurement ID `G-8KWDLD0JLY`) must be present, verbatim, in the `<head>` of every static HTML page:
-`web/index.html`, `web/landing/index.html`, `web/privacy/index.html`, `web/delete-account/index.html`, `web/guides/index.html`, `web/404.html`, and all files under `web/guides/*/index.html` (the guide articles).
+`web/index.html`, `web/landing/index.html`, `web/privacy/index.html`, `web/delete-account/index.html`, `web/guides/index.html`, `web/404.html`, all files under `web/guides/*/index.html` (the guide articles), and `web/g/index.html` (the public game report template — every generated `/g/<slug>/` and `/games/` page inherits the tag from it).
 Any change to these files — restructuring `<head>`, rewriting a page, adding new pages, running a formatter/linter — must leave this tag intact and must not introduce a different measurement ID. If a change legitimately requires removing/moving it, call it out explicitly rather than dropping it silently. Do not swap in a different `G-XXXXXXXXXX` ID unless the user explicitly provides a new one.
 
 ## Known design decisions (don't "fix" these)
 - Stockfish analysis falls back to Gemini automatically — intentional, not a bug
 - Dark theme only, no light mode — intentional
+- Public game reports always start `approved: false`; only the Admin SDK (`tools/public-games/reports.js`) approves, and any edit from the app resets it — intentional moderation, not a bug
+- AdSense script loads only on content pages (guides, sample analyses, approved game reports); the home page verifies the site with the `google-adsense-account` meta tag instead
 - Web and Android share the same codebase; platform differences handled with `kIsWeb` guards
 - `WT.offWhite` / `WT.cream` / `WT.ink` / `WT.muted` are legacy static constants — prefer the dynamic getters (`WT.scaffoldBg`, `WT.altBg`, `WT.textColor`, `WT.mutedColor`) in any new web code

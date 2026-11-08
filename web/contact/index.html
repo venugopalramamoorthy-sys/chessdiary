@@ -220,6 +220,15 @@
         });
       });
     })();
+
+    // "Report it" links on public game reports arrive as /contact/?report=<slug>.
+    (function () {
+      var slug = new URLSearchParams(location.search).get('report');
+      if (!slug || !/^[a-z0-9-]{8,80}$/.test(slug)) return;
+      document.querySelector('#contact-form input[name="subject"]').value = 'Report: public game page ' + slug;
+      document.getElementById('message').value =
+        'I am reporting https://chessdiary.app/g/' + slug + '/\n\nWhat is wrong with this page:\n';
+    })();
   </script>
 
 </body>

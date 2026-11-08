@@ -220,7 +220,7 @@
 
     <div class="page-eyebrow"><span>Legal</span></div>
     <h1>PRIVACY<br>POLICY</h1>
-    <p class="effective-date">Effective date: June 28, 2026 &nbsp;·&nbsp; Last updated: October 3, 2026</p>
+    <p class="effective-date">Effective date: June 28, 2026 &nbsp;·&nbsp; Last updated: November 8, 2026</p>
 
     <p>ChessDiary ("we", "our", or "us") is a chess game diary app that helps players record, organise, and analyse their games. This Privacy Policy explains what information we collect, how we use it, and your rights over your data.</p>
     <p>By using ChessDiary you agree to the practices described here. If you do not agree, please do not use the app.</p>
@@ -237,6 +237,8 @@
 
     <p><strong>Chess.com and Lichess data.</strong> If you choose to link your Chess.com or Lichess account, we fetch your game history from their public APIs using the username you provide. We store the imported game data in your ChessDiary library.</p>
 
+    <p><strong>Public game reports (optional).</strong> If you choose <em>Publish to web</em> on a game, we create a public page for it at chessdiary.app/g/&hellip; containing the moves, the engine analysis, the notes and comments you write, the display name you choose, the ratings, opening and time control, and either the month (over-the-board games) or the date (Chess.com and Lichess games) it was played. We never publish your email address, your account name, scoresheet images, or the real name of an over-the-board opponent; an online opponent&rsquo;s username appears only if you choose to show it. Anyone with the link can read the page. After we review a report, it may also be listed on chessdiary.app/games, indexed by search engines and shown alongside ads.</p>
+
     <p><strong>Beta tester signup.</strong> If you request Android beta access via the signup form on our website, we collect the email address you provide (typically your Google Play account email). The form is protected by hCaptcha, which may collect device and browser signals to verify you are not a bot. This submission is separate from your ChessDiary account and is not stored in our Firestore database.</p>
 
     <p><strong>Usage and technical data.</strong> Our website (chessdiary.app) uses Google Analytics (GA4) to understand site traffic and page usage — this collects standard analytics data such as pages viewed, approximate location, device type, and referral source. We do not run analytics inside the app itself beyond this. Firebase (Google) may also collect standard technical data (device type, OS version, crash reports) as part of operating the Firebase platform.</p>
@@ -248,6 +250,7 @@
       <li><strong>To provide the service</strong> — storing and displaying your game library, running AI analysis, and syncing your data across devices.</li>
       <li><strong>To parse scoresheets</strong> — sending uploaded images/PDFs to Google Gemini AI so the moves can be extracted automatically.</li>
       <li><strong>To analyse your games</strong> — sending your game's PGN notation to our Stockfish analysis server to identify blunders, mistakes, and inaccuracies.</li>
+      <li><strong>To publish game reports you choose to share</strong> &mdash; showing the public copy of a game you published, and reviewing it before it is listed or indexed.</li>
       <li><strong>To authenticate you</strong> — verifying your identity via Firebase Authentication.</li>
       <li><strong>To enroll beta testers</strong> — using the email address submitted via our beta signup form to manually add you as a closed tester in Google Play Console and send you an invite link.</li>
       <li><strong>To improve the app</strong> — understanding general usage patterns via crash reports and Firebase diagnostics (no personally identifiable analytics).</li>
@@ -257,7 +260,7 @@
 
     <h2>3. HOW WE SHARE YOUR INFORMATION</h2>
 
-    <p>We do not sell your personal data. We share data only with the following service providers as required to operate the app:</p>
+    <p>We do not sell your personal data. Apart from game reports you publish yourself, which are public by design (see section 1), we share data only with the following service providers as required to operate the app:</p>
     <ul>
       <li><strong>Google Firebase</strong> — authentication (Firebase Auth) and database (Cloud Firestore). Your account information and game library are stored on Firebase servers. Google's privacy policy applies: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
       <li><strong>Google Gemini AI</strong> — scoresheet images and PDF content you upload are transmitted to Google's Gemini API to extract chess moves. Google's AI terms apply to this data.</li>
@@ -278,6 +281,8 @@
     <p>Your game library and account data are retained for as long as your account is active. You can delete individual games at any time from within the app.</p>
 
     <p>To request deletion of your entire account and all associated data, email us at <a href="mailto:venugopal.ramamoorthy@gmail.com">venugopal.ramamoorthy@gmail.com</a> with the subject line "Account deletion request". We will permanently delete your account and game data within 30 days.</p>
+
+    <p>Public game reports stay online until you unpublish them. You can unpublish a report at any time from the game screen; deleting the game or your account also deletes its report. Search engines and other sites may keep a cached copy of a public page for some time after it is removed, which we do not control. We may also remove a report that breaks our rules or that someone reports to us.</p>
 
     <p>Beta signup emails are retained only in our inbox for as long as needed to manually enroll you as a Play Store closed tester and send your invite. They are not imported into the ChessDiary database or linked to a user account unless you separately create one.</p>
 

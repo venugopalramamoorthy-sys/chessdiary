@@ -21,6 +21,7 @@ class ChessGame {
   final String? timeControl;  // Phase 5: 'bullet','blitz','rapid','classical','correspondence'
   final List<int> evalCurve;     // Phase 5G2: centipawn eval per half-move (white's perspective)
   final List<int> clockSeconds;  // Phase 5G3: seconds remaining per half-move (from %clk)
+  final String? publicSlug;      // publicGames/{slug} when published to the web
 
   ChessGame({
     required this.id,
@@ -43,6 +44,7 @@ class ChessGame {
     this.timeControl,
     this.evalCurve = const [],
     this.clockSeconds = const [],
+    this.publicSlug,
   });
 
   factory ChessGame.fromMap(Map<String, dynamic> map, String id) {
@@ -69,6 +71,7 @@ class ChessGame {
       timeControl: map['timeControl'],
       evalCurve: List<int>.from(map['evalCurve'] ?? []),
       clockSeconds: List<int>.from(map['clockSeconds'] ?? []),
+      publicSlug: map['publicSlug'] as String?,
     );
   }
 
@@ -93,6 +96,7 @@ class ChessGame {
       'timeControl': timeControl,
       'evalCurve': evalCurve,
       'clockSeconds': clockSeconds,
+      if (publicSlug != null) 'publicSlug': publicSlug,
     };
   }
 
@@ -102,6 +106,8 @@ class ChessGame {
     List<MoveAnalysis>? analysis,
     List<int>? evalCurve,
     List<int>? clockSeconds,
+    String? publicSlug,
+    bool clearPublicSlug = false,
   }) {
     return ChessGame(
       id: id,
@@ -124,6 +130,7 @@ class ChessGame {
       timeControl: timeControl ?? this.timeControl,
       evalCurve: evalCurve ?? this.evalCurve,
       clockSeconds: clockSeconds ?? this.clockSeconds,
+      publicSlug: clearPublicSlug ? null : (publicSlug ?? this.publicSlug),
     );
   }
 

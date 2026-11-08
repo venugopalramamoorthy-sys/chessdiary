@@ -34,6 +34,7 @@ dependencies:
 
   # Chess
   flutter_chess_board: ^1.0.1
+  chess: ^0.7.0   # positions (FEN) for public game reports
 
   # Storage & Utils
   shared_preferences: ^2.2.2

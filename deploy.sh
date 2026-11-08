@@ -12,6 +12,18 @@ flutter build web --release
 # under /app and /app/** via the renamed-file rewrites in firebase.json.
 mv build/web/index.html build/web/app-shell.html
 
+# Static pages for approved public game reports (/g/<slug>/, /games/, sitemap
+# entries), read from Firestore with the Admin SDK. Every deploy replaces the
+# whole site, so skipping this step would take published reports offline --
+# it fails without serviceAccount.json unless you opt out explicitly.
+if [ "${SKIP_PUBLIC_GAMES:-}" = "1" ]; then
+  echo "SKIP_PUBLIC_GAMES=1: deploying WITHOUT public game report pages"
+else
+  echo "Building public game report pages..."
+  [ -d tools/public-games/node_modules ] || (cd tools/public-games && npm ci --no-audit --no-fund)
+  node tools/public-games/build.js --out build/web
+fi
+
 echo "Deploying to Firebase Hosting..."
 firebase deploy --only hosting
 

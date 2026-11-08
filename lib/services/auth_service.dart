@@ -133,6 +133,16 @@ class AuthService {
       await batch.commit();
     }
 
+    // Public game reports (publicGames/{slug}) -- these live outside the
+    // user's document, so they have to be found by owner.
+    final reports = await _db
+        .collection('publicGames')
+        .where('ownerUid', isEqualTo: uid)
+        .get();
+    for (final doc in reports.docs) {
+      await doc.reference.delete();
+    }
+
     // User profile document.
     await _db.collection('users').doc(uid).delete();
 

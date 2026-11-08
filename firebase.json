@@ -93,6 +93,14 @@
         "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
       },
       {
+        "source": "/g/**",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+      },
+      {
+        "source": "/games/**",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
+      },
+      {
         "source": "/delete-account/**",
         "headers": [{ "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }]
       }
@@ -109,6 +117,10 @@
       {
         "source": "/app/**",
         "destination": "/app-shell.html"
+      },
+      {
+        "source": "/g/**",
+        "destination": "/g/index.html"
       }
     ]
   },

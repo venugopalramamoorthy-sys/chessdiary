@@ -32,5 +32,51 @@ service cloud.firestore {
                               && request.resource.data.checkedAt is timestamp;
       }
     }
+
+    // Public game reports (lib/services/public_report_service.dart). Anyone
+    // can fetch one by its unguessable slug; only the owner can list theirs
+    // (account deletion). `approved` is set only by the Admin SDK
+    // (tools/public-games/reports.js) -- the app must write false, so any
+    // edit sends a report back for review.
+    function validReport(d, slug) {
+      return d.keys().hasAll(['ownerUid', 'slug', 'sourceGameId', 'approved', 'publishedAt',
+                              'updatedAt', 'authorName', 'playerColor', 'whiteName', 'blackName',
+                              'result', 'datePlayed', 'source', 'moves', 'evalCurve',
+                              'analysis', 'moments', 'notes'])
+          && d.keys().hasOnly(['ownerUid', 'slug', 'sourceGameId', 'approved', 'publishedAt',
+                               'updatedAt', 'authorName', 'playerColor', 'whiteName', 'blackName',
+                               'whiteRating', 'blackRating', 'result', 'datePlayed', 'source',
+                               'event', 'opening', 'timeControl', 'moves', 'evalCurve',
+                               'analysis', 'moments', 'notes'])
+          && d.ownerUid == request.auth.uid
+          && d.slug == slug
+          && d.approved == false
+          && d.updatedAt == request.time
+          && d.authorName is string && d.authorName.size() > 0 && d.authorName.size() <= 40
+          && d.whiteName is string && d.whiteName.size() <= 40
+          && d.blackName is string && d.blackName.size() <= 40
+          && d.playerColor in ['white', 'black']
+          && d.source in ['paper', 'chess.com', 'lichess', 'other']
+          && d.notes is string && d.notes.size() <= 5000
+          && d.moves is list && d.moves.size() <= 400
+          && d.evalCurve is list && d.evalCurve.size() <= 400
+          && d.analysis is list && d.analysis.size() <= 25
+          && d.moments is list && d.moments.size() <= 5;
+    }
+
+    match /publicGames/{slug} {
+      allow get: if true;
+      allow list: if request.auth != null && resource.data.ownerUid == request.auth.uid;
+      allow create: if request.auth != null
+                    && slug.matches('^[a-z0-9-]{8,80}$')
+                    && validReport(request.resource.data, slug)
+                    && request.resource.data.publishedAt == request.time;
+      allow update: if request.auth != null
+                    && resource.data.ownerUid == request.auth.uid
+                    && validReport(request.resource.data, slug)
+                    && request.resource.data.publishedAt == resource.data.publishedAt
+                    && request.resource.data.sourceGameId == resource.data.sourceGameId;
+      allow delete: if request.auth != null && resource.data.ownerUid == request.auth.uid;
+    }
   }
 }

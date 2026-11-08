@@ -41,6 +41,12 @@ class GameService {
   }
 
   static Future<void> deleteGame(String id) async {
+    // A published game takes its public page with it.
+    final snap = await _col.doc(id).get();
+    final slug = (snap.data() as Map<String, dynamic>?)?['publicSlug'] as String?;
+    if (slug != null) {
+      await _db.collection('publicGames').doc(slug).delete();
+    }
     await _col.doc(id).delete();
   }
 
