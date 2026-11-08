@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Why ChessDiary exists: a student chess player's paper scoresheets piled up in a bag while his online games sat scattered across Chess.com and Lichess. Here's the story.">
   <title>About ChessDiary — Why We Built This</title>
@@ -26,9 +28,6 @@
     gtag('js', new Date());
     gtag('config', 'G-8KWDLD0JLY');
   </script>
-
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1687484988403199" crossorigin="anonymous"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Back-rank mate explained with board diagrams: why it happens, the cheap ways to prevent it, and how to spot the combinations that exploit it.">
   <title>The Back-Rank Mate: How It Happens and How to Stop It — ChessDiary</title>

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="How ChessDiary's Gemini-powered OCR handles unclear or rushed handwriting on a chess scoresheet, what parse confidence means, and how to fix a misread move.">
   <title>How ChessDiary Reads Messy Handwriting (and When It Can't) — ChessDiary</title>

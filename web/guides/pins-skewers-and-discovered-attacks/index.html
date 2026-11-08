@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Three line-based tactics explained with diagrams: how pins, skewers and discovered attacks differ, how to win material with each, and how to avoid them.">
   <title>Pins, Skewers and Discovered Attacks — ChessDiary</title>

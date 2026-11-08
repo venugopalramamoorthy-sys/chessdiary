@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Practical tips for photographing a paper chess scoresheet so ChessDiary's AI can read it accurately — lighting, angle, and framing that actually matter.">
   <title>How to Photograph a Scoresheet for Accurate OCR — ChessDiary</title>

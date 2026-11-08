@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A repeatable routine for choosing a move: list candidates, calculate forcing lines first, check the opponent&#x27;s best reply and evaluate, shown on two positions from Morphy&#x27;s Opera Game.">
   <title>Candidate Moves and Calculation: How to Think Before You Move — ChessDiary</title>

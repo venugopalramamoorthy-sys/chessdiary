@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="What move quality labels, centipawn loss, and tactical motifs actually mean in a ChessDiary Stockfish analysis report, and how to use them to study a loss.">
   <title>How to Read a Stockfish Blunder Report — ChessDiary</title>

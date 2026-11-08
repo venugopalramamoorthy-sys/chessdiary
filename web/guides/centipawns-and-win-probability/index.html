@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="What a centipawn is, why +1.00 does not mean you are a pawn up, how engine scores map to winning chances, and how to use that when you review your games.">
   <title>Centipawns and Win Probability: What an Engine Score Really Means — ChessDiary</title>

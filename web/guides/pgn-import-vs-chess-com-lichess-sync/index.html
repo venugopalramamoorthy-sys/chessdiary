@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Send visitors on the default Firebase hosts to the canonical domain -->
+  <script>if (/\.(web\.app|firebaseapp\.com)$/.test(location.hostname)) location.replace("https://chessdiary.app" + location.pathname + location.search + location.hash);</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The difference between uploading a PGN file and linking your Chess.com or Lichess account in ChessDiary, and when each one is the right choice.">
   <title>PGN Import vs. Chess.com/Lichess Sync: Which to Use — ChessDiary</title>
