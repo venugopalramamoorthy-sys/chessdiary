@@ -93,11 +93,12 @@ test.describe('Marketing landing page — static, at "/"', () => {
     await expect(page.locator('input[type="password"]')).toHaveCount(0);
   });
 
-  test('AdSense script is loaded with the ChessDiary publisher ID', async ({ page }) => {
-    // Added deliberately for AdSense site review (kept off the /app shell)
-    const adsense = page.locator('script[src*="adsbygoogle"]');
-    await expect(adsense).toHaveCount(1);
-    await expect(adsense).toHaveAttribute('src', /client=ca-pub-1687484988403199/);
+  test('AdSense verifies the site by meta tag, with no ads on the home page', async ({ page }) => {
+    // Ads run only on content pages (guides, sample analyses, approved game
+    // reports); the home page keeps the publisher ID for site verification.
+    await expect(page.locator('meta[name="google-adsense-account"]'))
+      .toHaveAttribute('content', 'ca-pub-1687484988403199');
+    await expect(page.locator('script[src*="adsbygoogle"]')).toHaveCount(0);
   });
 
   test('gtag analytics script is loaded', async ({ page }) => {
