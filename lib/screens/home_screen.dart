@@ -58,6 +58,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  String _libraryResult = 'all';
+  int _libraryRequest = 0;
+
+  /// Switch to the Library tab showing only [result] ('all', 'Win', 'Loss', 'Draw').
+  void _openLibrary(String result) => setState(() {
+        _libraryResult = result;
+        _libraryRequest++;
+        _currentIndex = 1;
+      });
   ImportProgress _importProgress = const ImportProgress.idle();
 
   @override
@@ -98,8 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screens = [
-      const _Dashboard(),
-      const LibraryScreen(),
+      _Dashboard(onOpenLibrary: _openLibrary),
+      LibraryScreen(initialResult: _libraryResult, requestId: _libraryRequest),
       const EventsScreen(),
       const InsightsScreen(),
     ];
@@ -253,7 +262,10 @@ class _ImportBanner extends StatelessWidget {
 }
 
 class _Dashboard extends StatelessWidget {
-  const _Dashboard();
+  final void Function(String result) onOpenLibrary;
+  const _Dashboard({required this.onOpenLibrary});
+
+  static const _recentCount = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -340,13 +352,13 @@ class _Dashboard extends StatelessWidget {
                                 ),
                           child: Row(
                             children: [
-                              _wld('$wins',         'Wins',   web ? WT.win  : AppTheme.win,  web),
+                              _wld('$wins',         'Wins',   web ? WT.winColor    : AppTheme.win,     web, 'Win'),
                               _vDivider(web),
-                              _wld('$losses',       'Losses', web ? WT.loss : AppTheme.loss, web),
+                              _wld('$losses',       'Losses', web ? WT.lossColor   : AppTheme.loss,    web, 'Loss'),
                               _vDivider(web),
-                              _wld('$draws',        'Draws',  web ? WT.draw : AppTheme.draw, web),
+                              _wld('$draws',        'Draws',  web ? WT.drawColor   : AppTheme.draw,    web, 'Draw'),
                               _vDivider(web),
-                              _wld('${games.length}','Total', web ? WT.accent : AppTheme.primary, web),
+                              _wld('${games.length}','Total', web ? WT.greenAccent : AppTheme.primary, web, 'all'),
                             ],
                           ),
                         ),
@@ -383,17 +395,30 @@ class _Dashboard extends StatelessWidget {
                       SizedBox(height: web ? 32 : 24),
 
                       // ── recent games heading ───────────────────────────
-                      Text(
-                        'Recent Games',
-                        style: web
-                            ? GoogleFonts.playfairDisplay(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: WT.textColor)
-                            : const TextStyle(
-                                color: AppTheme.textPrimary,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
+                      Row(
+                        children: [
+                          Text(
+                            'Recent Games',
+                            style: web
+                                ? GoogleFonts.playfairDisplay(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: WT.textColor)
+                                : const TextStyle(
+                                    color: AppTheme.textPrimary,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                          ),
+                          const Spacer(),
+                          if (games.length > _recentCount)
+                            TextButton(
+                              onPressed: () => onOpenLibrary('all'),
+                              child: Text('View all ${games.length} →',
+                                  style: TextStyle(
+                                      color: web ? WT.greenAccent : AppTheme.primary,
+                                      fontWeight: FontWeight.w600)),
+                            ),
+                        ],
                       ),
                       const SizedBox(height: 12),
                     ],
@@ -454,7 +479,7 @@ class _Dashboard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      childCount: games.length,
+                      childCount: games.length < _recentCount ? games.length : _recentCount,
                     ),
                   ),
                 ),
@@ -465,23 +490,30 @@ class _Dashboard extends StatelessWidget {
     );
   }
 
-  Widget _wld(String count, String label, Color color, bool web) {
+  Widget _wld(String count, String label, Color color, bool web, String result) {
     return Expanded(
-      child: Column(
-        children: [
-          web
-              ? Text(count, style: WT.anton(26, color: color, spacing: 0))
-              : Text(count,
-                  style: TextStyle(
-                      color: color,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold)),
-          Text(label,
-              style: web
-                  ? WT.lora(10, color: WT.mutedColor)
-                  : const TextStyle(
-                      color: AppTheme.textSecondary, fontSize: 11)),
-        ],
+      child: Tooltip(
+        message: result == 'all' ? 'Show all games' : 'Show ${label.toLowerCase()}',
+        child: InkWell(
+          onTap: () => onOpenLibrary(result),
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Column(
+              children: [
+                web
+                    ? Text(count, style: WT.anton(26, color: color, spacing: 0))
+                    : Text(count,
+                        style: TextStyle(
+                            color: color, fontSize: 22, fontWeight: FontWeight.bold)),
+                Text(label,
+                    style: web
+                        ? WT.lora(10, color: WT.mutedColor)
+                        : const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -147,6 +147,30 @@ class ChessGame {
   }
 
   int get totalMoves => moves.length;
+
+  bool get isAnalysed => analysis.isNotEmpty;
+
+  /// Half-move index of [a] in [moves], or null if the analysis entry doesn't
+  /// match the move list (e.g. a re-edited scoresheet).
+  int? plyOf(MoveAnalysis a) {
+    final whitePly = (a.moveNumber - 1) * 2;
+    for (final ply in [whitePly, whitePly + 1]) {
+      if (ply >= 0 && ply < moves.length && moves[ply] == a.move) return ply;
+    }
+    return null;
+  }
+
+  /// How many of the player's own moves were graded [quality].
+  int playerMoveCount(String quality) {
+    final mine = playerColor == 'white' ? 0 : 1;
+    var n = 0;
+    for (final a in analysis) {
+      if (a.quality != quality) continue;
+      final ply = plyOf(a);
+      if (ply != null && ply % 2 == mine) n++;
+    }
+    return n;
+  }
 }
 
 class MoveAnalysis {

@@ -63,15 +63,7 @@ class PublicReportService {
 
   /// Analysis stores full-move numbers without the side to move, so the
   /// half-move is found by matching the SAN on White's then Black's move.
-  static int? plyFor(ChessGame game, MoveAnalysis a) {
-    final whitePly = (a.moveNumber - 1) * 2;
-    for (final ply in [whitePly, whitePly + 1]) {
-      if (ply >= 0 && ply < game.moves.length && game.moves[ply] == a.move) {
-        return ply;
-      }
-    }
-    return null;
-  }
+  static int? plyFor(ChessGame game, MoveAnalysis a) => game.plyOf(a);
 
   /// FEN before each requested half-move, replaying the game from the start.
   /// Stops at the first move the rules engine rejects (a misread scoresheet).
