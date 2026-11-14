@@ -28,3 +28,18 @@ echo "Deploying to Firebase Hosting..."
 firebase deploy --only hosting
 
 echo "Done! Live at https://chessdiary.app"
+
+# Deep check of the live site (browser tests, every page, security rules),
+# reported to Telegram. It never fails the deploy -- the site is already
+# live -- and is skipped where the test account / Telegram secrets aren't
+# set up. SKIP_DEEP_CHECK=1 skips it.
+if [ "${SKIP_DEEP_CHECK:-}" = "1" ]; then
+  echo "SKIP_DEEP_CHECK=1: skipping the post-deploy deep check"
+elif [ -f .env.test ] && [ -f healthcheck/secrets.json ] && [ -d e2e/node_modules ]; then
+  echo "Running post-deploy deep check (about 5 minutes)..."
+  sleep 20  # let the new version reach Firebase's CDN
+  python healthcheck/deep_check.py --reason deploy \
+    || echo "WARNING: post-deploy deep check found problems -- see the Telegram report above"
+else
+  echo "Skipping post-deploy deep check (needs .env.test, healthcheck/secrets.json and e2e/node_modules)"
+fi

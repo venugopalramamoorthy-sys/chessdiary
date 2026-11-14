@@ -16,7 +16,9 @@ note at the bottom of this file.
 
 Tests, in order:
   1. Website (chessdiary.app) + Flutter app shell (chessdiary.app/app)
-     + the underlying Firebase Hosting domain.
+     + the underlying Firebase Hosting domain; the compiled app code
+     (blank-screen check), guides/sample analyses/sitemap, and the public
+     game report viewer.
   2. Stockfish backend /health (Render free tier -- retries on cold start).
   3. Auth-gate regression check: /analyze and /gemini must both still
      reject unauthenticated requests (confirms the Oct 2026 security
@@ -95,6 +97,56 @@ def check_website() -> str:
         return f"FAIL (web.app domain: {e})"
 
     return "OK"
+
+
+def _fetch(path: str, min_bytes: int, must_contain: str | None = None) -> str | None:
+    """None if https://chessdiary.app/<path> is 200, big enough and (optionally)
+    contains a marker; otherwise a short reason."""
+    url = WEBSITE_URL + path
+    try:
+        r = requests.get(url, timeout=30)
+    except Exception as e:
+        return f"/{path}: {e}"
+    if r.status_code != 200:
+        return f"/{path} HTTP {r.status_code}"
+    if len(r.content) < min_bytes:
+        return f"/{path} only {len(r.content)} bytes"
+    if must_contain and must_contain not in r.text:
+        return f"/{path} missing '{must_contain}'"
+    return None
+
+
+def check_app_code() -> str:
+    # The app shell page returns 200 even when the compiled app is missing,
+    # which would show users a blank screen -- so check the code it loads.
+    problems = [p for p in (
+        _fetch("app", 500, "flutter_bootstrap.js"),
+        _fetch("flutter_bootstrap.js", 2_000),
+        _fetch("main.dart.js", 1_000_000),
+    ) if p]
+    return "FAIL (" + "; ".join(problems) + ")" if problems else "OK"
+
+
+def check_content_pages() -> str:
+    # A deploy that skips the static pages takes guides and sample analyses
+    # offline while the app itself still works.
+    problems = [p for p in (
+        _fetch("guides/", 5_000, "G-8KWDLD0JLY"),
+        _fetch("sample-analysis/game-of-the-century/", 5_000),
+        _fetch("sitemap.xml", 1_000, "<loc>https://chessdiary.app/guides/"),
+    ) if p]
+    return "FAIL (" + "; ".join(problems) + ")" if problems else "OK"
+
+
+def check_public_reports() -> str:
+    # /g/<slug>/ share links are rendered in the browser by web/g/index.html
+    # and its renderer; /games/ is the index of approved reports.
+    problems = [p for p in (
+        _fetch("g/", 3_000, "report-render.js"),
+        _fetch("g/report-render.js", 3_000),
+        _fetch("games/", 2_000),
+    ) if p]
+    return "FAIL (" + "; ".join(problems) + ")" if problems else "OK"
 
 
 def check_backend_health() -> tuple[str, bool]:
@@ -239,6 +291,9 @@ def main() -> int:
 
     print("Checking website/hosting...")
     results["Website"] = check_website()
+    results["Web app code"] = check_app_code()
+    results["Content pages"] = check_content_pages()
+    results["Public reports"] = check_public_reports()
 
     print("Checking backend health...")
     backend_status, backend_up = check_backend_health()
