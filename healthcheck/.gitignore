@@ -1,2 +1,6 @@
 secrets.json
 logs/
+# Weekly security review: describes private infrastructure (trading server, what is
+# and is not checked), so it stays out of this public repo.
+security_check.py
+run_security.ps1
