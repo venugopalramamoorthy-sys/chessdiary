@@ -190,6 +190,8 @@ def sign_in() -> tuple[str | None, str | None, str | None]:
         r = requests.post(
             f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={WEB_API_KEY}",
             json={"email": HEALTHCHECK_EMAIL, "password": HEALTHCHECK_PASSWORD, "returnSecureToken": True},
+            # The web key only accepts requests from chessdiary.app (Google Cloud key restriction).
+            headers={"Referer": "https://chessdiary.app/"},
             timeout=20,
         )
         if r.status_code != 200:

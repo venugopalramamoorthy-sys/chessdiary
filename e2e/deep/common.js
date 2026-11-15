@@ -10,6 +10,19 @@ const API_KEY = 'AIzaSyB_mxJS3rdPPKu9ujQf8kc1eEfw_4F2Nvo'; // public Firebase we
 const DB = 'projects/chessdiary-7f1e3/databases/(default)/documents';
 const FIRESTORE = 'https://firestore.googleapis.com/v1/';
 
+// The web key only accepts requests from chessdiary.app (Google Cloud key
+// restriction), so every Google API call that carries ?key= sends the site's
+// Referer -- otherwise the key restriction's 403 would mask what the
+// Firestore rules themselves do.
+const _fetch = globalThis.fetch;
+globalThis.fetch = (url, opts = {}) => {
+  const u = String(url);
+  if (u.includes('.googleapis.com/') && u.includes('key=')) {
+    opts = { ...opts, headers: { Referer: SITE + '/', ...(opts.headers || {}) } };
+  }
+  return _fetch(url, opts);
+};
+
 function loadEnv() {
   const env = { ...process.env };
   const file = path.join(ROOT, '.env.test');
