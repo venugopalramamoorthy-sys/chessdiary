@@ -27,20 +27,23 @@ function approvedForIndex(report) {
   return report.approved === true && quality(report).meetsBar;
 }
 
-function loadAdmin() {
-  const admin = require('firebase-admin');
-  if (!admin.apps.length) {
+// Firestore via the Admin SDK's modular API (firebase-admin 12+; v14 removed
+// the old namespaced admin.apps / admin.firestore()).
+function loadDb() {
+  const { initializeApp, getApps, applicationDefault, cert } = require('firebase-admin/app');
+  const { getFirestore } = require('firebase-admin/firestore');
+  if (!getApps().length) {
     const key = path.resolve(__dirname, '..', '..', 'serviceAccount.json');
     if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-      admin.initializeApp({ credential: admin.credential.applicationDefault() });
+      initializeApp({ credential: applicationDefault() });
     } else if (fs.existsSync(key)) {
-      admin.initializeApp({ credential: admin.credential.cert(require(key)) });
+      initializeApp({ credential: cert(require(key)) });
     } else {
       throw new Error('No Firebase Admin credentials: put serviceAccount.json at the repo root ' +
         '(Firebase Console → Project settings → Service accounts), or set SKIP_PUBLIC_GAMES=1 to deploy without report pages.');
     }
   }
-  return admin;
+  return getFirestore();
 }
 
-module.exports = { SLUG_RE, MIN_OWN_WORDS, MIN_COMMENTED_MOMENTS, words, quality, approvedForIndex, loadAdmin };
+module.exports = { SLUG_RE, MIN_OWN_WORDS, MIN_COMMENTED_MOMENTS, words, quality, approvedForIndex, loadDb };

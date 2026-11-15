@@ -15,7 +15,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { approvedForIndex, SLUG_RE, loadAdmin } = require('./common');
+const { approvedForIndex, SLUG_RE, loadDb } = require('./common');
 const CDReport = require('../../web/g/report-render.js');
 
 const SITE = 'https://chessdiary.app';
@@ -41,8 +41,7 @@ function normalise(data) {
 async function loadReports() {
   const fixture = arg('--fixture');
   if (fixture) return JSON.parse(fs.readFileSync(fixture, 'utf8'));
-  const admin = loadAdmin();
-  const snap = await admin.firestore().collection('publicGames').where('approved', '==', true).get();
+  const snap = await loadDb().collection('publicGames').where('approved', '==', true).get();
   return snap.docs.map((d) => d.data());
 }
 

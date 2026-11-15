@@ -12,7 +12,8 @@
 // static, indexable page. The owner editing a report resets approval.
 'use strict';
 
-const { quality, loadAdmin, SLUG_RE, MIN_OWN_WORDS, MIN_COMMENTED_MOMENTS } = require('./common');
+const { FieldValue } = require('firebase-admin/firestore');
+const { quality, loadDb, SLUG_RE, MIN_OWN_WORDS, MIN_COMMENTED_MOMENTS } = require('./common');
 
 function iso(ts) {
   return ts && ts.toDate ? ts.toDate().toISOString().slice(0, 16).replace('T', ' ') : '-';
@@ -29,7 +30,7 @@ async function getReport(db, slug) {
 async function main() {
   const [cmd, slug] = process.argv.slice(2);
   const flag = (f) => process.argv.includes(f);
-  const db = loadAdmin().firestore();
+  const db = loadDb();
 
   if (cmd === 'list') {
     const snap = await db.collection('publicGames').orderBy('updatedAt', 'desc').get();
@@ -85,8 +86,7 @@ async function main() {
     await ref.delete();
     if (data.ownerUid && data.sourceGameId) {
       const game = db.collection('users').doc(data.ownerUid).collection('games').doc(data.sourceGameId);
-      const admin = loadAdmin();
-      await game.update({ publicSlug: admin.firestore.FieldValue.delete() }).catch(() => {});
+      await game.update({ publicSlug: FieldValue.delete() }).catch(() => {});
     }
     return console.log(`Took down ${slug}. The share link stops working now; redeploy to remove any static page.`);
   }
